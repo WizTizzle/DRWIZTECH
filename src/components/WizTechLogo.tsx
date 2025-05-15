@@ -16,21 +16,19 @@ export function WizTechLogo({ className = "" }: WizTechLogoProps) {
     }
   }, [error]);
 
-  if (logoError || !logoUrl) {
-    return null;
-  }
-
   return (
     <div className={`flex flex-col items-center space-y-2 ${className}`}>
-      <img 
-        src={logoUrl}
-        alt="WizTech Logo"
-        className="h-24 md:h-36 w-auto object-contain"
-        onError={() => {
-          console.error('Failed to load logo image');
-          setLogoError(true);
-        }}
-      />
+      {(!logoError && logoUrl) && (
+        <img 
+          src={logoUrl}
+          alt="WizTech Logo"
+          className="h-24 md:h-36 w-auto object-contain"
+          onError={() => {
+            console.error('Failed to load logo image');
+            setLogoError(true);
+          }}
+        />
+      )}
       <div className="text-xl tracking-widest text-gray-600">
         DATA RECOVERY
       </div>

@@ -7,9 +7,11 @@ export function useLogoUrl() {
   useEffect(() => {
     async function verifyLogoUrl() {
       try {
-        const response = await fetch(logoUrl || '', { method: 'HEAD' });
+        if (!logoUrl) return;
+        
+        const response = await fetch(logoUrl, { method: 'HEAD' });
         if (!response.ok) {
-          throw new Error('Logo not found');
+          throw new Error(`Logo not found: ${response.status} ${response.statusText}`);
         }
         setError(null);
       } catch (err) {
@@ -19,9 +21,7 @@ export function useLogoUrl() {
       }
     }
 
-    if (logoUrl) {
-      verifyLogoUrl();
-    }
+    verifyLogoUrl();
   }, [logoUrl]);
 
   return { logoUrl, error };
