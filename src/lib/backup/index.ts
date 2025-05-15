@@ -13,7 +13,7 @@ class BackupManager {
   private readonly backupSchedule: Map<string, NodeJS.Timeout> = new Map();
 
   private constructor() {
-    this.currentConfig = { ...wtDr2232025 };
+    this.currentConfig = { ...defaultBackupConfig };
     this.loadFromLocalStorage();
     this.initializeScheduledBackups();
   }
@@ -61,9 +61,9 @@ class BackupManager {
 
   createBackup(description: string = ''): BackupConfiguration {
     const backup: BackupConfiguration = {
-      ...this.currentConfig,
+      ...wtDr2232025,
       metadata: {
-        ...this.currentConfig.metadata,
+        ...wtDr2232025.metadata,
         timestamp: new Date().toISOString(),
         description: description || this.currentConfig.metadata.description
       }

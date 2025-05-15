@@ -99,16 +99,16 @@ export default {
       },
       colors: {
         primary: {
-          50: '#f0f7ff',
-          100: '#e0effe',
-          200: '#b9dffd',
-          300: '#8ED8F8', // Light blue line (matches wiztech.zip)
-          400: '#36a1f8',
-          500: '#0c84eb',
-          600: '#4B9CD3', // Dark blue line (matches wiztech.zip)
-          700: '#0050a2',
-          800: '#004385',
-          900: '#003870'
+          50: '#f0f9ff',
+          100: '#e0f2fe',
+          200: '#bae6fd',
+          300: '#7dd3fc',
+          400: '#38bdf8',
+          500: '#0ea5e9',
+          600: '#0284c7',
+          700: '#0369a1',
+          800: '#075985',
+          900: '#0c4a6e'
         }
       }
     },

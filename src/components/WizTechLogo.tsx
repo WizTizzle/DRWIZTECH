@@ -15,7 +15,7 @@ export function WizTechLogo({ className = "" }: WizTechLogoProps) {
         <span className="text-primary-500">TECH</span>
         <span className="text-primary-300">!</span>
       </div>
-      <div className="text-xl tracking-widest text-gray-600">
+      <div className="text-2xl tracking-widest text-gray-600">
         DATA RECOVERY
       </div>
     </div>
