@@ -9,20 +9,6 @@ export function WizTechLogo({ className = "" }: WizTechLogoProps) {
   const [logoError, setLogoError] = useState(false);
   const { logoUrl, error } = useLogoUrl();
 
-  // Fallback text logo component
-  const TextLogo = () => (
-    <div className={`flex flex-col items-center space-y-2 ${className}`}>
-      <div className="text-5xl font-bold tracking-tight">
-        <span className="text-gray-800">WIZ</span>
-        <span className="text-primary-500">TECH</span>
-        <span className="text-primary-300">!</span>
-      </div>
-      <div className="text-xl tracking-widest text-gray-600">
-        DATA RECOVERY
-      </div>
-    </div>
-  );
-
   useEffect(() => {
     if (error) {
       console.error('Logo loading error:', error);
@@ -31,7 +17,7 @@ export function WizTechLogo({ className = "" }: WizTechLogoProps) {
   }, [error]);
 
   if (logoError || !logoUrl) {
-    return <TextLogo />;
+    return null;
   }
 
   return (
