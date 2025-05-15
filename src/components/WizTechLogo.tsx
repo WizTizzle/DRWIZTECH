@@ -5,9 +5,6 @@ interface WizTechLogoProps {
 }
 
 export function WizTechLogo({ className = "" }: WizTechLogoProps) {
-  const [logoError, setLogoError] = useState(false);
-  const logoUrl = '/images/Final logo WIZTECH.png';
-
   // Fallback text logo component
   const TextLogo = () => (
     <div className={`flex flex-col items-center space-y-2 ${className}`}>
@@ -22,28 +19,16 @@ export function WizTechLogo({ className = "" }: WizTechLogoProps) {
     </div>
   );
 
-  // Verify logo exists on mount
-  useEffect(() => {
-    fetch(logoUrl, { method: 'HEAD' })
-      .then(response => {
-        if (!response.ok) {
-          setLogoError(true);
-        }
-      })
-      .catch(() => setLogoError(true));
-  }, []);
-
-  if (logoError) {
-    return <TextLogo />;
-  }
-
   return (
     <div className={`flex flex-col items-center space-y-0.5 ${className}`}>
       <img 
-        src={logoUrl} 
+        src="/images/Final logo WIZTECH.png"
         alt="WizTech Logo"
         className="h-36 w-auto object-contain"
-        onError={() => setLogoError(true)}
+        onError={(e) => {
+          e.currentTarget.style.display = 'none';
+          e.currentTarget.parentElement?.replaceWith(<TextLogo />);
+        }}
       />
       <div className="text-2xl tracking-widest text-gray-600"> {/* Increased from text-xl to text-2xl */}
         DATA RECOVERY
