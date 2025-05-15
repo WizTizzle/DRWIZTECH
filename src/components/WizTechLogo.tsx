@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
+import { useLogoUrl } from '../hooks/useLogoUrl';
 
 interface WizTechLogoProps {
   className?: string;
@@ -7,7 +8,7 @@ interface WizTechLogoProps {
 
 export function WizTechLogo({ className = "" }: WizTechLogoProps) {
   const [logoError, setLogoError] = useState(false);
-  const logoUrl = '/images/wiztech-logo.png';
+  const logoUrl = useLogoUrl();
 
   const TextLogo = () => (
     <div className={`flex flex-col items-center space-y-2 ${className}`}>
@@ -24,6 +25,11 @@ export function WizTechLogo({ className = "" }: WizTechLogoProps) {
 
   // Verify logo exists on mount
   useEffect(() => {
+    if (!logoUrl) {
+      setLogoError(true);
+      return;
+    }
+
     fetch(logoUrl, { method: 'HEAD' })
       .then(response => {
         if (!response.ok) {
@@ -31,9 +37,9 @@ export function WizTechLogo({ className = "" }: WizTechLogoProps) {
         }
       })
       .catch(() => setLogoError(true));
-  }, []);
+  }, [logoUrl]);
 
-  if (logoError) {
+  if (logoError || !logoUrl) {
     return <TextLogo />;
   }
 
