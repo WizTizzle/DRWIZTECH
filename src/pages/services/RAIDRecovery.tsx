@@ -16,7 +16,7 @@ export function RAIDRecovery() {
         </div>
 
         <img 
-          src="/images/232.jpg" 
+          src="/images/232.jpg"
           alt="RAID storage array" 
           className="w-full rounded-lg mb-8 object-cover h-96"
         />

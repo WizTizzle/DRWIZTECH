@@ -20,7 +20,7 @@ export function HardDriveRecovery() {
             className="w-full rounded-lg object-cover h-64"
           />
           <img
-            src="/images/close-up-hdd-device-studio-top-view.jpg"
+            src="/images/high-angle-hard-drive-components.jpg"
             alt="Close up view of hard drive internals"
             className="w-full rounded-lg object-cover h-64"
           />

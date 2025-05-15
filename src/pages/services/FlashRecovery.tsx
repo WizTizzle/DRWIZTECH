@@ -14,7 +14,7 @@ export function FlashRecovery() {
 
       <div className="aspect-w-16 aspect-h-9 mb-8">
         <img
-          src="/images/micro-sd-flash-drive-adapter-it-close-up.jpg"
+          src="/images/2149319323.jpg"
           alt="Micro SD card with adapter"
           className="w-full h-full rounded-lg object-contain"
         />
