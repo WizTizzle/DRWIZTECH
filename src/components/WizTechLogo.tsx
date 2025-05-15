@@ -6,7 +6,7 @@ interface WizTechLogoProps {
 
 export function WizTechLogo({ className = "" }: WizTechLogoProps) {
   const [logoError, setLogoError] = useState(false);
-  const logoUrl = '/images/Final logo WIZTECH.png';
+  const logoUrl = '/images/wiztech-logo.png';
 
   // Fallback text logo component
   const TextLogo = () => (
@@ -42,7 +42,8 @@ export function WizTechLogo({ className = "" }: WizTechLogoProps) {
       <img 
         src={logoUrl} 
         alt="WizTech Logo"
-        className="h-36 w-auto object-contain" // Increased from h-24 to h-36 (50% larger)
+        className="h-36 w-auto object-contain"
+        onError={() => setLogoError(true)}
       />
       <div className="text-2xl tracking-widest text-gray-600"> {/* Increased from text-xl to text-2xl */}
         DATA RECOVERY
