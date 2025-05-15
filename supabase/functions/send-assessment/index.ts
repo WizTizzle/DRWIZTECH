@@ -53,6 +53,8 @@ Deno.serve(async (req) => {
   }
 
   try {
+    console.log('Received assessment submission request');
+
     const SENDGRID_API_KEY = Deno.env.get('SENDGRID_API_KEY');
     if (!SENDGRID_API_KEY) {
       throw new Error('SendGrid API key not configured');
@@ -61,6 +63,21 @@ Deno.serve(async (req) => {
     sgMail.setApiKey(SENDGRID_API_KEY);
 
     const { answers, assessment, deviceImages, ticketId, customerInfo } = await req.json() as EmailData;
+
+    console.log('Processing assessment with images:', deviceImages);
+
+    // Verify image URLs are accessible
+    if (deviceImages?.length) {
+      console.log('Verifying image URLs...');
+      for (const url of deviceImages) {
+        try {
+          const response = await fetch(url, { method: 'HEAD' });
+          console.log(`Image URL ${url} status:`, response.status);
+        } catch (error) {
+          console.error(`Failed to verify image URL ${url}:`, error);
+        }
+      }
+    }
 
     const emailContent = `
       New Data Recovery Assessment - Ticket #${ticketId || 'Pending'}
@@ -87,14 +104,17 @@ Deno.serve(async (req) => {
       }
     `;
 
+    console.log('Sending email with content length:', emailContent.length);
+
     const msg = {
       to: Deno.env.get('ASSESSMENT_EMAIL') || 'assessment@drwiztech.com',
-      from: 'noreply@wiztech.zip', // Verified sender email
+      from: 'noreply@wiztech.zip',
       subject: `${Deno.env.get('ASSESSMENT_SUBJECT') || 'New Data Recovery Assessment'} - ${assessment.severity.toUpperCase()}`,
       text: emailContent,
     };
 
     await sgMail.send(msg);
+    console.log('Email sent successfully');
 
     return new Response(
       JSON.stringify({ success: true }),
