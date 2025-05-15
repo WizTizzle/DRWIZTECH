@@ -1,10 +1,14 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
 
 interface WizTechLogoProps {
   className?: string;
 }
 
 export function WizTechLogo({ className = "" }: WizTechLogoProps) {
+  const [logoError, setLogoError] = useState(false);
+  const logoUrl = '/images/wiztech-logo.png';
+
   const TextLogo = () => (
     <div className={`flex flex-col items-center space-y-2 ${className}`}>
       <div className="text-7xl font-bold tracking-tight">
@@ -18,16 +22,30 @@ export function WizTechLogo({ className = "" }: WizTechLogoProps) {
     </div>
   );
 
+  // Verify logo exists on mount
+  useEffect(() => {
+    fetch(logoUrl, { method: 'HEAD' })
+      .then(response => {
+        if (!response.ok) {
+          setLogoError(true);
+        }
+      })
+      .catch(() => setLogoError(true));
+  }, []);
+
+  if (logoError) {
+    return <TextLogo />;
+  }
+
   return (
     <div className={`flex flex-col items-center space-y-0.5 ${className}`}>
       <img 
-        src="/images/Final logo WIZTECH.png"
+        src={logoUrl}
         alt="WizTech Logo"
         className="h-24 w-auto object-contain"
-        onError={(e) => {
-          const target = e.target as HTMLImageElement;
-          target.style.display = 'none';
-          target.parentElement?.appendChild(TextLogo().props.children[0]);
+        onError={() => {
+          console.error('Failed to load logo image');
+          setLogoError(true);
         }}
       />
       <div className="text-xl tracking-widest text-gray-600">
