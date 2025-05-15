@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getPublicUrl } from '../lib/storage';
+import { getPublicUrl } from '../lib/storage/index';
 
 export function useLogoUrl() {
   const [logoUrl, setLogoUrl] = useState<string | null>(null);
