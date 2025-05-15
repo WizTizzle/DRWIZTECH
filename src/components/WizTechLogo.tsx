@@ -11,12 +11,12 @@ export function WizTechLogo({ className = "" }: WizTechLogoProps) {
   // Fallback text logo component
   const TextLogo = () => (
     <div className={`flex flex-col items-center space-y-2 ${className}`}>
-      <div className="text-7xl font-bold tracking-tight">
+      <div className="text-5xl font-bold tracking-tight">
         <span className="text-gray-800">WIZ</span>
         <span className="text-primary-500">TECH</span>
         <span className="text-primary-300">!</span>
       </div>
-      <div className="text-2xl tracking-widest text-gray-600">
+      <div className="text-xl tracking-widest text-gray-600">
         DATA RECOVERY
       </div>
     </div>
@@ -42,10 +42,10 @@ export function WizTechLogo({ className = "" }: WizTechLogoProps) {
       <img 
         src={logoUrl} 
         alt="WizTech Logo"
-        className="h-36 w-auto object-contain"
+        className="h-24 w-auto object-contain"
         onError={() => setLogoError(true)}
       />
-      <div className="text-2xl tracking-widest text-gray-600"> {/* Increased from text-xl to text-2xl */}
+      <div className="text-xl tracking-widest text-gray-600">
         DATA RECOVERY
       </div>
     </div>
