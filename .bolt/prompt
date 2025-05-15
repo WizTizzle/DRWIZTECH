@@ -1,0 +1,148 @@
+# WizTech Data Recovery - Complete Site Specification (Rev 2025 V1.1)
+
+## Brand Identity
+- Name: WizTech Data Recovery
+- Primary Colors:
+  - Color System:
+  - Light Blue: #8ED8F8 (primary-300)
+  - Dark Blue: #4B9CD3 (primary-600)
+  - Full palette defined in tailwind.config.js
+  - Color Usage:
+    - Primary-300: Accents, highlights, secondary buttons
+    - Primary-600: Main buttons, headers, important UI elements
+    - Gradient combinations for hero sections and CTAs
+    - Color Combinations:
+      - Primary CTAs: primary-600 to primary-700 gradient
+      - Secondary CTAs: primary-100 background, primary-600 text
+      - Hover States: Brightness adjustment 105%
+      - Active States: Brightness adjustment 95%
+      - Disabled States: Opacity 50%
+- Logo: Dual implementation
+  - Primary: Image-based (/images/Final logo WIZTECH.png)
+  - Fallback: Text-based with "WIZTECH!" in styled typography
+    - Font weights: Bold for "WIZ", Medium for "TECH"
+    - Exclamation mark in primary-300 color
+    - Subtext "DATA RECOVERY" in gray-600
+    - Spacing:
+      - Letter spacing: tracking-tight for logo, tracking-widest for subtext
+      - Vertical spacing: space-y-2 between elements
+      - Logo height: h-36 (desktop), h-24 (mobile)
+- Favicon: /images/WizTech Data Recovery Favicon 1.png
+- Typography:
+  - Headings: System font stack, semi-bold to bold weights
+  - Body: System font stack, regular weight
+  - Monospace: For technical details and code snippets
+  - Font Sizes:
+    - Hero: text-5xl (desktop), text-4xl (mobile)
+    - Section Headers: text-3xl
+    - Subsections: text-2xl
+    - Card Titles: text-xl
+    - Body Text: text-base
+    - Small Text: text-sm
+    - Micro Text: text-xs
+  - Line Heights:
+    - Headings: leading-tight
+    - Body: leading-relaxed
+    - Lists: leading-normal
+
+## Core Architecture
+- Framework: React + Vite
+- Styling: Tailwind CSS
+- Routing: React Router DOM
+- Icons: Lucide React
+- State Management: React Context API
+- TypeScript for type safety
+- Environment Variables:
+  - VITE_APP_NAME
+  - VITE_PROJECT_NAME
+  - VITE_PUBLIC_URL
+  - VITE_CLOUDINARY_CLOUD_NAME
+  - VITE_CLOUDINARY_UPLOAD_PRESET
+
+[... rest of the original content remains unchanged ...]
+
+### UI Components
+
+1. Service Cards
+   - Accessibility:
+     - ARIA roles and labels
+     - Focus management
+     - Keyboard navigation
+     - Screen reader support
+   - Performance:
+     - Lazy loading
+     - Image optimization
+     - Animation throttling
+     - DOM recycling
+   - Icon integration
+   - Description
+   - Link to service page
+   - Hover effects
+   - Animations:
+     - Scale on hover: 1.02
+     - Shadow transition
+     - Color shift
+    - Card Structure:
+      - Header:
+        - Icon container
+        - Title
+        - Subtitle
+      - Body:
+        - Description
+        - Feature list
+        - Price range
+      - Footer:
+        - CTA button
+        - Additional info
+   - Layout:
+     - Grid: 1 column mobile, 2 columns desktop
+     - Aspect ratio: 3:4
+     - Padding: 1.5rem
+     - Border radius: 0.5rem
+    - Responsive Behavior:
+      - Stack on mobile
+      - Grid on tablet/desktop
+      - Flexible height
+      - Maintain aspect ratio
+    - Animation Details:
+      - Hover scale: 1.02
+      - Transition: 200ms ease-out
+      - Shadow expansion
+      - Color fade
+
+### Assessment Flow Components
+
+1. AssessmentForm
+   - Error Recovery:
+     - Auto-save intervals: 30 seconds
+     - Local storage backup
+     - Session recovery
+     - Conflict resolution
+   - Performance Optimization:
+     - Debounced validation
+     - Memoized calculations
+     - Lazy form sections
+     - Virtual scrolling
+   - Question progression
+   - Answer validation
+   - Progress tracking
+   - Device image upload
+   - Result generation
+   - Form Sections:
+     - Initial Assessment
+     - Device Details
+     - Problem Description
+     - Previous Attempts
+     - Contact Information
+   - Validation Rules:
+     - Required fields
+     - Email format
+     - Phone format
+     - File types
+   - Progress Tracking:
+     - Step indicators
+     - Completion percentage
+     - Save points
+     - Resume functionality
+
+[... rest of the content continues with the added sections ...]
