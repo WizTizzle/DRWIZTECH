@@ -15,7 +15,7 @@ export function HardDriveRecovery() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <img
-            src="/images/2 ext hdds.jpg"
+            src="/images/close-up-hdd-device-studio-top-view.jpg"
             alt="Rugged external hard drives"
             className="w-full rounded-lg object-cover h-64"
           />

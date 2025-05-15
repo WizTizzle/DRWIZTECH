@@ -15,7 +15,7 @@ export function SSDRecovery() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <div className="flex flex-col">
             <img 
-              src="/images/31.jpg"
+              src="/images/ssd-solid-state-drive.jpg"
               alt="SATA SSD"
               className="w-full h-64 rounded-lg object-cover"
             />
