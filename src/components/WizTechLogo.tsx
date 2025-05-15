@@ -6,7 +6,7 @@ interface WizTechLogoProps {
 
 export function WizTechLogo({ className = "" }: WizTechLogoProps) {
   const [logoError, setLogoError] = useState(false);
-  const logoUrl = '/images/wiztech-logo.png';
+  const logoUrl = '/images/Final logo WIZTECH.png';
 
   // Fallback text logo component
   const TextLogo = () => (
