@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 export function useLogoUrl() {
-  const [logoUrl, setLogoUrl] = useState<string | null>('/images/wiztech-logo.png');
+  const [logoUrl, setLogoUrl] = useState<string | null>('/images/Final logo WIZTECH.png');
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {

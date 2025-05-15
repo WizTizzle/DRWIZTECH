@@ -39,7 +39,7 @@ export function WizTechLogo({ className = "" }: WizTechLogoProps) {
       <img 
         src={logoUrl}
         alt="WizTech Logo"
-        className="h-24 w-auto object-contain"
+        className="h-24 md:h-36 w-auto object-contain"
         onError={() => {
           console.error('Failed to load logo image');
           setLogoError(true);
