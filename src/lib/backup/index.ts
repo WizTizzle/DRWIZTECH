@@ -7,13 +7,13 @@ class BackupManager {
   private currentConfig: BackupConfiguration;
   private backupHistory: BackupConfiguration[] = [];
   private readonly maxBackups: number = 100;
-  private compressionEnabled: boolean = true;
+  private compressionEnabled: boolean = false;
   private encryptionEnabled: boolean = true;
   private readonly encryptionKey: string = 'your-secure-key';
   private readonly backupSchedule: Map<string, NodeJS.Timeout> = new Map();
 
   private constructor() {
-    this.currentConfig = { ...wtDr2025V1 };
+    this.currentConfig = { ...wtDr2232025 };
     this.loadFromLocalStorage();
     this.initializeScheduledBackups();
   }
