@@ -6,7 +6,7 @@ interface WizTechLogoProps {
 
 export function WizTechLogo({ className = "" }: WizTechLogoProps) {
   const [logoError, setLogoError] = useState(false);
-  const logoUrl = '/images/Final logo WIZTECH.png';
+  const logoUrl = '/images/wiztech-logo.png';
 
   // Fallback text logo component
   const TextLogo = () => (
@@ -41,9 +41,12 @@ export function WizTechLogo({ className = "" }: WizTechLogoProps) {
     <div className={`flex flex-col items-center space-y-0.5 ${className}`}>
       <img 
         src={logoUrl}
-        alt="WizTech Logo"
+        alt="WizTech Data Recovery Logo"
         className="h-36 w-auto object-contain"
-        onError={() => setLogoError(true)}
+        onError={() => {
+          console.error('Failed to load logo image');
+          setLogoError(true);
+        }}
       />
       <div className="text-2xl tracking-widest text-gray-600">
         DATA RECOVERY
