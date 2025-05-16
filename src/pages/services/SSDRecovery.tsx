@@ -18,7 +18,7 @@ export function SSDRecovery() {
               <img 
                 src="/images/SSD.jpg"
                 alt="SATA SSD"
-                className="w-full h-52 rounded-lg object-cover transition-transform group-hover:scale-105"
+                className="w-full h-64 rounded-lg object-cover transition-transform group-hover:scale-105"
               />
               <p className="text-center mt-2 text-gray-600 group-hover:text-primary-600">SATA SSD Recovery</p>
             </a>
@@ -28,7 +28,7 @@ export function SSDRecovery() {
               <img 
                 src="/images/NVME.jpg"
                 alt="M.2 NVMe SSD"
-                className="w-full h-52 rounded-lg object-cover transition-transform group-hover:scale-105"
+                className="w-full h-64 rounded-lg object-cover transition-transform group-hover:scale-105"
               />
               <p className="text-center mt-2 text-gray-600 group-hover:text-primary-600">M.2 NVMe SSD Recovery</p>
             </a>
