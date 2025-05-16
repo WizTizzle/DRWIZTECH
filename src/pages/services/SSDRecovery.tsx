@@ -14,20 +14,24 @@ export function SSDRecovery() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <div className="flex flex-col">
-            <img 
-              src="/images/31.jpg"
-              alt="SATA SSD"
-              className="w-full h-64 rounded-lg object-cover"
-            />
-            <p className="text-center mt-2 text-gray-600">SATA SSD Recovery</p>
+            <a href="#sata-ssd" className="group">
+              <img 
+                src="/images/SSD.jpg"
+                alt="SATA SSD"
+                className="w-full h-64 rounded-lg object-cover transition-transform group-hover:scale-105"
+              />
+              <p className="text-center mt-2 text-gray-600 group-hover:text-primary-600">SATA SSD Recovery</p>
+            </a>
           </div>
           <div className="flex flex-col">
-            <img 
-              src="/images/m2-ssd-256-gb-3d-rendering.jpg"
-              alt="M.2 NVMe SSD"
-              className="w-full h-64 rounded-lg object-cover"
-            />
-            <p className="text-center mt-2 text-gray-600">M.2 NVMe SSD Recovery</p>
+            <a href="#nvme-ssd" className="group">
+              <img 
+                src="/images/NVME.jpg"
+                alt="M.2 NVMe SSD"
+                className="w-full h-64 rounded-lg object-cover transition-transform group-hover:scale-105"
+              />
+              <p className="text-center mt-2 text-gray-600 group-hover:text-primary-600">M.2 NVMe SSD Recovery</p>
+            </a>
           </div>
         </div>
 
@@ -41,7 +45,7 @@ export function SSDRecovery() {
             enable us to handle even the most challenging SSD data loss scenarios.
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <div id="sata-ssd" className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <div className="bg-gray-50 p-6 rounded-lg">
               <h3 className="text-xl font-semibold mb-3">Supported SSD Types</h3>
               <ul className="list-disc pl-6 space-y-2">
@@ -66,7 +70,7 @@ export function SSDRecovery() {
             </div>
           </div>
 
-          <h3 className="text-xl font-semibold mb-4">Our Recovery Process</h3>
+          <h3 id="nvme-ssd" className="text-xl font-semibold mb-4">Our Recovery Process</h3>
           <div className="space-y-4 mb-8">
             <div className="bg-white p-4 rounded-lg shadow-sm">
               <h4 className="font-semibold mb-2">1. Initial Assessment</h4>
