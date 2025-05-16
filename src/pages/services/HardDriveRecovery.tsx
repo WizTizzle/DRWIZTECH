@@ -13,12 +13,7 @@ export function HardDriveRecovery() {
           <h1 className="text-4xl font-bold">Hard Drive Recovery</h1>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <img
-            src="https://stackblitz.com/storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBNmRxM0E9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--f461b7aaf2c09d76e1b9973fd612864d582bf736/-2%20ext%20hdds.jpg"
-            alt="Rugged external hard drives"
-            className="w-full rounded-lg object-cover h-64"
-          />
+        <div className="mb-8">
           <img
             src="https://stackblitz.com/storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBOFJtM0E9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--268b2a650e643708cded3907b3788721e042ab95/-high-angle-hard-drive-components.jpg"
             alt="Close up view of hard drive internals"
@@ -50,8 +45,6 @@ export function HardDriveRecovery() {
               <li>Contact us immediately for professional assistance</li>
             </ul>
           </div>
-
-          {/* Rest of the content remains the same */}
         </div>
 
         <div className="mt-8 flex justify-center">
