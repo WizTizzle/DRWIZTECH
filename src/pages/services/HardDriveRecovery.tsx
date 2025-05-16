@@ -13,10 +13,15 @@ export function HardDriveRecovery() {
           <h1 className="text-4xl font-bold">Hard Drive Recovery</h1>
         </div>
 
-        <div className="mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <img
-            src="https://stackblitz.com/storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBOFJtM0E9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--268b2a650e643708cded3907b3788721e042ab95/-high-angle-hard-drive-components.jpg"
+            src="/images/close-up-hdd-device-studio-top-view.jpg"
             alt="Close up view of hard drive internals"
+            className="w-full rounded-lg object-cover h-64"
+          />
+          <img
+            src="/images/high-angle-hard-drive-components.jpg"
+            alt="Hard drive components arranged"
             className="w-full rounded-lg object-cover h-64"
           />
         </div>
