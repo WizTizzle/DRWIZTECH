@@ -35,12 +35,10 @@ export function WizTechLogo({ className = "" }: WizTechLogoProps) {
     return <TextLogo />;
   }
 
-  console.log('Attempting to load logo from:', logoUrl);
-
   return (
     <div className={`flex flex-col items-center space-y-2 ${className}`}>
       <img 
-        src={logoUrl}
+        src="/images/Final logo WIZTECH.png"
         alt="WizTech Logo"
         className="h-24 md:h-36 w-auto object-contain"
         onError={(e) => {
