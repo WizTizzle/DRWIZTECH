@@ -26,11 +26,10 @@ export function Header() {
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
     >
       <div className="container mx-auto px-4 py-8">
-        <nav className="flex items-center">
+        <nav className="flex items-center justify-between">
           <motion.div
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 400 }}
-            className="mr-auto"
           >
             <Link to="/" className="block">
               <img 
@@ -41,8 +40,8 @@ export function Header() {
             </Link>
           </motion.div>
 
-          {/* Desktop Navigation - Moved 10% left */}
-          <div className="hidden md:flex items-center space-x-8 -ml-[10%]">
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-8">
             <Link to="/" className="text-gray-900 hover:text-primary-600 transition-colors">Home</Link>
             <Link to="/services/hard-drive" className="text-gray-900 hover:text-primary-600 transition-colors">Hard Drive</Link>
             <Link to="/services/ssd" className="text-gray-900 hover:text-primary-600 transition-colors">SSD</Link>
