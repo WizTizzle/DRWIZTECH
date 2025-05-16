@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { WizTechLogo } from './WizTechLogo';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 
@@ -32,8 +31,8 @@ export function Header() {
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 400 }}
           >
-            <Link to="/" className="block">
-            <WizTechLogo />
+            <Link to="/" className="text-2xl font-bold text-gray-900">
+              WizTech
             </Link>
           </motion.div>
 
