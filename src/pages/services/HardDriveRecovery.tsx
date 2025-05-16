@@ -15,13 +15,13 @@ export function HardDriveRecovery() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <img
-            src="/images/close-up-hdd-device-studio-top-view.jpg"
-            alt="Close up view of hard drive internals"
+            src="/images/2 ext hdds.jpg"
+            alt="Rugged external hard drives"
             className="w-full rounded-lg object-cover h-64"
           />
           <img
-            src="/images/high-angle-hard-drive-components.jpg"
-            alt="Hard drive components arranged"
+            src="/images/close-up-hdd-device-studio-top-view.jpg"
+            alt="Close up view of hard drive internals"
             className="w-full rounded-lg object-cover h-64"
           />
         </div>
