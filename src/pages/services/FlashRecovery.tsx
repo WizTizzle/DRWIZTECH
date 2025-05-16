@@ -16,7 +16,7 @@ export function FlashRecovery() {
           <img
             src="/images/FLASH.jpg"
             alt="Flash drive recovery"
-            className="w-full rounded-lg object-cover h-64 object-top"
+            className="w-full rounded-lg object-cover h-64 object-[center_-2rem]"
           />
           <img
             src="/images/USB.jpg"
