@@ -25,7 +25,7 @@ export function Header() {
       animate={{ y: 0 }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
     >
-      <div className="container mx-auto px-4 py-6">
+      <div className="container mx-auto px-4 py-4">
         <nav className="flex items-center justify-between">
           <motion.div
             whileHover={{ scale: 1.05 }}
@@ -35,7 +35,7 @@ export function Header() {
               <img 
                 src="/images/Final logo WIZTECH.png"
                 alt="WizTech Logo"
-                className="h-[3.15rem] w-auto object-contain"
+                className="h-16 w-auto object-contain"
               />
             </Link>
           </motion.div>
