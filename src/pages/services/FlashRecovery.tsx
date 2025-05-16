@@ -13,14 +13,14 @@ export function FlashRecovery() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <div className="flex items-center justify-center h-96 bg-gray-50 rounded-lg overflow-hidden">
+          <div className="flex items-center justify-center h-64 bg-gray-50 rounded-lg overflow-hidden">
             <img
               src="/images/FLASH.jpg"
               alt="Flash drive recovery"
               className="w-full h-full object-contain"
             />
           </div>
-          <div className="flex items-center justify-center h-96 bg-gray-50 rounded-lg overflow-hidden">
+          <div className="flex items-center justify-center h-64 bg-gray-50 rounded-lg overflow-hidden">
             <img
               src="/images/USB.png"
               alt="USB drive recovery"
