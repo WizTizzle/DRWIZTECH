@@ -16,12 +16,12 @@ export function FlashRecovery() {
           <img
             src="/images/FLASH.jpg"
             alt="Flash drive recovery"
-            className="w-full rounded-lg object-cover h-64 object-top"
+            className="w-full rounded-lg object-cover h-96 object-top"
           />
           <img
             src="/images/USB.png"
             alt="USB drive recovery"
-            className="w-full rounded-lg object-cover h-64"
+            className="w-full rounded-lg object-cover h-96"
           />
         </div>
         
