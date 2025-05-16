@@ -18,7 +18,7 @@ export function FlashRecovery() {
               <img
                 src="/images/FLASH.jpg"
                 alt="Flash drive recovery"
-                className="w-full h-full object-contain p-4"
+                className="w-full h-full object-cover p-4"
               />
             </div>
             <div className="flex items-center justify-center h-80 bg-gray-50 rounded-lg overflow-hidden">
