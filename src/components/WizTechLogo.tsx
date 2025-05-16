@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLogoUrl } from '../hooks/useLogoUrl';
 
 interface WizTechLogoProps {
@@ -7,7 +7,14 @@ interface WizTechLogoProps {
 
 export function WizTechLogo({ className = "" }: WizTechLogoProps) {
   const [logoError, setLogoError] = useState(false);
-  const { logoUrl } = useLogoUrl();
+  const { logoUrl, error } = useLogoUrl();
+
+  useEffect(() => {
+    if (error) {
+      console.error('Logo loading error:', error);
+      setLogoError(true);
+    }
+  }, [error]);
 
   // Fallback text logo component
   const TextLogo = () => (
@@ -24,8 +31,11 @@ export function WizTechLogo({ className = "" }: WizTechLogoProps) {
   );
 
   if (logoError || !logoUrl) {
+    console.log('Using text fallback due to:', logoError ? 'logo error' : 'no logo URL');
     return <TextLogo />;
   }
+
+  console.log('Attempting to load logo from:', logoUrl);
 
   return (
     <div className={`flex flex-col items-center space-y-2 ${className}`}>
@@ -33,8 +43,15 @@ export function WizTechLogo({ className = "" }: WizTechLogoProps) {
         src={logoUrl}
         alt="WizTech Logo"
         className="h-24 md:h-36 w-auto object-contain"
-        onError={() => {
-          console.error('Failed to load logo image');
+        onError={(e) => {
+          const target = e.target as HTMLImageElement;
+          console.error('Failed to load logo image:', {
+            src: target.src,
+            naturalWidth: target.naturalWidth,
+            naturalHeight: target.naturalHeight,
+            complete: target.complete,
+            currentSrc: target.currentSrc
+          });
           setLogoError(true);
         }}
       />
