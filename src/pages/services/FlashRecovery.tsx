@@ -13,16 +13,20 @@ export function FlashRecovery() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <img
-            src="/images/FLASH.jpg"
-            alt="Flash drive recovery"
-            className="w-full rounded-lg object-cover h-96 object-top"
-          />
-          <img
-            src="/images/USB.png"
-            alt="USB drive recovery"
-            className="w-full rounded-lg object-cover h-96"
-          />
+          <div className="flex items-center justify-center h-96 bg-gray-50 rounded-lg overflow-hidden">
+            <img
+              src="/images/FLASH.jpg"
+              alt="Flash drive recovery"
+              className="w-full h-full object-contain"
+            />
+          </div>
+          <div className="flex items-center justify-center h-96 bg-gray-50 rounded-lg overflow-hidden">
+            <img
+              src="/images/USB.png"
+              alt="USB drive recovery"
+              className="w-full h-full object-contain"
+            />
+          </div>
         </div>
         
         <SectionDivider className="my-8" />
