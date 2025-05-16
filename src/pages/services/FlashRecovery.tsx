@@ -12,7 +12,7 @@ export function FlashRecovery() {
           <h1 className="text-4xl font-bold">Flash Drive & Memory Card Recovery</h1>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-8">
           <div className="flex items-center justify-center h-64 bg-gray-50 rounded-lg overflow-hidden">
             <img
               src="/images/FLASH.jpg"
