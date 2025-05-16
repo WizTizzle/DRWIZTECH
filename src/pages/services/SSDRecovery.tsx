@@ -15,21 +15,25 @@ export function SSDRecovery() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <div className="flex flex-col">
             <a href="#sata-ssd" className="group">
-              <img 
-                src="/images/SSD.jpg"
-                alt="SATA SSD"
-                className="w-full h-64 rounded-lg object-cover transition-transform group-hover:scale-105"
-              />
+              <div className="h-64 rounded-lg overflow-hidden bg-gray-50">
+                <img 
+                  src="/images/SSD.jpg"
+                  alt="SATA SSD"
+                  className="w-full h-full object-contain p-4 transition-transform group-hover:scale-105"
+                />
+              </div>
               <p className="text-center mt-2 text-gray-600 group-hover:text-primary-600">SATA SSD Recovery</p>
             </a>
           </div>
           <div className="flex flex-col">
             <a href="#nvme-ssd" className="group">
-              <img 
-                src="/images/NVME.jpg"
-                alt="M.2 NVMe SSD"
-                className="w-full h-64 rounded-lg object-cover transition-transform group-hover:scale-105"
-              />
+              <div className="h-64 rounded-lg overflow-hidden bg-gray-50">
+                <img 
+                  src="/images/NVME.jpg"
+                  alt="M.2 NVMe SSD"
+                  className="w-full h-full object-contain p-4 transition-transform group-hover:scale-105"
+                />
+              </div>
               <p className="text-center mt-2 text-gray-600 group-hover:text-primary-600">M.2 NVMe SSD Recovery</p>
             </a>
           </div>
