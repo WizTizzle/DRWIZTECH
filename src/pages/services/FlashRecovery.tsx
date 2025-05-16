@@ -12,13 +12,18 @@ export function FlashRecovery() {
           <h1 className="text-4xl font-bold">Flash Drive & Memory Card Recovery</h1>
         </div>
 
-      <div className="aspect-w-16 aspect-h-9 mb-8">
-        <img
-          src="/images/2149319323.jpg"
-          alt="Micro SD card with adapter"
-          className="w-full h-full rounded-lg object-contain"
-        />
-      </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <img
+            src="/images/FLASH.jpg"
+            alt="Flash drive recovery"
+            className="w-full rounded-lg object-cover h-64"
+          />
+          <img
+            src="/images/USB.jpg"
+            alt="USB drive recovery"
+            className="w-full rounded-lg object-cover h-64"
+          />
+        </div>
         
         <SectionDivider className="my-8" />
 
