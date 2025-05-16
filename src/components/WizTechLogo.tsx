@@ -13,7 +13,7 @@ export function WizTechLogo() {
         <span className="text-primary-300">!</span>
       </div>
       <div className="text-xl tracking-widest text-gray-600">
-        COMPUTER SOLUTIONS
+        DATA RECOVERY
       </div>
     </div>
   );
@@ -27,13 +27,13 @@ export function WizTechLogo() {
       <img 
         src="/images/Final logo WIZTECH.png"
         alt="WizTech Logo"
-        className="h-24 md:h-36 w-auto object-contain"
+        className="h-24 w-auto object-contain"
         onError={() => {
           console.error('Failed to load logo image');
         }}
       />
       <div className="text-xl tracking-widest text-gray-600">
-        COMPUTER SOLUTIONS
+        DATA RECOVERY
       </div>
     </div>
   );
