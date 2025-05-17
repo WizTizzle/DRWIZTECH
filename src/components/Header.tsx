@@ -35,7 +35,7 @@ export function Header() {
               <img 
                 src="/images/Final logo WIZTECH.png"
                 alt="WizTech Logo"
-                className="h-[6.5rem] w-auto object-contain"
+                className="h-[6.5rem] w-auto object-contain ml-[10%]"
               />
             </Link>
           </motion.div>
