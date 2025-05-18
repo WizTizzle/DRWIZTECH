@@ -12,8 +12,8 @@ export function WizTechLogo() {
         <span className="text-primary-500">TECH</span>
         <span className="text-primary-300">!</span>
       </div>
-      <div className="text-xl tracking-widest text-gray-600">
-        COMPUTER SOLUTIONS
+      <div className="text-xl font-display tracking-[0.2em] text-transparent bg-clip-text bg-gradient-to-r from-primary-300 via-primary-400 to-primary-300 animate-shine [background-size:200%_auto]">
+        DATA RECOVERY
       </div>
     </div>
   );
@@ -25,7 +25,7 @@ export function WizTechLogo() {
   return (
     <div className="flex flex-col items-center space-y-2">
       <img 
-        src="/images/Final logo WIZTECH.png"
+        src={logoUrl} 
         alt="WizTech Logo"
         className="h-24 md:h-36 w-auto object-contain"
         onError={() => {
