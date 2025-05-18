@@ -6,7 +6,7 @@ import { SectionDivider } from '../../components/SectionDivider';
 
 export function HardDriveRecovery() {
   return (
-    <div className="container mx-auto px-4 py-12 pt-64">
+    <div className="container mx-auto px-4 py-12">
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center space-x-4 mb-8">
           <HardDrive size={40} className="text-primary-600" />
