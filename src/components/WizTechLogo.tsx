@@ -6,13 +6,13 @@ export function WizTechLogo() {
 
   // Fallback text logo component
   const TextLogo = () => (
-    <div className="flex flex-col items-center space-y-2">
+    <div className="flex flex-col items-center">
       <div className="text-5xl font-bold tracking-tight">
         <span className="text-gray-800">WIZ</span>
         <span className="text-primary-500">TECH</span>
         <span className="text-primary-300">!</span>
       </div>
-      <div className="text-xl font-display tracking-[0.2em] text-transparent bg-clip-text bg-gradient-to-r from-primary-300 via-primary-400 to-primary-300 animate-shine [background-size:200%_auto]">
+      <div className="text-xl font-display tracking-[0.2em] text-transparent bg-clip-text bg-gradient-to-r from-primary-300 via-primary-400 to-primary-300 animate-shine [background-size:200%_auto] mt-2">
         DATA RECOVERY
       </div>
     </div>
@@ -32,7 +32,7 @@ export function WizTechLogo() {
           console.error('Failed to load logo image');
         }}
       />
-      <div className="text-xl font-display tracking-[0.2em] text-transparent bg-clip-text bg-gradient-to-r from-primary-300 via-primary-400 to-primary-300 animate-shine [background-size:200%_auto]">
+      <div className="text-xl font-display tracking-[0.2em] text-transparent bg-clip-text bg-gradient-to-r from-primary-300 via-primary-400 to-primary-300 animate-shine [background-size:200%_auto] mt-2">
         DATA RECOVERY
       </div>
     </div>
