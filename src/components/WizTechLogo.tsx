@@ -23,7 +23,7 @@ export function WizTechLogo() {
   }
 
   return (
-    <div className="flex flex-col items-center space-y-2">
+    <div className="flex flex-col items-center">
       <img 
         src={logoUrl} 
         alt="WizTech Logo"
