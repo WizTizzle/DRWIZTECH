@@ -18,7 +18,7 @@ export function Layout({ children }: LayoutProps) {
     >
       <Header />
       <SectionDivider className="w-full" />
-      <main className="flex-grow bg-gradient-to-b from-white to-gray-50 w-full mt-[200px]">
+      <main className="flex-grow bg-gradient-to-b from-white to-gray-50 w-full mt-[250px]">
         {children}
       </main>
       <SectionDivider className="w-full" />
