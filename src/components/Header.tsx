@@ -204,8 +204,8 @@ export function Header() {
             )}
           </div>
 
-          {/* Desktop Navigation - Moved left with margin */}
-          <div className="hidden md:flex items-center space-x-8 mr-8">
+          {/* Desktop Navigation - Moved left with more margin */}
+          <div className="hidden md:flex items-center space-x-8 mr-16">
             <Link to="/" className="text-gray-900 hover:text-primary-600 transition-colors">Home</Link>
             <Link to="/services/hard-drive" className="text-gray-900 hover:text-primary-600 transition-colors">Hard Drive</Link>
             <Link to="/services/ssd" className="text-gray-900 hover:text-primary-600 transition-colors">SSD</Link>
