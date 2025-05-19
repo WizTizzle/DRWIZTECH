@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Save, Lock, Unlock, Undo } from 'lucide-react';
+import { Menu, X, Save, Lock, Unlock, Undo, ChevronUp, ChevronDown } from 'lucide-react';
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -38,6 +38,11 @@ export function Header() {
   });
   const [isLocked, setIsLocked] = useState(true);
 
+  // Navbar size control
+  const [navbarHeight, setNavbarHeight] = useState(() => {
+    return Number(localStorage.getItem('navbar-height')) || 96;
+  });
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
@@ -71,6 +76,11 @@ export function Header() {
     setIsLocked(true);
   };
 
+  // Save navbar height to localStorage
+  useEffect(() => {
+    localStorage.setItem('navbar-height', navbarHeight.toString());
+  }, [navbarHeight]);
+
   // Save current adjustments to localStorage (only when not in saved position mode)
   useEffect(() => {
     if (!isPositionSaved) {
@@ -82,6 +92,10 @@ export function Header() {
     }
   }, [logoSize, logoMargin, logoRotation, logoX, logoY, isPositionSaved]);
 
+  const adjustNavbarHeight = (amount: number) => {
+    setNavbarHeight(prev => Math.max(64, Math.min(128, prev + amount)));
+  };
+
   return (
     <motion.header
       className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
@@ -90,9 +104,10 @@ export function Header() {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      style={{ height: `${navbarHeight}px` }}
     >
-      <div className="container mx-auto px-4 py-24">
-        <nav className="flex items-center justify-between">
+      <div className="container mx-auto px-4 h-full flex items-center">
+        <nav className="flex items-center justify-between w-full">
           <div className="flex items-center space-x-8">
             <motion.div
               whileHover={{ scale: isLocked ? 1.05 : 1 }}
@@ -220,6 +235,24 @@ export function Header() {
             >
               Contact Us
             </motion.button>
+
+            {/* Navbar height controls */}
+            <div className="flex flex-col items-center ml-4">
+              <button
+                onClick={() => adjustNavbarHeight(8)}
+                className="p-1 hover:bg-gray-100 rounded-full"
+                title="Increase navbar height"
+              >
+                <ChevronUp className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => adjustNavbarHeight(-8)}
+                className="p-1 hover:bg-gray-100 rounded-full"
+                title="Decrease navbar height"
+              >
+                <ChevronDown className="w-4 h-4" />
+              </button>
+            </div>
           </div>
 
           {/* Mobile Menu Button */}
