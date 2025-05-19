@@ -85,7 +85,7 @@ export function Header() {
   return (
     <motion.header
       className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
-        isScrolled ? 'bg-white/80 backdrop-blur-md border-b-4 border-primary-300/20' : 'bg-transparent border-b-4 border-primary-300/10'
+        isScrolled ? 'bg-white/80 backdrop-blur-md border-b-2 border-primary-300/20' : 'bg-transparent border-b-2 border-primary-300/10'
       }`}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
@@ -204,8 +204,8 @@ export function Header() {
             )}
           </div>
 
-          {/* Desktop Navigation - Moved left with more margin */}
-          <div className="hidden md:flex items-center space-x-8 mr-16">
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-8">
             <Link to="/" className="text-gray-900 hover:text-primary-600 transition-colors">Home</Link>
             <Link to="/services/hard-drive" className="text-gray-900 hover:text-primary-600 transition-colors">Hard Drive</Link>
             <Link to="/services/ssd" className="text-gray-900 hover:text-primary-600 transition-colors">SSD</Link>
