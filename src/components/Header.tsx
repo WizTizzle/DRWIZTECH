@@ -101,8 +101,8 @@ export function Header() {
 
   const handleDrag = (e: MouseEvent) => {
     if (!isDragging) return;
-    const deltaY = startDragY.current - e.clientY;
-    const newHeight = Math.max(200, Math.min(600, startHeight.current + deltaY));
+    const deltaY = e.clientY - startDragY.current;
+    const newHeight = Math.max(200, Math.min(600, startHeight.current - deltaY));
     setHeaderHeight(newHeight);
     localStorage.setItem('header-height', newHeight.toString());
   };
@@ -152,8 +152,8 @@ export function Header() {
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
       style={{ height: headerHeight }}
     >
-      <div className="container mx-auto px-4 h-full relative">
-        <nav className="flex items-center justify-between h-full">
+      <div className="container mx-auto px-4 flex flex-col justify-between h-full relative">
+        <nav className="flex items-center justify-between py-6">
           <div className="flex items-center space-x-8">
             <motion.div
               whileHover={{ scale: isLocked ? 1.05 : 1 }}
