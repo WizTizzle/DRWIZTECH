@@ -86,6 +86,17 @@ export function Header() {
     startDragY.current = e.clientY;
     startHeight.current = headerHeight;
     document.body.style.cursor = 'row-resize';
+    
+    // Add a temporary overlay to prevent text selection while dragging
+    const overlay = document.createElement('div');
+    overlay.id = 'drag-overlay';
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.right = '0';
+    overlay.style.bottom = '0';
+    overlay.style.zIndex = '9999';
+    document.body.appendChild(overlay);
   };
 
   const handleDrag = (e: MouseEvent) => {
@@ -99,6 +110,12 @@ export function Header() {
   const handleDragEnd = () => {
     setIsDragging(false);
     document.body.style.cursor = '';
+    
+    // Remove the temporary overlay
+    const overlay = document.getElementById('drag-overlay');
+    if (overlay) {
+      document.body.removeChild(overlay);
+    }
   };
 
   useEffect(() => {
@@ -305,7 +322,7 @@ export function Header() {
       {/* Draggable handle */}
       {!isLocked && (
         <div
-          className="absolute bottom-0 left-0 right-0 h-2 bg-transparent cursor-row-resize hover:bg-primary-300/20 transition-colors"
+          className="absolute bottom-0 left-0 right-0 h-4 bg-primary-300/10 hover:bg-primary-300/20 cursor-row-resize transition-colors flex items-center justify-center after:content-[''] after:w-16 after:h-1 after:bg-primary-300/30 after:rounded-full"
           onMouseDown={handleDragStart}
         />
       )}
