@@ -48,7 +48,7 @@ export function Hero() {
   return (
     <section 
       ref={heroRef}
-      className="relative h-screen-dvh flex items-center justify-center pt-32 overflow-hidden bg-gradient-to-b from-white to-gray-50"
+      className="relative h-screen-dvh flex items-center justify-center pt-16 overflow-hidden bg-gradient-to-b from-white to-gray-50"
     >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(75,156,211,0.15),transparent_70%)] transition-opacity duration-300" />
       
