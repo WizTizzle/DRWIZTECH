@@ -99,14 +99,18 @@ export function Header() {
               transition={{ type: "spring", stiffness: 400 }}
             >
               <Link to="/" className="block">
-                <div className="flex flex-col items-center">
+                <div 
+                  className="flex flex-col items-center"
+                  style={{
+                    transform: `rotate(${logoRotation}deg) translate(${logoX}px, ${logoY}px)`,
+                    marginLeft: `${logoMargin}%`
+                  }}
+                >
                   <img 
                     src="/images/Final logo WIZTECH.png"
                     alt="WizTech Logo"
                     style={{
                       height: `${logoSize}px`,
-                      marginLeft: `${logoMargin}%`,
-                      transform: `rotate(${logoRotation}deg) translate(${logoX}px, ${logoY}px)`,
                     }}
                     className="w-auto object-contain transition-all duration-300"
                   />
