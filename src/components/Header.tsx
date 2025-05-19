@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Save, Lock, Unlock, Undo } from 'lucide-react';
@@ -9,6 +9,10 @@ export function Header() {
   const [isPositionSaved, setIsPositionSaved] = useState(() => {
     return localStorage.getItem('logo-position-saved') === 'true';
   });
+  const [isDragging, setIsDragging] = useState(false);
+  const headerRef = useRef<HTMLElement>(null);
+  const startDragY = useRef<number>(0);
+  const startHeight = useRef<number>(0);
 
   // Logo adjustment states
   const [logoSize, setLogoSize] = useState(() => {
@@ -36,6 +40,9 @@ export function Header() {
       ? Number(localStorage.getItem('logo-y-fixed'))
       : Number(localStorage.getItem('logo-y')) || 0;
   });
+  const [headerHeight, setHeaderHeight] = useState(() => {
+    return Number(localStorage.getItem('header-height')) || 384; // 24rem default
+  });
   const [isLocked, setIsLocked] = useState(true);
 
   useEffect(() => {
@@ -54,6 +61,7 @@ export function Header() {
     localStorage.setItem('logo-rotation-fixed', logoRotation.toString());
     localStorage.setItem('logo-x-fixed', logoX.toString());
     localStorage.setItem('logo-y-fixed', logoY.toString());
+    localStorage.setItem('header-height', headerHeight.toString());
     localStorage.setItem('logo-position-saved', 'true');
     setIsPositionSaved(true);
     setIsLocked(true);
@@ -71,6 +79,39 @@ export function Header() {
     setIsLocked(true);
   };
 
+  // Handle drag events for header height adjustment
+  const handleDragStart = (e: React.MouseEvent) => {
+    if (isLocked) return;
+    setIsDragging(true);
+    startDragY.current = e.clientY;
+    startHeight.current = headerHeight;
+    document.body.style.cursor = 'row-resize';
+  };
+
+  const handleDrag = (e: MouseEvent) => {
+    if (!isDragging) return;
+    const deltaY = startDragY.current - e.clientY;
+    const newHeight = Math.max(200, Math.min(600, startHeight.current + deltaY));
+    setHeaderHeight(newHeight);
+    localStorage.setItem('header-height', newHeight.toString());
+  };
+
+  const handleDragEnd = () => {
+    setIsDragging(false);
+    document.body.style.cursor = '';
+  };
+
+  useEffect(() => {
+    if (isDragging) {
+      window.addEventListener('mousemove', handleDrag);
+      window.addEventListener('mouseup', handleDragEnd);
+      return () => {
+        window.removeEventListener('mousemove', handleDrag);
+        window.removeEventListener('mouseup', handleDragEnd);
+      };
+    }
+  }, [isDragging]);
+
   // Save current adjustments to localStorage (only when not in saved position mode)
   useEffect(() => {
     if (!isPositionSaved) {
@@ -79,20 +120,23 @@ export function Header() {
       localStorage.setItem('logo-rotation', logoRotation.toString());
       localStorage.setItem('logo-x', logoX.toString());
       localStorage.setItem('logo-y', logoY.toString());
+      localStorage.setItem('header-height', headerHeight.toString());
     }
-  }, [logoSize, logoMargin, logoRotation, logoX, logoY, isPositionSaved]);
+  }, [logoSize, logoMargin, logoRotation, logoX, logoY, headerHeight, isPositionSaved]);
 
   return (
     <motion.header
+      ref={headerRef}
       className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
         isScrolled ? 'bg-white/80 backdrop-blur-md border-b-4 border-primary-300/20' : 'bg-transparent border-b-4 border-primary-300/10'
       }`}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      style={{ height: headerHeight }}
     >
-      <div className="container mx-auto px-4 py-24">
-        <nav className="flex items-center justify-between">
+      <div className="container mx-auto px-4 h-full relative">
+        <nav className="flex items-center justify-between h-full">
           <div className="flex items-center space-x-8">
             <motion.div
               whileHover={{ scale: isLocked ? 1.05 : 1 }}
@@ -257,6 +301,14 @@ export function Header() {
           )}
         </AnimatePresence>
       </div>
+
+      {/* Draggable handle */}
+      {!isLocked && (
+        <div
+          className="absolute bottom-0 left-0 right-0 h-2 bg-transparent cursor-row-resize hover:bg-primary-300/20 transition-colors"
+          onMouseDown={handleDragStart}
+        />
+      )}
     </motion.header>
   );
 }
