@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Save, Lock, Unlock, Undo } from 'lucide-react';
@@ -9,10 +9,6 @@ export function Header() {
   const [isPositionSaved, setIsPositionSaved] = useState(() => {
     return localStorage.getItem('logo-position-saved') === 'true';
   });
-  const [isDragging, setIsDragging] = useState(false);
-  const headerRef = useRef<HTMLElement>(null);
-  const startDragY = useRef<number>(0);
-  const startHeight = useRef<number>(0);
 
   // Logo adjustment states
   const [logoSize, setLogoSize] = useState(() => {
@@ -40,9 +36,6 @@ export function Header() {
       ? Number(localStorage.getItem('logo-y-fixed'))
       : Number(localStorage.getItem('logo-y')) || 0;
   });
-  const [headerHeight, setHeaderHeight] = useState(() => {
-    return Number(localStorage.getItem('header-height')) || 384; // 24rem default
-  });
   const [isLocked, setIsLocked] = useState(true);
 
   useEffect(() => {
@@ -61,7 +54,6 @@ export function Header() {
     localStorage.setItem('logo-rotation-fixed', logoRotation.toString());
     localStorage.setItem('logo-x-fixed', logoX.toString());
     localStorage.setItem('logo-y-fixed', logoY.toString());
-    localStorage.setItem('header-height', headerHeight.toString());
     localStorage.setItem('logo-position-saved', 'true');
     setIsPositionSaved(true);
     setIsLocked(true);
@@ -79,56 +71,6 @@ export function Header() {
     setIsLocked(true);
   };
 
-  // Handle drag events for header height adjustment
-  const handleDragStart = (e: React.MouseEvent) => {
-    if (isLocked) return;
-    setIsDragging(true);
-    startDragY.current = e.clientY;
-    startHeight.current = headerHeight;
-    document.body.style.cursor = 'row-resize';
-    
-    // Add a temporary overlay to prevent text selection while dragging
-    const overlay = document.createElement('div');
-    overlay.id = 'drag-overlay';
-    overlay.style.position = 'fixed';
-    overlay.style.top = '0';
-    overlay.style.left = '0';
-    overlay.style.right = '0';
-    overlay.style.bottom = '0';
-    overlay.style.zIndex = '9999';
-    document.body.appendChild(overlay);
-  };
-
-  const handleDrag = (e: MouseEvent) => {
-    if (!isDragging) return;
-    const deltaY = e.clientY - startDragY.current;
-    const newHeight = Math.max(200, Math.min(600, startHeight.current - deltaY));
-    setHeaderHeight(newHeight);
-    localStorage.setItem('header-height', newHeight.toString());
-  };
-
-  const handleDragEnd = () => {
-    setIsDragging(false);
-    document.body.style.cursor = '';
-    
-    // Remove the temporary overlay
-    const overlay = document.getElementById('drag-overlay');
-    if (overlay) {
-      document.body.removeChild(overlay);
-    }
-  };
-
-  useEffect(() => {
-    if (isDragging) {
-      window.addEventListener('mousemove', handleDrag);
-      window.addEventListener('mouseup', handleDragEnd);
-      return () => {
-        window.removeEventListener('mousemove', handleDrag);
-        window.removeEventListener('mouseup', handleDragEnd);
-      };
-    }
-  }, [isDragging]);
-
   // Save current adjustments to localStorage (only when not in saved position mode)
   useEffect(() => {
     if (!isPositionSaved) {
@@ -137,23 +79,20 @@ export function Header() {
       localStorage.setItem('logo-rotation', logoRotation.toString());
       localStorage.setItem('logo-x', logoX.toString());
       localStorage.setItem('logo-y', logoY.toString());
-      localStorage.setItem('header-height', headerHeight.toString());
     }
-  }, [logoSize, logoMargin, logoRotation, logoX, logoY, headerHeight, isPositionSaved]);
+  }, [logoSize, logoMargin, logoRotation, logoX, logoY, isPositionSaved]);
 
   return (
     <motion.header
-      ref={headerRef}
       className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
         isScrolled ? 'bg-white/80 backdrop-blur-md border-b-4 border-primary-300/20' : 'bg-transparent border-b-4 border-primary-300/10'
       }`}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
-      style={{ height: headerHeight }}
     >
-      <div className="container mx-auto px-4 flex flex-col justify-between h-full relative">
-        <nav className="flex items-center justify-between py-6">
+      <div className="container mx-auto px-4 py-24">
+        <nav className="flex items-center justify-between">
           <div className="flex items-center space-x-8">
             <motion.div
               whileHover={{ scale: isLocked ? 1.05 : 1 }}
@@ -318,14 +257,6 @@ export function Header() {
           )}
         </AnimatePresence>
       </div>
-
-      {/* Draggable handle */}
-      {!isLocked && (
-        <div
-          className="absolute bottom-0 left-0 right-0 h-4 bg-primary-300/10 hover:bg-primary-300/20 cursor-row-resize transition-colors flex items-center justify-center after:content-[''] after:w-16 after:h-1 after:bg-primary-300/30 after:rounded-full"
-          onMouseDown={handleDragStart}
-        />
-      )}
     </motion.header>
   );
 }
