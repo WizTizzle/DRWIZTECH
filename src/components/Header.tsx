@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Save, Lock, Unlock, Undo } from 'lucide-react';
@@ -9,6 +9,10 @@ export function Header() {
   const [isPositionSaved, setIsPositionSaved] = useState(() => {
     return localStorage.getItem('logo-position-saved') === 'true';
   });
+  const [isDragging, setIsDragging] = useState(false);
+  const [startY, setStartY] = useState(0);
+  const [startHeight, setStartHeight] = useState(0);
+  const headerRef = useRef<HTMLElement>(null);
 
   // Logo adjustment states
   const [logoSize, setLogoSize] = useState(() => {
@@ -37,6 +41,9 @@ export function Header() {
       : Number(localStorage.getItem('logo-y')) || 0;
   });
   const [isLocked, setIsLocked] = useState(true);
+  const [navbarHeight, setNavbarHeight] = useState(() => {
+    return Number(localStorage.getItem('navbar-height')) || 384; // 24rem default
+  });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -55,6 +62,7 @@ export function Header() {
     localStorage.setItem('logo-x-fixed', logoX.toString());
     localStorage.setItem('logo-y-fixed', logoY.toString());
     localStorage.setItem('logo-position-saved', 'true');
+    localStorage.setItem('navbar-height', navbarHeight.toString());
     setIsPositionSaved(true);
     setIsLocked(true);
   };
@@ -67,9 +75,41 @@ export function Header() {
     localStorage.removeItem('logo-x-fixed');
     localStorage.removeItem('logo-y-fixed');
     localStorage.removeItem('logo-position-saved');
+    localStorage.removeItem('navbar-height');
     setIsPositionSaved(false);
     setIsLocked(true);
   };
+
+  // Handle drag events for navbar height adjustment
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (isLocked) return;
+    setIsDragging(true);
+    setStartY(e.clientY);
+    setStartHeight(navbarHeight);
+  };
+
+  const handleMouseMove = (e: MouseEvent) => {
+    if (!isDragging) return;
+    const deltaY = e.clientY - startY;
+    const newHeight = Math.max(200, Math.min(600, startHeight + deltaY));
+    setNavbarHeight(newHeight);
+    localStorage.setItem('navbar-height', newHeight.toString());
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  useEffect(() => {
+    if (isDragging) {
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mouseup', handleMouseUp);
+    }
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [isDragging, startY, startHeight]);
 
   // Save current adjustments to localStorage (only when not in saved position mode)
   useEffect(() => {
@@ -84,15 +124,17 @@ export function Header() {
 
   return (
     <motion.header
+      ref={headerRef}
       className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
         isScrolled ? 'bg-white/80 backdrop-blur-md border-b-4 border-primary-300/20' : 'bg-transparent border-b-4 border-primary-300/10'
       }`}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      style={{ height: `${navbarHeight}px` }}
     >
-      <div className="container mx-auto px-4 py-24">
-        <nav className="flex items-center justify-between">
+      <div className="container mx-auto px-4 h-full relative">
+        <nav className="flex items-center justify-between h-full">
           <div className="flex items-center space-x-8">
             <motion.div
               whileHover={{ scale: isLocked ? 1.05 : 1 }}
@@ -204,8 +246,8 @@ export function Header() {
             )}
           </div>
 
-          {/* Desktop Navigation - Moved left with more margin */}
-          <div className="hidden md:flex items-center space-x-8 mr-16">
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-8">
             <Link to="/" className="text-gray-900 hover:text-primary-600 transition-colors">Home</Link>
             <Link to="/services/hard-drive" className="text-gray-900 hover:text-primary-600 transition-colors">Hard Drive</Link>
             <Link to="/services/ssd" className="text-gray-900 hover:text-primary-600 transition-colors">SSD</Link>
@@ -257,6 +299,16 @@ export function Header() {
           )}
         </AnimatePresence>
       </div>
+
+      {/* Drag handle */}
+      {!isLocked && (
+        <div
+          className="absolute bottom-0 left-0 right-0 h-4 bg-gradient-to-b from-transparent to-gray-200/20 cursor-row-resize"
+          onMouseDown={handleMouseDown}
+        >
+          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-16 h-1 bg-gray-300 rounded-full" />
+        </div>
+      )}
     </motion.header>
   );
 }
