@@ -30,7 +30,6 @@ export function AssessmentQuestion({ question, selectedValue, onAnswer }: Assess
             <label
               key={option.value}
               className="flex items-start space-x-3 p-3 rounded-lg border border-gray-200 hover:bg-primary-50 cursor-pointer"
-              onClick={() => handleOptionSelect(option.value)}
             >
               <input
                 type="radio"
@@ -40,7 +39,9 @@ export function AssessmentQuestion({ question, selectedValue, onAnswer }: Assess
                 onChange={() => handleOptionSelect(option.value)}
                 className="mt-1 h-4 w-4 text-primary-600 border-gray-300 focus:ring-primary-500"
               />
-              <span className="text-gray-700">{option.text}</span>
+              <div className="flex-grow">
+                <span className="text-gray-700">{option.text}</span>
+              </div>
             </label>
           ))
         ) : (
