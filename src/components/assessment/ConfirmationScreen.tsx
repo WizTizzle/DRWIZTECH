@@ -1,7 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { CheckCircle, Package, Mail, ArrowRight } from 'lucide-react';
 
 export function ConfirmationScreen() {
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }, []);
+
   return (
     <div className="max-w-2xl mx-auto text-center space-y-8 py-12">
       <div className="flex justify-center">
