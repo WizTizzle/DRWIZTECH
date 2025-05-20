@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { AssessmentQuestion } from './AssessmentQuestion';
 import { AssessmentResult } from './AssessmentResult';
 import { useAssessment } from '../../contexts/AssessmentContext';
@@ -23,6 +23,14 @@ export function AssessmentForm() {
   const currentQuestion = visibleQuestions[currentStep];
   const isLastQuestion = currentStep === visibleQuestions.length - 1;
   const isFirstQuestion = currentStep === 0;
+
+  // Auto-scroll effect when step changes
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }, [currentStep]);
 
   const handleAnswer = async (questionId: string, value: string) => {
     const newAnswers = { ...assessmentData.answers, [questionId]: value };
