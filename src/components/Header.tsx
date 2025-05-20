@@ -91,7 +91,7 @@ export function Header() {
       animate={{ y: 0 }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
     >
-      <div className="container mx-auto px-4 py-24">
+      <div className="container mx-auto pl-12 pr-4 py-24">
         <nav className="flex items-center justify-between">
           <div className="flex items-center space-x-8">
             <motion.div
