@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { CheckCircle, Image } from 'lucide-react';
 import { MailInForm } from './MailInForm';
 import { getResultClass } from '../../utils/styles';
@@ -15,13 +15,6 @@ interface AssessmentResultProps {
 }
 
 export function AssessmentResult({ assessment, answers, deviceImages, onReset, ticketId }: AssessmentResultProps) {
-  useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  }, []);
-
   const renderPreviousAttempts = () => {
     if (answers.previous_recovery === 'no') return null;
 
