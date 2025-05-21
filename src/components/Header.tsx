@@ -6,23 +6,6 @@ import { Menu, X } from 'lucide-react';
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  
-  // Load saved position from localStorage
-  const [logoSize] = useState(() => {
-    return Number(localStorage.getItem('logo-size-fixed')) || 104;
-  });
-  const [logoMargin] = useState(() => {
-    return Number(localStorage.getItem('logo-margin-fixed')) || 10;
-  });
-  const [logoRotation] = useState(() => {
-    return Number(localStorage.getItem('logo-rotation-fixed')) || 0;
-  });
-  const [logoX] = useState(() => {
-    return Number(localStorage.getItem('logo-x-fixed')) || 0;
-  });
-  const [logoY] = useState(() => {
-    return Number(localStorage.getItem('logo-y-fixed')) || 0;
-  });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -53,15 +36,15 @@ export function Header() {
                 <div 
                   className="flex flex-col items-center"
                   style={{
-                    transform: `rotate(${logoRotation}deg) translate(${logoX}px, ${logoY}px)`,
-                    marginLeft: `${logoMargin}%`
+                    transform: `rotate(0deg) translate(0px, 0px)`,
+                    marginLeft: '10%'
                   }}
                 >
                   <img 
                     src="/images/Final logo WIZTECH.png"
                     alt="WizTech Logo"
                     style={{
-                      height: `${logoSize}px`,
+                      height: '104px'
                     }}
                     className="w-auto object-contain transition-all duration-300"
                   />
