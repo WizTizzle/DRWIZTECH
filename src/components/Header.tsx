@@ -10,7 +10,7 @@ export function Header() {
     return localStorage.getItem('logo-position-saved') === 'true';
   });
 
-  // Logo adjustment states
+  // Logo adjustment states with current values as defaults
   const [logoSize, setLogoSize] = useState(() => {
     return isPositionSaved 
       ? Number(localStorage.getItem('logo-size-fixed')) 
