@@ -1,42 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Save, Lock, Unlock, Undo } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isPositionSaved, setIsPositionSaved] = useState(() => {
-    return localStorage.getItem('logo-position-saved') === 'true';
-  });
-
-  // Logo adjustment states
-  const [logoSize, setLogoSize] = useState(() => {
-    return isPositionSaved 
-      ? Number(localStorage.getItem('logo-size-fixed')) 
-      : Number(localStorage.getItem('logo-size')) || 104;
-  });
-  const [logoMargin, setLogoMargin] = useState(() => {
-    return isPositionSaved 
-      ? Number(localStorage.getItem('logo-margin-fixed'))
-      : Number(localStorage.getItem('logo-margin')) || 10;
-  });
-  const [logoRotation, setLogoRotation] = useState(() => {
-    return isPositionSaved 
-      ? Number(localStorage.getItem('logo-rotation-fixed'))
-      : Number(localStorage.getItem('logo-rotation')) || 0;
-  });
-  const [logoX, setLogoX] = useState(() => {
-    return isPositionSaved 
-      ? Number(localStorage.getItem('logo-x-fixed'))
-      : Number(localStorage.getItem('logo-x')) || 0;
-  });
-  const [logoY, setLogoY] = useState(() => {
-    return isPositionSaved 
-      ? Number(localStorage.getItem('logo-y-fixed'))
-      : Number(localStorage.getItem('logo-y')) || 0;
-  });
-  const [isLocked, setIsLocked] = useState(true);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -46,41 +15,6 @@ export function Header() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  // Save current position as fixed
-  const savePosition = () => {
-    localStorage.setItem('logo-size-fixed', logoSize.toString());
-    localStorage.setItem('logo-margin-fixed', logoMargin.toString());
-    localStorage.setItem('logo-rotation-fixed', logoRotation.toString());
-    localStorage.setItem('logo-x-fixed', logoX.toString());
-    localStorage.setItem('logo-y-fixed', logoY.toString());
-    localStorage.setItem('logo-position-saved', 'true');
-    setIsPositionSaved(true);
-    setIsLocked(true);
-  };
-
-  // Clear saved position and return to adjustable mode
-  const clearSavedPosition = () => {
-    localStorage.removeItem('logo-size-fixed');
-    localStorage.removeItem('logo-margin-fixed');
-    localStorage.removeItem('logo-rotation-fixed');
-    localStorage.removeItem('logo-x-fixed');
-    localStorage.removeItem('logo-y-fixed');
-    localStorage.removeItem('logo-position-saved');
-    setIsPositionSaved(false);
-    setIsLocked(true);
-  };
-
-  // Save current adjustments to localStorage (only when not in saved position mode)
-  useEffect(() => {
-    if (!isPositionSaved) {
-      localStorage.setItem('logo-size', logoSize.toString());
-      localStorage.setItem('logo-margin', logoMargin.toString());
-      localStorage.setItem('logo-rotation', logoRotation.toString());
-      localStorage.setItem('logo-x', logoX.toString());
-      localStorage.setItem('logo-y', logoY.toString());
-    }
-  }, [logoSize, logoMargin, logoRotation, logoX, logoY, isPositionSaved]);
 
   return (
     <motion.header
@@ -95,24 +29,15 @@ export function Header() {
         <nav className="flex items-center justify-between">
           <div className="flex items-center space-x-8">
             <motion.div
-              whileHover={{ scale: isLocked ? 1.05 : 1 }}
+              whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 400 }}
             >
               <Link to="/" className="block">
-                <div 
-                  className="flex flex-col items-center"
-                  style={{
-                    transform: `rotate(${logoRotation}deg) translate(${logoX}px, ${logoY}px)`,
-                    marginLeft: `${logoMargin}%`
-                  }}
-                >
+                <div className="flex flex-col items-center">
                   <img 
                     src="/images/Final logo WIZTECH.png"
                     alt="WizTech Logo"
-                    style={{
-                      height: `${logoSize}px`,
-                    }}
-                    className="w-auto object-contain transition-all duration-300"
+                    className="h-24 md:h-36 w-auto object-contain transition-all duration-300"
                   />
                   <div className="text-xl font-display tracking-[0.2em] text-transparent bg-clip-text bg-gradient-to-r from-primary-300 via-primary-400 to-primary-300 animate-shine [background-size:200%_auto] -mt-1">
                     DATA RECOVERY
@@ -120,88 +45,6 @@ export function Header() {
                 </div>
               </Link>
             </motion.div>
-
-            {!isPositionSaved && (
-              <>
-                {!isLocked && (
-                  <div className="flex items-center space-x-4 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-lg">
-                    <div>
-                      <label className="block text-sm text-gray-600">Size (px)</label>
-                      <input
-                        type="number"
-                        value={logoSize}
-                        onChange={(e) => setLogoSize(Number(e.target.value))}
-                        className="w-20 px-2 py-1 border rounded"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm text-gray-600">Margin (%)</label>
-                      <input
-                        type="number"
-                        value={logoMargin}
-                        onChange={(e) => setLogoMargin(Number(e.target.value))}
-                        className="w-20 px-2 py-1 border rounded"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm text-gray-600">X (px)</label>
-                      <input
-                        type="number"
-                        value={logoX}
-                        onChange={(e) => setLogoX(Number(e.target.value))}
-                        className="w-20 px-2 py-1 border rounded"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm text-gray-600">Y (px)</label>
-                      <input
-                        type="number"
-                        value={logoY}
-                        onChange={(e) => setLogoY(Number(e.target.value))}
-                        className="w-20 px-2 py-1 border rounded"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm text-gray-600">Rotation (°)</label>
-                      <input
-                        type="number"
-                        value={logoRotation}
-                        onChange={(e) => setLogoRotation(Number(e.target.value))}
-                        className="w-20 px-2 py-1 border rounded"
-                      />
-                    </div>
-                  </div>
-                )}
-
-                <div className="flex items-center space-x-2">
-                  <button
-                    onClick={() => setIsLocked(!isLocked)}
-                    className="p-2 rounded-full hover:bg-gray-100 transition-colors"
-                    title={isLocked ? "Unlock logo adjustment" : "Lock logo position"}
-                  >
-                    {isLocked ? <Lock className="w-5 h-5" /> : <Unlock className="w-5 h-5" />}
-                  </button>
-                  
-                  <button
-                    onClick={savePosition}
-                    className="p-2 rounded-full hover:bg-gray-100 transition-colors text-green-600"
-                    title="Save current position permanently"
-                  >
-                    <Save className="w-5 h-5" />
-                  </button>
-                </div>
-              </>
-            )}
-
-            {isPositionSaved && (
-              <button
-                onClick={clearSavedPosition}
-                className="p-2 rounded-full hover:bg-gray-100 transition-colors text-blue-600"
-                title="Return to adjustment mode"
-              >
-                <Undo className="w-5 h-5" />
-              </button>
-            )}
           </div>
 
           {/* Desktop Navigation */}
