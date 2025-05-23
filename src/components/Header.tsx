@@ -36,7 +36,7 @@ export function Header() {
                 <div 
                   className="flex flex-col items-center"
                   style={{
-                    transform: `rotate(0deg) translate(0px, 0px)`,
+                    transform: 'rotate(0deg) translate(0px, 0px)',
                     marginLeft: '10%'
                   }}
                 >
