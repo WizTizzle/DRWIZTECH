@@ -45,8 +45,9 @@ export function Header() {
                     alt="WizTech Logo"
                     style={{
                       height: '104px',
+                      width: 'auto'
                     }}
-                    className="w-auto object-contain transition-all duration-300"
+                    className="object-contain transition-all duration-300"
                   />
                   <div className="text-xl font-display tracking-[0.2em] text-transparent bg-clip-text bg-gradient-to-r from-primary-300 via-primary-400 to-primary-300 animate-shine [background-size:200%_auto] -mt-1">
                     DATA RECOVERY
