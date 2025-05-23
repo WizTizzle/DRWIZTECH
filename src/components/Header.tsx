@@ -33,7 +33,25 @@ export function Header() {
               transition={{ type: "spring", stiffness: 400 }}
             >
               <Link to="/" className="block">
-                {/* Logo removed to start fresh */}
+                <div 
+                  className="flex flex-col items-center"
+                  style={{
+                    transform: `rotate(0deg) translate(0px, 0px)`,
+                    marginLeft: '10%'
+                  }}
+                >
+                  <img 
+                    src="/images/Final logo WIZTECH.png"
+                    alt="WizTech Logo"
+                    style={{
+                      height: '104px',
+                    }}
+                    className="w-auto object-contain transition-all duration-300"
+                  />
+                  <div className="text-xl font-display tracking-[0.2em] text-transparent bg-clip-text bg-gradient-to-r from-primary-300 via-primary-400 to-primary-300 animate-shine [background-size:200%_auto] -mt-1">
+                    DATA RECOVERY
+                  </div>
+                </div>
               </Link>
             </motion.div>
           </div>
