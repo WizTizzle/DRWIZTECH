@@ -1,111 +1,99 @@
 import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import { Link } from 'react-router-dom';
 import { 
   HardDrive, 
   Database, 
   Server, 
   Usb, 
-  CheckCircle,
-  Shield,
-  Clock,
-  Award
+  CheckCircle
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
 import { SectionDivider } from '../components/SectionDivider';
 import { AssessmentButton } from '../components/AssessmentButton';
-
-const serviceCardVariants = {
-  hidden: { opacity: 0, y: 50 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
-};
+import { SERVICE_PATHS } from '../data/serviceLinks';
 
 export function ServicesPage() {
-  const pageRef = useRef<HTMLDivElement>(null);
-  const [headerRef, headerInView] = useInView({ threshold: 0.3, triggerOnce: true });
-  const [servicesRef, servicesInView] = useInView({ threshold: 0.1, triggerOnce: true });
-  const [processRef, processInView] = useInView({ threshold: 0.1, triggerOnce: true });
-  const [whyUsRef, whyUsInView] = useInView({ threshold: 0.1, triggerOnce: true });
+  const [ref, inView] = useInView({
+    threshold: 0.1,
+    triggerOnce: true
+  });
 
   const services = [
     {
       id: 'hard-drive',
       title: 'Hard Drive Recovery',
       description: 'Expert recovery for all types of hard drives, including mechanical failures and logical errors.',
-      icon: HardDrive,
+      Icon: HardDrive,
       features: [
         'Recovery from clicking, beeping, or non-spinning drives',
-        'Support for all makes and models (Seagate, Western Digital, Toshiba, etc.)',
+        'Support for all makes and models',
         'PCB repair and head replacement capabilities',
-        '3.5" Desktop & 2.5" Laptop drives',
         'External hard drives and enclosures'
       ],
+      link: SERVICE_PATHS.hardDrive,
       image: '/images/Western_Digital_WD800_Hard_Disk_A.jpg',
-      link: '/services/hard-drive'
+      fallbackImage: '/images/2 ext hdds.jpg'
     },
     {
       id: 'ssd',
       title: 'SSD & NVMe Recovery',
       description: 'Advanced recovery techniques for solid-state drives and NVMe storage.',
-      icon: Database,
+      Icon: Database,
       features: [
-        'Recovery from firmware corruption and controller failures',
+        'Recovery from firmware corruption',
         'NAND chip-level data extraction',
-        'Support for all SSD interfaces (SATA, M.2, NVMe, PCIe)',
-        'All major brands (Samsung, Crucial, SanDisk, Intel, etc.)',
-        'Proprietary SSD recovery tools'
+        'Support for all SSD interfaces',
+        'All major brands supported'
       ],
+      link: SERVICE_PATHS.ssd,
       image: '/images/SSD.jpg',
-      fallbackImage: '/images/NVME.jpg',
-      link: '/services/ssd'
+      fallbackImage: '/images/NVME.jpg'
     },
     {
       id: 'raid',
       title: 'RAID & NAS Recovery',
-      description: 'Enterprise-level recovery services for RAID arrays, NAS systems, and servers.',
-      icon: Server,
+      description: 'Enterprise-level recovery services for RAID arrays, NAS systems, and storage servers.',
+      Icon: Server,
       features: [
-        'All RAID levels supported (0, 1, 5, 6, 10, etc.)',
-        'NAS device recovery (Synology, QNAP, Buffalo, etc.)',
+        'All RAID levels supported',
+        'NAS device recovery',
         'Virtual RAID reconstruction',
-        'Multiple simultaneous drive failures',
-        'Recovery from rebuilding errors'
+        'Multiple drive failures'
       ],
+      link: SERVICE_PATHS.raid,
       image: '/images/RAID.jpg',
-      fallbackImage: '/images/2133.jpg',
-      link: '/services/raid'
+      fallbackImage: '/images/SERVER.jpg'
     },
     {
       id: 'flash',
       title: 'Flash & Memory Cards',
       description: 'Recovery of lost or corrupted data from USB drives, SD cards, and other flash storage.',
-      icon: Usb,
+      Icon: Usb,
       features: [
         'USB flash drives of all types',
         'SD/microSD memory cards',
-        'CompactFlash and other camera media',
-        'Monolith (chip-off) recovery capabilities',
-        'Recovery from formatted or damaged devices'
+        'Monolith recovery capabilities',
+        'Recovery from formatted devices'
       ],
+      link: SERVICE_PATHS.flash,
       image: '/images/FLASH.jpg',
-      fallbackImage: '/images/USB.png',
-      link: '/services/flash'
+      fallbackImage: '/images/USB.png'
     },
     {
       id: 'server',
       title: 'Server Recovery',
       description: 'Enterprise server recovery solutions for mission-critical data.',
-      icon: Server,
+      Icon: Server,
       features: [
-        'Enterprise server recovery (Dell, HP, IBM, etc.)',
-        'Database recovery (SQL, Oracle, MySQL)',
+        'Enterprise server recovery',
+        'Database recovery',
         'Virtual machine recovery',
-        'Emergency 24/7 response',
-        'On-site service available for critical systems'
+        'Emergency 24/7 response'
       ],
+      link: SERVICE_PATHS.server,
       image: '/images/SERVER.jpg',
-      fallbackImage: '/images/2133.jpg',
-      link: '/services/server'
+      fallbackImage: '/images/2133.jpg'
     }
   ];
 
@@ -143,13 +131,12 @@ export function ServicesPage() {
   ];
 
   return (
-    <div ref={pageRef} className="container mx-auto px-4 py-12 pt-64">
+    <div className="container mx-auto px-4 py-12 pt-64">
       <div className="max-w-6xl mx-auto">
         {/* Header Section */}
         <motion.div 
-          ref={headerRef}
           initial={{ opacity: 0, y: 20 }}
-          animate={headerInView ? { opacity: 1, y: 0 } : {}}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
@@ -166,23 +153,22 @@ export function ServicesPage() {
 
         {/* Services Section */}
         <motion.div 
-          ref={servicesRef}
+          ref={ref}
           initial={{ opacity: 0 }}
-          animate={servicesInView ? { opacity: 1 } : {}}
+          animate={inView ? { opacity: 1 } : {}}
           transition={{ duration: 0.8 }}
           className="space-y-16 mb-16"
         >
           {services.map((service, index) => {
-            const Icon = service.icon;
+            const Icon = service.Icon;
             const isEven = index % 2 === 0;
             
             return (
               <motion.div 
                 key={service.id}
-                variants={serviceCardVariants}
-                initial="hidden"
-                animate={servicesInView ? "visible" : "hidden"}
-                transition={{ delay: index * 0.2 }}
+                initial={{ opacity: 0, y: 50 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6, delay: index * 0.2 }}
                 className={`flex flex-col ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'} gap-8 items-center`}
               >
                 <div className="w-full md:w-2/5">
@@ -238,13 +224,7 @@ export function ServicesPage() {
         <SectionDivider className="my-16" inverted={true} />
 
         {/* Recovery Process Section */}
-        <motion.div 
-          ref={processRef}
-          initial={{ opacity: 0, y: 50 }}
-          animate={processInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="mb-16"
-        >
+        <div className="mb-16">
           <h2 className="text-4xl font-display font-bold text-center mb-12">
             Our Recovery Process
           </h2>
@@ -254,7 +234,7 @@ export function ServicesPage() {
               <motion.div
                 key={step.step}
                 initial={{ opacity: 0, y: 30 }}
-                animate={processInView ? { opacity: 1, y: 0 } : {}}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="bg-white p-6 rounded-xl shadow-md"
               >
@@ -270,124 +250,7 @@ export function ServicesPage() {
               </motion.div>
             ))}
           </div>
-        </motion.div>
-
-        <SectionDivider className="my-16" />
-
-        {/* Why Choose Us Section */}
-        <motion.div 
-          ref={whyUsRef}
-          initial={{ opacity: 0, y: 50 }}
-          animate={whyUsInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="mb-16"
-        >
-          <h2 className="text-4xl font-display font-bold text-center mb-12">
-            Why Choose WizTech
-          </h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-gradient-to-br from-primary-50 to-white p-6 rounded-xl shadow-md">
-              <div className="flex items-center mb-4">
-                <Shield className="text-primary-500 mr-3" size={24} />
-                <h3 className="text-xl font-semibold">Industry-Leading Technology</h3>
-              </div>
-              <p className="text-gray-700 mb-4">
-                Our labs are equipped with the most advanced recovery tools and clean room facilities available,
-                enabling us to tackle even the most challenging recovery cases.
-              </p>
-              <ul className="space-y-2">
-                <li className="flex items-start">
-                  <CheckCircle className="text-primary-500 mr-2 mt-1 flex-shrink-0" size={16} />
-                  <span>Class 100 ISO 5 clean room environments</span>
-                </li>
-                <li className="flex items-start">
-                  <CheckCircle className="text-primary-500 mr-2 mt-1 flex-shrink-0" size={16} />
-                  <span>Proprietary recovery software tools</span>
-                </li>
-                <li className="flex items-start">
-                  <CheckCircle className="text-primary-500 mr-2 mt-1 flex-shrink-0" size={16} />
-                  <span>Specialized hardware for all device types</span>
-                </li>
-              </ul>
-            </div>
-            
-            <div className="bg-gradient-to-br from-primary-50 to-white p-6 rounded-xl shadow-md">
-              <div className="flex items-center mb-4">
-                <Clock className="text-primary-500 mr-3" size={24} />
-                <h3 className="text-xl font-semibold">Fast & Reliable Service</h3>
-              </div>
-              <p className="text-gray-700 mb-4">
-                We understand the urgency of data recovery situations and offer various service levels to 
-                meet your specific timeline and budget requirements.
-              </p>
-              <ul className="space-y-2">
-                <li className="flex items-start">
-                  <CheckCircle className="text-primary-500 mr-2 mt-1 flex-shrink-0" size={16} />
-                  <span>Emergency 24/7 service available</span>
-                </li>
-                <li className="flex items-start">
-                  <CheckCircle className="text-primary-500 mr-2 mt-1 flex-shrink-0" size={16} />
-                  <span>Free initial diagnosis within 24-48 hours</span>
-                </li>
-                <li className="flex items-start">
-                  <CheckCircle className="text-primary-500 mr-2 mt-1 flex-shrink-0" size={16} />
-                  <span>Regular status updates throughout the process</span>
-                </li>
-              </ul>
-            </div>
-            
-            <div className="bg-gradient-to-br from-primary-50 to-white p-6 rounded-xl shadow-md">
-              <div className="flex items-center mb-4">
-                <Award className="text-primary-500 mr-3" size={24} />
-                <h3 className="text-xl font-semibold">Unmatched Expertise</h3>
-              </div>
-              <p className="text-gray-700 mb-4">
-                Our recovery engineers have successfully completed thousands of cases across all types of 
-                storage devices and failure scenarios.
-              </p>
-              <ul className="space-y-2">
-                <li className="flex items-start">
-                  <CheckCircle className="text-primary-500 mr-2 mt-1 flex-shrink-0" size={16} />
-                  <span>15+ years of specialized experience</span>
-                </li>
-                <li className="flex items-start">
-                  <CheckCircle className="text-primary-500 mr-2 mt-1 flex-shrink-0" size={16} />
-                  <span>Continuous training on latest technologies</span>
-                </li>
-                <li className="flex items-start">
-                  <CheckCircle className="text-primary-500 mr-2 mt-1 flex-shrink-0" size={16} />
-                  <span>Manufacturer-specific recovery methods</span>
-                </li>
-              </ul>
-            </div>
-            
-            <div className="bg-gradient-to-br from-primary-50 to-white p-6 rounded-xl shadow-md">
-              <div className="flex items-center mb-4">
-                <Shield className="text-primary-500 mr-3" size={24} />
-                <h3 className="text-xl font-semibold">Secure & Confidential</h3>
-              </div>
-              <p className="text-gray-700 mb-4">
-                Data security and client confidentiality are paramount in everything we do, with 
-                strict protocols to protect your sensitive information.
-              </p>
-              <ul className="space-y-2">
-                <li className="flex items-start">
-                  <CheckCircle className="text-primary-500 mr-2 mt-1 flex-shrink-0" size={16} />
-                  <span>End-to-end data encryption</span>
-                </li>
-                <li className="flex items-start">
-                  <CheckCircle className="text-primary-500 mr-2 mt-1 flex-shrink-0" size={16} />
-                  <span>Secure facility with controlled access</span>
-                </li>
-                <li className="flex items-start">
-                  <CheckCircle className="text-primary-500 mr-2 mt-1 flex-shrink-0" size={16} />
-                  <span>Strict NDAs and privacy policies</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </motion.div>
+        </div>
 
         {/* CTA Section */}
         <div className="bg-primary-50 p-8 md:p-12 rounded-2xl text-center mb-8">

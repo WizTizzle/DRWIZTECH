@@ -7,6 +7,8 @@ import { AssessmentButton } from '../../components/AssessmentButton';
 import { SectionDivider } from '../../components/SectionDivider';
 
 export function RAIDRecovery() {
+  console.log("Rendering RAIDRecovery component");
+  
   return (
     <div className="container mx-auto px-4 py-12 pt-64">
       <div className="max-w-4xl mx-auto">
@@ -16,17 +18,17 @@ export function RAIDRecovery() {
         </div>
 
         <img 
-          src="/images/SERVER.jpg"
+          src="/images/RAID.jpg"
           alt="RAID storage array" 
           className="w-full rounded-lg mb-8 object-cover h-96"
           onError={(e) => {
-            console.error('Error loading SERVER.jpg image');
-            // Fallback to RAID.jpg if SERVER.jpg fails to load
-            e.currentTarget.src = '/images/RAID.jpg';
+            console.error('Error loading RAID.jpg image');
+            // Fallback to SERVER.jpg if RAID.jpg fails to load
+            e.currentTarget.src = '/images/SERVER.jpg';
             
-            // Add a second error handler to use a third image if RAID.jpg also fails
+            // Add a second error handler to use a third image if SERVER.jpg also fails
             e.currentTarget.onerror = () => {
-              console.error('Error loading fallback RAID.jpg image');
+              console.error('Error loading fallback SERVER.jpg image');
               e.currentTarget.src = '/images/2133.jpg';
             };
           }}

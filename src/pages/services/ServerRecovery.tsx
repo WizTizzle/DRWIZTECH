@@ -7,6 +7,8 @@ import { AssessmentButton } from '../../components/AssessmentButton';
 import { SectionDivider } from '../../components/SectionDivider';
 
 export function ServerRecovery() {
+  console.log("Rendering ServerRecovery component");
+  
   return (
     <div className="container mx-auto px-4 py-12 pt-64">
       <div className="max-w-4xl mx-auto">
@@ -17,18 +19,18 @@ export function ServerRecovery() {
 
         <div className="aspect-w-16 aspect-h-9 mb-8">
           <img
-            src="/images/2133.jpg"
+            src="/images/SERVER.jpg"
             alt="Enterprise Server Rack"
             className="w-full h-full rounded-lg object-contain"
             onError={(e) => {
-              console.error('Error loading server image');
-              // Fallback to SERVER.jpg if 2133.jpg fails
-              e.currentTarget.src = '/images/SERVER.jpg';
+              console.error('Error loading SERVER.jpg image');
+              // Fallback to 2133.jpg if SERVER.jpg fails
+              e.currentTarget.src = '/images/2133.jpg';
               
               // Add a second error handler for the fallback
               e.currentTarget.onerror = () => {
-                console.error('Error loading fallback server image');
-                // If SERVER.jpg also fails, try RAID.jpg as final fallback
+                console.error('Error loading fallback image');
+                // If 2133.jpg also fails, try RAID.jpg as final fallback
                 e.currentTarget.src = '/images/RAID.jpg';
               };
             }}

@@ -8,13 +8,19 @@ interface ServiceCardProps {
   description: string;
   Icon: LucideIcon;
   link: string;
+  className?: string;
 }
 
-export function ServiceCard({ title, description, Icon, link }: ServiceCardProps) {
+export function ServiceCard({ title, description, Icon, link, className = "" }: ServiceCardProps) {
+  // Ensure link is correctly formatted and remove any double slashes except for http:// or https://
+  const formattedLink = link.replace(/([^:])\/\//g, '$1/');
+
+  console.log(`ServiceCard rendering for ${title} with link: ${formattedLink}`);
+  
   return (
-    <Link to={link} className="block">
+    <Link to={formattedLink} className={`block ${className}`} aria-label={`Learn more about ${title}`}>
       <motion.div 
-        className="group relative bg-white p-10 rounded-2xl border border-gray-100 shadow-lg hover:shadow-xl overflow-hidden"
+        className="group relative bg-white p-10 rounded-2xl border border-gray-100 shadow-lg hover:shadow-xl overflow-hidden h-full"
         whileHover={{ scale: 1.02 }}
         transition={{ type: "spring", stiffness: 400 }}
       >

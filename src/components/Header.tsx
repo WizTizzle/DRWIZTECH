@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
+import { SERVICE_PATHS } from '../data/serviceLinks';
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -52,6 +53,10 @@ export function Header() {
                     src="/images/Final logo WIZTECH.png"
                     alt="WizTech Logo"
                     className="h-[140px] w-auto object-contain"
+                    onError={(e) => {
+                      console.error('Failed to load logo image, using text fallback');
+                      // We would normally set a fallback here, but we'll let the app handle it
+                    }}
                   />
                 </div>
                 <div className="text-xl font-display tracking-[0.2em] text-transparent bg-clip-text bg-gradient-to-r from-primary-300 via-primary-400 to-primary-300 animate-shine [background-size:200%_auto] -mt-1">
@@ -80,6 +85,14 @@ export function Header() {
               }`}
             >
               Services
+            </Link>
+            <Link 
+              to={SERVICE_PATHS.raid}
+              className={`text-gray-900 hover:text-primary-600 transition-colors ${
+                isActiveRoute(SERVICE_PATHS.raid) ? 'font-medium text-primary-600' : ''
+              }`}
+            >
+              RAID
             </Link>
             <Link 
               to="/about" 
@@ -152,6 +165,14 @@ export function Header() {
                   }`}
                 >
                   Services
+                </Link>
+                <Link 
+                  to={SERVICE_PATHS.raid}
+                  className={`block text-gray-900 hover:text-primary-600 transition-colors ${
+                    isActiveRoute(SERVICE_PATHS.raid) ? 'font-medium text-primary-600' : ''
+                  }`}
+                >
+                  RAID
                 </Link>
                 <Link 
                   to="/about" 
