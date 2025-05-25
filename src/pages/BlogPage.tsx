@@ -87,7 +87,7 @@ export function BlogPage() {
     {
       id: 'cloud-storage-failures',
       title: 'When Cloud Storage Fails: Real-World Recovery Cases',
-      excerpt: 'Cloud storage isn't infallible. We share real case studies of cloud data loss and how the data was recovered.',
+      excerpt: 'Cloud storage isn\'t infallible. We share real case studies of cloud data loss and how the data was recovered.',
       category: 'Cloud Storage',
       author: 'David Williams',
       date: 'March 23, 2025',
