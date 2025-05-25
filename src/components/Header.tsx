@@ -51,7 +51,7 @@ export function Header() {
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8 -ml-32">
+          <div className="hidden md:flex items-center space-x-8 -ml-80">
             <Link to="/" className="text-gray-900 hover:text-primary-600 transition-colors">Home</Link>
             <Link to="/services/hard-drive" className="text-gray-900 hover:text-primary-600 transition-colors">Hard Drive</Link>
             <Link to="/services/ssd" className="text-gray-900 hover:text-primary-600 transition-colors">SSD</Link>
