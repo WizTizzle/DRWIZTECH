@@ -70,7 +70,7 @@ export function ServicesPage() {
         'Multiple simultaneous drive failures',
         'Recovery from rebuilding errors'
       ],
-      image: '/images/232.jpg',
+      image: 'https://images.pexels.com/photos/325229/pexels-photo-325229.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
       link: '/services/raid'
     },
     {
@@ -187,6 +187,13 @@ export function ServicesPage() {
                       src={service.image}
                       alt={service.title}
                       className="w-full h-full object-cover"
+                      onError={(e) => {
+                        console.error(`Error loading image for ${service.title}`, e);
+                        // Fallback to a generic image if the main one fails to load
+                        if (service.id === 'raid') {
+                          e.currentTarget.src = '/images/2133.jpg';
+                        }
+                      }}
                     />
                   </div>
                 </div>

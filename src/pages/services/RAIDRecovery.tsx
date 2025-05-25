@@ -16,9 +16,14 @@ export function RAIDRecovery() {
         </div>
 
         <img 
-          src="/images/232.jpg"
+          src="https://images.pexels.com/photos/325229/pexels-photo-325229.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
           alt="RAID storage array" 
           className="w-full rounded-lg mb-8 object-cover h-96"
+          onError={(e) => {
+            console.error('Error loading RAID image', e);
+            // Fallback to another image if the main one fails to load
+            e.currentTarget.src = '/images/2133.jpg';
+          }}
         />
         
         <SectionDivider className="my-8" />
