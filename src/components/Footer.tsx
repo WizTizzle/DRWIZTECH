@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { Lightbulb } from 'lucide-react';
 import { motion, useInView } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 export function Footer() {
   const footerRef = useRef<HTMLElement>(null);
@@ -111,10 +112,10 @@ export function Footer() {
               <motion.div variants={itemVariants}>
                 <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
                 <ul className="space-y-3 text-gray-400">
-                  <li><a href="#" className="hover:text-primary-300 transition-colors">About Us</a></li>
-                  <li><a href="#" className="hover:text-primary-300 transition-colors">Services</a></li>
-                  <li><a href="#" className="hover:text-primary-300 transition-colors">Blog</a></li>
-                  <li><a href="#" className="hover:text-primary-300 transition-colors">Support</a></li>
+                  <li><Link to="/about" className="hover:text-primary-300 transition-colors">About Us</Link></li>
+                  <li><Link to="/services" className="hover:text-primary-300 transition-colors">Services</Link></li>
+                  <li><Link to="/blog" className="hover:text-primary-300 transition-colors">Blog</Link></li>
+                  <li><Link to="/support" className="hover:text-primary-300 transition-colors">Support</Link></li>
                 </ul>
               </motion.div>
             </div>

@@ -11,6 +11,10 @@ import { FlashRecovery } from './pages/services/FlashRecovery';
 import { ServerRecovery } from './pages/services/ServerRecovery';
 import { RecoveryAssessment } from './components/RecoveryAssessment';
 import { AssessmentProvider } from './contexts/AssessmentContext';
+import { AboutPage } from './pages/AboutPage';
+import { ServicesPage } from './pages/ServicesPage';
+import { BlogPage } from './pages/BlogPage';
+import { SupportPage } from './pages/SupportPage';
 
 function App() {
   const lenisRef = useRef<Lenis | null>(null);
@@ -64,6 +68,10 @@ function App() {
           <Route path="/services/flash" element={<FlashRecovery />} />
           <Route path="/services/server" element={<ServerRecovery />} />
           <Route path="/assessment" element={<RecoveryAssessment />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/services" element={<ServicesPage />} />
+          <Route path="/blog" element={<BlogPage />} />
+          <Route path="/support" element={<SupportPage />} />
         </Routes>
       </Layout>
     </AssessmentProvider>
