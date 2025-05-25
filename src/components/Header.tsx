@@ -87,14 +87,6 @@ export function Header() {
               Services
             </Link>
             <Link 
-              to={SERVICE_PATHS.raid}
-              className={`text-gray-900 hover:text-primary-600 transition-colors ${
-                isActiveRoute(SERVICE_PATHS.raid) ? 'font-medium text-primary-600' : ''
-              }`}
-            >
-              RAID
-            </Link>
-            <Link 
               to="/about" 
               className={`text-gray-900 hover:text-primary-600 transition-colors ${
                 isActiveRoute('/about') ? 'font-medium text-primary-600' : ''
@@ -165,14 +157,6 @@ export function Header() {
                   }`}
                 >
                   Services
-                </Link>
-                <Link 
-                  to={SERVICE_PATHS.raid}
-                  className={`block text-gray-900 hover:text-primary-600 transition-colors ${
-                    isActiveRoute(SERVICE_PATHS.raid) ? 'font-medium text-primary-600' : ''
-                  }`}
-                >
-                  RAID
                 </Link>
                 <Link 
                   to="/about" 
