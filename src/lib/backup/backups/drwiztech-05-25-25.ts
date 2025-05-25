@@ -146,7 +146,7 @@ export const drWiztech052525: BackupConfiguration = {
         layout: {
           logoAlignment: 'ml-16',
           logoSize: 'h-[140px]',
-          navSpacing: 'space-x-8',
+          navSpacing: 'space-x-12 mr-12',
           mobileMenuTransition: 'duration-300'
         },
         navigation: {
