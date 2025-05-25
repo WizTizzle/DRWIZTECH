@@ -27,9 +27,12 @@ export function CompanyInfo({ className = "", isVisible = true }: CompanyInfoPro
       animate={isVisible ? "visible" : "hidden"}
       className={`md:col-span-4 ${className}`}
       data-component="company-info"
+      style={{ pointerEvents: 'auto' }}
     >
       <div className="flex items-center space-x-3 mb-6" data-element="logo-container">
-        <Lightbulb className="text-primary-300" size={32} data-element="logo-icon" />
+        <span data-element="logo-icon-wrapper">
+          <Lightbulb className="text-primary-300" size={32} data-element="logo-icon" />
+        </span>
         <h3 className="text-2xl font-display font-bold" data-element="company-name">WizTech</h3>
       </div>
       <p className="text-gray-400 leading-relaxed mb-8" data-element="company-description">
@@ -48,7 +51,7 @@ interface SocialLinksProps {
 
 export function SocialLinks({ id = "social-links", className = "" }: SocialLinksProps) {
   return (
-    <div className={`flex space-x-4 ${className}`} id={id} data-component="social-links">
+    <div className={`flex space-x-4 ${className}`} id={id} data-component="social-links" style={{ pointerEvents: 'auto' }}>
       <SocialLink 
         platform="facebook" 
         href="#" 
@@ -92,9 +95,11 @@ export function SocialLink({ platform, href, children, id, className = "", ...pr
       className={`p-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors ${className}`}
       id={id}
       data-platform={platform}
+      data-element={`social-${platform}`}
+      style={{ pointerEvents: 'auto' }}
       {...props}
     >
-      <svg className="w-5 h-5 text-primary-300" fill="currentColor" viewBox="0 0 24 24">
+      <svg className="w-5 h-5 text-primary-300" fill="currentColor" viewBox="0 0 24 24" data-element={`${platform}-icon`}>
         {children}
       </svg>
     </motion.a>
@@ -115,13 +120,22 @@ export function ContactInfo({ className = "", isVisible = true }: ContactInfoPro
       animate={isVisible ? "visible" : "hidden"}
       className={className}
       data-component="contact-info"
+      style={{ pointerEvents: 'auto' }}
     >
-      <h4 className="text-lg font-semibold mb-4" data-element="title">Contact</h4>
-      <ul className="space-y-3 text-gray-400" data-element="list">
-        <li data-element="email">support@wiztechrecovery.com</li>
-        <li data-element="phone">+1 (555) 123-4567</li>
-        <li data-element="address">123 Recovery Lane</li>
-        <li data-element="city">Tech City, TC 12345</li>
+      <h4 className="text-lg font-semibold mb-4" data-element="contact-title">Contact</h4>
+      <ul className="space-y-3 text-gray-400" data-element="contact-list">
+        <li data-element="contact-email">
+          <span className="inline-block w-full">support@wiztechrecovery.com</span>
+        </li>
+        <li data-element="contact-phone">
+          <span className="inline-block w-full">+1 (555) 123-4567</span>
+        </li>
+        <li data-element="contact-address">
+          <span className="inline-block w-full">123 Recovery Lane</span>
+        </li>
+        <li data-element="contact-city">
+          <span className="inline-block w-full">Tech City, TC 12345</span>
+        </li>
       </ul>
     </motion.div>
   );
@@ -141,13 +155,22 @@ export function BusinessHours({ className = "", isVisible = true }: BusinessHour
       animate={isVisible ? "visible" : "hidden"}
       className={className}
       data-component="business-hours"
+      style={{ pointerEvents: 'auto' }}
     >
-      <h4 className="text-lg font-semibold mb-4" data-element="title">Hours</h4>
-      <ul className="space-y-3 text-gray-400" data-element="list">
-        <li data-element="weekday">Monday - Friday: 9AM - 6PM</li>
-        <li data-element="saturday">Saturday: 10AM - 4PM</li>
-        <li data-element="sunday">Sunday: Closed</li>
-        <li data-element="emergency">24/7 Emergency Service Available</li>
+      <h4 className="text-lg font-semibold mb-4" data-element="hours-title">Hours</h4>
+      <ul className="space-y-3 text-gray-400" data-element="hours-list">
+        <li data-element="hours-weekday">
+          <span className="inline-block w-full">Monday - Friday: 9AM - 6PM</span>
+        </li>
+        <li data-element="hours-saturday">
+          <span className="inline-block w-full">Saturday: 10AM - 4PM</span>
+        </li>
+        <li data-element="hours-sunday">
+          <span className="inline-block w-full">Sunday: Closed</span>
+        </li>
+        <li data-element="hours-emergency">
+          <span className="inline-block w-full">24/7 Emergency Service Available</span>
+        </li>
       </ul>
     </motion.div>
   );
@@ -177,12 +200,23 @@ export function QuickLinks({
       animate={isVisible ? "visible" : "hidden"}
       className={className}
       data-component="quick-links"
+      style={{ pointerEvents: 'auto' }}
     >
-      <h4 className="text-lg font-semibold mb-4" data-element="title">Quick Links</h4>
-      <ul className="space-y-3 text-gray-400" data-element="list">
+      <h4 className="text-lg font-semibold mb-4" data-element="links-title">Quick Links</h4>
+      <ul className="space-y-3 text-gray-400" data-element="links-list">
         {links.map((link) => (
-          <li key={link.to} id={link.id} data-element={`link-${link.text.toLowerCase().replace(' ', '-')}`}>
-            <Link to={link.to} className="hover:text-primary-300 transition-colors">
+          <li 
+            key={link.to} 
+            id={link.id} 
+            data-element={`link-${link.text.toLowerCase().replace(' ', '-')}`}
+            className="relative"
+            style={{ pointerEvents: 'auto' }}
+          >
+            <Link 
+              to={link.to} 
+              className="hover:text-primary-300 transition-colors inline-block w-full"
+              data-element={`link-${link.text.toLowerCase().replace(' ', '-')}-anchor`}
+            >
               {link.text}
             </Link>
           </li>
@@ -206,34 +240,14 @@ export function Copyright({ className = "", isVisible = true }: CopyrightProps) 
       animate={isVisible ? "visible" : "hidden"}
       className={`mt-16 pt-8 border-t border-white/10 text-center text-gray-400 ${className}`}
       data-component="copyright"
+      style={{ pointerEvents: 'auto' }}
     >
-      <p data-element="text">
-        &copy; {new Date().getFullYear()} WizTech Data Recovery. All rights reserved.
+      <p data-element="copyright-text" className="relative">
+        <span className="relative inline-block w-full">
+          &copy; {new Date().getFullYear()} WizTech Data Recovery. All rights reserved.
+        </span>
       </p>
     </motion.div>
-  );
-}
-
-// Background component
-interface FooterBackgroundProps {
-  className?: string;
-}
-
-export function FooterBackground({ className = "" }: FooterBackgroundProps) {
-  return (
-    <div 
-      className={`absolute inset-0 ${className}`}
-      data-component="footer-background"
-    >
-      <div 
-        className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_center,rgba(142,216,248,0.2),transparent_80%)]"
-        data-element="gradient-bottom"
-      />
-      <div 
-        className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(75,156,211,0.1),transparent_70%)]"
-        data-element="gradient-top"
-      />
-    </div>
   );
 }
 
@@ -251,15 +265,36 @@ export function Footer({ className = "" }: FooterProps) {
       ref={footerRef}
       className={`relative bg-black text-white py-24 overflow-hidden ${className}`}
       data-component="footer"
+      style={{ pointerEvents: 'auto' }}
     >
-      <FooterBackground />
+      {/* Background with lower z-index */}
+      <div 
+        className="absolute inset-0 bg-[radial-gradient(circle_at_bottom,rgba(142,216,248,0.1),transparent_70%)] pointer-events-none z-0" 
+        data-element="footer-background"
+      />
       
-      <div className="container mx-auto px-4" data-element="container">
-        <div className="max-w-7xl mx-auto" data-element="content">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-12" data-element="grid">
+      <div 
+        className="container relative mx-auto px-4 z-10" 
+        data-element="footer-container"
+        style={{ pointerEvents: 'auto' }}
+      >
+        <div 
+          className="max-w-7xl mx-auto" 
+          data-element="footer-content"
+          style={{ pointerEvents: 'auto' }}
+        >
+          <div 
+            className="grid grid-cols-1 md:grid-cols-12 gap-12" 
+            data-element="footer-grid"
+            style={{ pointerEvents: 'auto' }}
+          >
             <CompanyInfo isVisible={isInView} />
 
-            <div className="md:col-span-8 grid grid-cols-1 md:grid-cols-3 gap-8" data-element="info-columns">
+            <div 
+              className="md:col-span-8 grid grid-cols-1 md:grid-cols-3 gap-8" 
+              data-element="info-columns"
+              style={{ pointerEvents: 'auto' }}
+            >
               <ContactInfo isVisible={isInView} />
               <BusinessHours isVisible={isInView} />
               <QuickLinks isVisible={isInView} />
