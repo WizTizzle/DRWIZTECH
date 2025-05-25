@@ -34,11 +34,11 @@ export function Header() {
             >
               <Link to="/" className="block">
                 <div className="flex flex-col items-center">
-                  <div className="relative">
+                  <div className="relative mx-auto">
                     <img 
                       src="/images/Final logo WIZTECH.png"
                       alt="WizTech Logo"
-                      className="h-[140px] w-auto object-contain ml-[10%]"
+                      className="h-[140px] w-auto object-contain"
                     />
                   </div>
                   <div className="text-xl font-display tracking-[0.2em] text-transparent bg-clip-text bg-gradient-to-r from-primary-300 via-primary-400 to-primary-300 animate-shine [background-size:200%_auto] -mt-1">
