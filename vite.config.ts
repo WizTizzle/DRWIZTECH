@@ -10,7 +10,9 @@ export default defineConfig({
   server: {
     watch: {
       usePolling: true
-    }
+    },
+    // Enable SPA routing support in development
+    historyApiFallback: true
   },
   assetsInclude: ['**/*.png', '**/*.jpg', '**/*.jpeg', '**/*.svg', '**/*.gif'],
   publicDir: 'public',
