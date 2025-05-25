@@ -31,6 +31,7 @@ export function Header() {
             <motion.div
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 400 }}
+              className="ml-16" 
             >
               <Link to="/" className="block">
                 <div className="flex flex-col items-center">
