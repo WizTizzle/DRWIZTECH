@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
 import { CheckCircle, Lightbulb, Shield, Award, Users, Building } from 'lucide-react';
 import { AssessmentButton } from '../components/AssessmentButton';
 import { SectionDivider } from '../components/SectionDivider';
