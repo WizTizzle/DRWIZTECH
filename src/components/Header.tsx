@@ -26,12 +26,11 @@ export function Header() {
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
     >
       <div className="container mx-auto px-4 py-12">
-        <nav className="flex items-center justify-between">
+        <nav className="flex items-center justify-end">
           <div className="flex items-center space-x-8">
             <motion.div
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 400 }}
-              className="ml-16" 
             >
               <Link to="/" className="block">
                 <div className="flex flex-col items-center">
@@ -51,7 +50,7 @@ export function Header() {
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8 -ml-32">
+          <div className="hidden md:flex items-center space-x-8 ml-8">
             <Link to="/" className="text-gray-900 hover:text-primary-600 transition-colors">Home</Link>
             <Link to="/services/hard-drive" className="text-gray-900 hover:text-primary-600 transition-colors">Hard Drive</Link>
             <Link to="/services/ssd" className="text-gray-900 hover:text-primary-600 transition-colors">SSD</Link>
