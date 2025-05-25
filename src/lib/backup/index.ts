@@ -1,6 +1,8 @@
 import type { BackupConfiguration } from './types';
 import { defaultBackupConfig } from './config';
 import { wtDr2025V1 } from './backups/wt-dr-2025-v1';
+import { wtDr2232025 } from './backups/wt-dr-2-23-2025';
+import { drWiztech052525 } from './backups/drwiztech-05-25-25';
 
 class BackupManager {
   private static instance: BackupManager;
