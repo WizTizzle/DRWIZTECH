@@ -56,6 +56,7 @@ export function ServicesPage() {
         'Proprietary SSD recovery tools'
       ],
       image: '/images/SSD.jpg',
+      fallbackImage: '/images/NVME.jpg',
       link: '/services/ssd'
     },
     {
@@ -70,7 +71,8 @@ export function ServicesPage() {
         'Multiple simultaneous drive failures',
         'Recovery from rebuilding errors'
       ],
-      image: 'https://images.pexels.com/photos/325229/pexels-photo-325229.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+      image: '/images/RAID.jpg',
+      fallbackImage: '/images/2133.jpg',
       link: '/services/raid'
     },
     {
@@ -86,6 +88,7 @@ export function ServicesPage() {
         'Recovery from formatted or damaged devices'
       ],
       image: '/images/FLASH.jpg',
+      fallbackImage: '/images/USB.png',
       link: '/services/flash'
     },
     {
@@ -100,7 +103,8 @@ export function ServicesPage() {
         'Emergency 24/7 response',
         'On-site service available for critical systems'
       ],
-      image: '/images/2133.jpg',
+      image: '/images/SERVER.jpg',
+      fallbackImage: '/images/2133.jpg',
       link: '/services/server'
     }
   ];
@@ -188,10 +192,9 @@ export function ServicesPage() {
                       alt={service.title}
                       className="w-full h-full object-cover"
                       onError={(e) => {
-                        console.error(`Error loading image for ${service.title}`, e);
-                        // Fallback to a generic image if the main one fails to load
-                        if (service.id === 'raid') {
-                          e.currentTarget.src = '/images/2133.jpg';
+                        console.error(`Error loading image for ${service.title}`);
+                        if (service.fallbackImage) {
+                          e.currentTarget.src = service.fallbackImage;
                         }
                       }}
                     />
