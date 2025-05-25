@@ -14,7 +14,7 @@ export function RAIDRecovery() {
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center space-x-4 mb-8">
           <Database size={40} className="text-blue-600" />
-          <h1 className="text-4xl font-bold">RAID & Server Recovery</h1>
+          <h1 className="text-4xl font-bold">RAID & NAS Recovery</h1>
         </div>
 
         <img 
