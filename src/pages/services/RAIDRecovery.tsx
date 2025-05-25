@@ -16,13 +16,19 @@ export function RAIDRecovery() {
         </div>
 
         <img 
-          src="https://images.pexels.com/photos/325229/pexels-photo-325229.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+          src="/images/SERVER.jpg"
           alt="RAID storage array" 
           className="w-full rounded-lg mb-8 object-cover h-96"
           onError={(e) => {
             console.error('Error loading RAID image', e);
-            // Fallback to another image if the main one fails to load
-            e.currentTarget.src = '/images/2133.jpg';
+            // Fallback to RAID.jpg if SERVER.jpg fails to load
+            e.currentTarget.src = '/images/RAID.jpg';
+            
+            // Add a second error handler to use a third image if RAID.jpg also fails
+            e.currentTarget.onerror = () => {
+              console.error('Error loading fallback RAID image');
+              e.currentTarget.src = '/images/2133.jpg';
+            };
           }}
         />
         
