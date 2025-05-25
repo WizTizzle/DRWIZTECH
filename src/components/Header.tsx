@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -15,6 +16,18 @@ export function Header() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Close the menu when navigating to a new page
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [location.pathname]);
+
+  const isActiveRoute = (path: string) => {
+    if (path === '/') {
+      return location.pathname === path;
+    }
+    return location.pathname.startsWith(path);
+  };
 
   return (
     <motion.header
@@ -50,12 +63,48 @@ export function Header() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-12 mr-12">
-            <Link to="/" className="text-gray-900 hover:text-primary-600 transition-colors">Home</Link>
-            <Link to="/services/hard-drive" className="text-gray-900 hover:text-primary-600 transition-colors">Hard Drive</Link>
-            <Link to="/services/ssd" className="text-gray-900 hover:text-primary-600 transition-colors">SSD</Link>
-            <Link to="/services/raid" className="text-gray-900 hover:text-primary-600 transition-colors">RAID</Link>
-            <Link to="/services/flash" className="text-gray-900 hover:text-primary-600 transition-colors">Flash</Link>
-            <Link to="/services/server" className="text-gray-900 hover:text-primary-600 transition-colors">Server</Link>
+            <Link 
+              to="/" 
+              className={`text-gray-900 hover:text-primary-600 transition-colors ${
+                isActiveRoute('/') && !isActiveRoute('/services') && !isActiveRoute('/blog') && !isActiveRoute('/about') && !isActiveRoute('/support') 
+                  ? 'font-medium text-primary-600' 
+                  : ''
+              }`}
+            >
+              Home
+            </Link>
+            <Link 
+              to="/services" 
+              className={`text-gray-900 hover:text-primary-600 transition-colors ${
+                isActiveRoute('/services') ? 'font-medium text-primary-600' : ''
+              }`}
+            >
+              Services
+            </Link>
+            <Link 
+              to="/about" 
+              className={`text-gray-900 hover:text-primary-600 transition-colors ${
+                isActiveRoute('/about') ? 'font-medium text-primary-600' : ''
+              }`}
+            >
+              About
+            </Link>
+            <Link 
+              to="/blog" 
+              className={`text-gray-900 hover:text-primary-600 transition-colors ${
+                isActiveRoute('/blog') ? 'font-medium text-primary-600' : ''
+              }`}
+            >
+              Blog
+            </Link>
+            <Link 
+              to="/support" 
+              className={`text-gray-900 hover:text-primary-600 transition-colors ${
+                isActiveRoute('/support') ? 'font-medium text-primary-600' : ''
+              }`}
+            >
+              Support
+            </Link>
             
             <motion.button
               whileHover={{ scale: 1.05 }}
@@ -86,12 +135,48 @@ export function Header() {
               className="md:hidden"
             >
               <div className="py-4 space-y-4">
-                <Link to="/" className="block text-gray-900 hover:text-primary-600 transition-colors">Home</Link>
-                <Link to="/services/hard-drive" className="block text-gray-900 hover:text-primary-600 transition-colors">Hard Drive</Link>
-                <Link to="/services/ssd" className="block text-gray-900 hover:text-primary-600 transition-colors">SSD</Link>
-                <Link to="/services/raid" className="block text-gray-900 hover:text-primary-600 transition-colors">RAID</Link>
-                <Link to="/services/flash" className="block text-gray-900 hover:text-primary-600 transition-colors">Flash</Link>
-                <Link to="/services/server" className="block text-gray-900 hover:text-primary-600 transition-colors">Server</Link>
+                <Link 
+                  to="/" 
+                  className={`block text-gray-900 hover:text-primary-600 transition-colors ${
+                    isActiveRoute('/') && !isActiveRoute('/services') && !isActiveRoute('/blog') && !isActiveRoute('/about') && !isActiveRoute('/support')  
+                      ? 'font-medium text-primary-600' 
+                      : ''
+                  }`}
+                >
+                  Home
+                </Link>
+                <Link 
+                  to="/services" 
+                  className={`block text-gray-900 hover:text-primary-600 transition-colors ${
+                    isActiveRoute('/services') ? 'font-medium text-primary-600' : ''
+                  }`}
+                >
+                  Services
+                </Link>
+                <Link 
+                  to="/about" 
+                  className={`block text-gray-900 hover:text-primary-600 transition-colors ${
+                    isActiveRoute('/about') ? 'font-medium text-primary-600' : ''
+                  }`}
+                >
+                  About
+                </Link>
+                <Link 
+                  to="/blog" 
+                  className={`block text-gray-900 hover:text-primary-600 transition-colors ${
+                    isActiveRoute('/blog') ? 'font-medium text-primary-600' : ''
+                  }`}
+                >
+                  Blog
+                </Link>
+                <Link 
+                  to="/support" 
+                  className={`block text-gray-900 hover:text-primary-600 transition-colors ${
+                    isActiveRoute('/support') ? 'font-medium text-primary-600' : ''
+                  }`}
+                >
+                  Support
+                </Link>
                 
                 <button className="w-full px-6 py-2 bg-primary-600 text-white rounded-xl font-medium hover:bg-primary-700 transition-colors">
                   Contact Us
