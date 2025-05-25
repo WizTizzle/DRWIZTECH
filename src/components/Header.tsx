@@ -38,7 +38,7 @@ export function Header() {
                     <img 
                       src="/images/Final logo WIZTECH.png"
                       alt="WizTech Logo"
-                      className="h-[104px] w-auto object-contain ml-[10%]"
+                      className="h-[140px] w-auto object-contain ml-[10%]"
                     />
                   </div>
                   <div className="text-xl font-display tracking-[0.2em] text-transparent bg-clip-text bg-gradient-to-r from-primary-300 via-primary-400 to-primary-300 animate-shine [background-size:200%_auto] -mt-1">
