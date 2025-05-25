@@ -18,7 +18,7 @@ export function SSDRecovery() {
               <img 
                 src="/images/SSD.jpg"
                 alt="SATA SSD"
-                className="w-full h-64 rounded-lg object-cover object-[center_43%] transition-transform group-hover:scale-105"
+                className="w-full h-64 rounded-lg object-cover object-[center_63%] transition-transform group-hover:scale-105"
               />
               <p className="text-center mt-2 text-gray-600 group-hover:text-primary-600">SATA SSD Recovery</p>
             </a>
