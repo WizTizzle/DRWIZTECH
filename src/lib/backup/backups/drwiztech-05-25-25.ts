@@ -97,7 +97,8 @@ export const drWiztech052525: BackupConfiguration = {
         styling: {
           layout: {
             mobileColumns: 1,
-            desktopColumns: 2,
+            tabletColumns: 2,
+            desktopColumns: 3,
             padding: '1.5rem',
             borderRadius: '0.5rem'
           },
@@ -109,6 +110,15 @@ export const drWiztech052525: BackupConfiguration = {
           spacing: {
             content: 'space-y-4',
             elements: 'gap-4'
+          }
+        },
+        grid: {
+          columns: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
+          gap: 'gap-8',
+          responsive: {
+            sm: 'grid-cols-1',
+            md: 'grid-cols-2',
+            lg: 'grid-cols-3'
           }
         }
       },
@@ -153,7 +163,6 @@ export const drWiztech052525: BackupConfiguration = {
           items: [
             { label: 'Home', path: '/' },
             { label: 'Services', path: '/services' },
-            { label: 'RAID', path: '/services/raid' },
             { label: 'About', path: '/about' },
             { label: 'Blog', path: '/blog' },
             { label: 'Support', path: '/support' }
@@ -167,6 +176,13 @@ export const drWiztech052525: BackupConfiguration = {
           breakpoint: 'md',
           mobileMenu: true,
           hamburgerIcon: true
+        },
+        activeRoute: {
+          detection: {
+            exact: ['/', '/about', '/blog', '/support'],
+            prefix: ['/services']
+          },
+          style: 'font-medium text-primary-600'
         }
       },
       footer: {
@@ -207,6 +223,14 @@ export const drWiztech052525: BackupConfiguration = {
         animation: {
           staggerChildren: 0.2,
           duration: 0.8
+        },
+        components: {
+          companyInfo: true,
+          contactInfo: true,
+          businessHours: true,
+          quickLinks: true,
+          socialLinks: true,
+          copyright: true
         }
       },
       servicePages: {
@@ -237,7 +261,69 @@ export const drWiztech052525: BackupConfiguration = {
             position: 'justify-center',
             spacing: 'mt-8'
           }
+        },
+        pages: {
+          hardDrive: {
+            title: "Hard Drive Recovery",
+            icon: "HardDrive",
+            images: [
+              "/images/Western_Digital_WD800_Hard_Disk_A.jpg",
+              "/images/2 ext hdds.jpg"
+            ],
+            sections: ["DriveTypes", "ImportantNotice", "AssessmentCTA"]
+          },
+          ssd: {
+            title: "SSD & NVMe Recovery",
+            icon: "Database",
+            images: [
+              "/images/SSD.jpg",
+              "/images/NVME.jpg"
+            ],
+            sections: ["SupportedTypes", "CommonIssues", "RecoveryProcess", "WhyChooseUs", "ImportantNotice", "AssessmentCTA"]
+          },
+          raid: {
+            title: "RAID & NAS Recovery",
+            icon: "Database",
+            images: ["/images/RAID.jpg"],
+            fallbackImages: ["/images/SERVER.jpg", "/images/2133.jpg"],
+            sections: ["RAIDTypes", "CommonIssues", "RecoveryProcess", "WhyChooseUs", "ImportantNotice", "AssessmentCTA"]
+          },
+          flash: {
+            title: "Flash Drive & Memory Card Recovery",
+            icon: "Usb",
+            images: ["/images/FLASH.jpg", "/images/USB.png"],
+            sections: ["SupportedTypes", "CommonIssues", "RecoveryProcess", "WhyChooseUs", "ImportantNotice", "AssessmentCTA"]
+          },
+          server: {
+            title: "Server Recovery",
+            icon: "Server",
+            images: ["/images/SERVER.jpg"],
+            fallbackImages: ["/images/2133.jpg", "/images/RAID.jpg"],
+            sections: ["ServerTypes", "CommonScenarios", "RecoveryApproach", "WhyChooseUs", "ImportantNotice", "AssessmentCTA"]
+          }
         }
+      },
+      raidTypes: {
+        layout: {
+          container: 'bg-gray-50 p-6 rounded-lg mb-8',
+          title: 'text-xl font-semibold mb-4',
+          itemSpacing: 'space-y-4'
+        },
+        configurations: [
+          { type: "RAID 0", description: "Block-level striping without parity or mirroring" },
+          { type: "RAID 1", description: "Mirroring without parity or striping" },
+          { type: "RAID 3", description: "Byte-level striping with dedicated parity" },
+          { type: "RAID 4", description: "Block-level striping with dedicated parity" },
+          { type: "RAID 5", description: "Block-level striping with distributed parity" },
+          { type: "RAID 6", description: "Reed-Solomon" },
+          { type: "RAID 10", description: "Mirroring without parity, and block-level striping" }
+        ],
+        additionalSupport: [
+          "Hardware RAID controllers",
+          "Software RAID implementations",
+          "NAS and SAN systems",
+          "Virtual RAID configurations"
+        ]
       }
     },
     branding: {
@@ -337,6 +423,58 @@ export const drWiztech052525: BackupConfiguration = {
       historyApi: {
         enabled: true,
         scrollRestoration: true
+      }
+    },
+    pages: {
+      about: {
+        sections: [
+          'intro',
+          'history',
+          'expertise',
+          'facilities',
+          'cta'
+        ],
+        timeline: [
+          { year: '2008', title: 'Humble Beginnings', description: 'Started as small repair shop' },
+          { year: '2012', title: 'Specialized Expansion', description: 'Opened first clean room' },
+          { year: '2018', title: 'National Recognition', description: 'Nationwide service' },
+          { year: '2025', title: 'Today', description: '3 locations, 30+ specialists' }
+        ]
+      },
+      services: {
+        layout: 'detailed-cards',
+        displayMode: 'alternating',
+        showImages: true,
+        showFeatures: true,
+        sections: [
+          'intro',
+          'service-cards',
+          'recovery-process',
+          'cta'
+        ]
+      },
+      blog: {
+        layout: 'featured-and-grid',
+        sections: [
+          'header',
+          'search',
+          'featured',
+          'recent',
+          'sidebar'
+        ],
+        sidebar: [
+          'categories',
+          'newsletter',
+          'tags'
+        ]
+      },
+      support: {
+        sections: [
+          'quick-help',
+          'shipping-instructions',
+          'faq',
+          'contact-form'
+        ]
       }
     }
   },
