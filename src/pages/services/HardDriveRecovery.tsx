@@ -18,11 +18,19 @@ export function HardDriveRecovery() {
             src="/images/Western_Digital_WD800_Hard_Disk_A.jpg"
             alt="Western Digital Hard Drive"
             className="w-full rounded-lg object-cover h-64"
+            onError={(e) => {
+              console.error('Error loading primary hard drive image');
+              // No fallback needed as this is already a local image
+            }}
           />
           <img
             src="/images/2 ext hdds.jpg"
             alt="Rugged external hard drives"
             className="w-full rounded-lg object-cover h-64"
+            onError={(e) => {
+              console.error('Error loading secondary hard drive image');
+              // No fallback needed as this is already a local image
+            }}
           />
         </div>
 

@@ -20,13 +20,13 @@ export function RAIDRecovery() {
           alt="RAID storage array" 
           className="w-full rounded-lg mb-8 object-cover h-96"
           onError={(e) => {
-            console.error('Error loading RAID image', e);
+            console.error('Error loading SERVER.jpg image');
             // Fallback to RAID.jpg if SERVER.jpg fails to load
             e.currentTarget.src = '/images/RAID.jpg';
             
             // Add a second error handler to use a third image if RAID.jpg also fails
             e.currentTarget.onerror = () => {
-              console.error('Error loading fallback RAID image');
+              console.error('Error loading fallback RAID.jpg image');
               e.currentTarget.src = '/images/2133.jpg';
             };
           }}

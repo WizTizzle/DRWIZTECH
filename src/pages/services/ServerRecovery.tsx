@@ -20,6 +20,18 @@ export function ServerRecovery() {
             src="/images/2133.jpg"
             alt="Enterprise Server Rack"
             className="w-full h-full rounded-lg object-contain"
+            onError={(e) => {
+              console.error('Error loading server image');
+              // Fallback to SERVER.jpg if 2133.jpg fails
+              e.currentTarget.src = '/images/SERVER.jpg';
+              
+              // Add a second error handler for the fallback
+              e.currentTarget.onerror = () => {
+                console.error('Error loading fallback server image');
+                // If SERVER.jpg also fails, try RAID.jpg as final fallback
+                e.currentTarget.src = '/images/RAID.jpg';
+              };
+            }}
           />
         </div>
         
@@ -46,7 +58,7 @@ export function ServerRecovery() {
               <li>Secure, dedicated recovery facility</li>
               <li>Support for all major server brands</li>
               <li>Advanced recovery tools and techniques</li>
-              <li>Detailed documentation and reporting</li>
+              <li>Secure data handling</li>
             </ul>
           </div>
 

@@ -19,6 +19,11 @@ export function FlashRecovery() {
                 src="/images/FLASH.jpg"
                 alt="Flash drive recovery"
                 className="w-full h-full object-cover p-4"
+                onError={(e) => {
+                  console.error('Error loading flash drive image');
+                  // Fallback to USB.png if FLASH.jpg fails
+                  e.currentTarget.src = '/images/USB.png';
+                }}
               />
             </div>
             <div className="flex items-center justify-center h-80 bg-gray-50 rounded-lg overflow-hidden">
@@ -26,6 +31,11 @@ export function FlashRecovery() {
                 src="/images/USB.png"
                 alt="USB drive recovery"
                 className="w-full h-full object-contain p-4"
+                onError={(e) => {
+                  console.error('Error loading USB drive image');
+                  // Fallback to FLASH.jpg if USB.png fails
+                  e.currentTarget.src = '/images/FLASH.jpg';
+                }}
               />
             </div>
           </div>

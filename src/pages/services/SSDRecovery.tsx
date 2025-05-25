@@ -19,6 +19,10 @@ export function SSDRecovery() {
                 src="/images/SSD.jpg"
                 alt="SATA SSD"
                 className="w-full h-64 rounded-lg object-cover object-[center_63%] transition-transform group-hover:scale-105"
+                onError={(e) => {
+                  console.error('Error loading SATA SSD image');
+                  // No fallback needed as this is already a local image
+                }}
               />
               <p className="text-center mt-2 text-gray-600 group-hover:text-primary-600">SATA SSD Recovery</p>
             </a>
@@ -29,6 +33,10 @@ export function SSDRecovery() {
                 src="/images/NVME.jpg"
                 alt="M.2 NVMe SSD"
                 className="w-full h-64 rounded-lg object-cover transition-transform group-hover:scale-105"
+                onError={(e) => {
+                  console.error('Error loading NVMe SSD image');
+                  // No fallback needed as this is already a local image
+                }}
               />
               <p className="text-center mt-2 text-gray-600 group-hover:text-primary-600">M.2 NVMe SSD Recovery</p>
             </a>
