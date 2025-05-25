@@ -27,31 +27,29 @@ export function Header() {
     >
       <div className="container mx-auto px-4 py-12">
         <nav className="flex items-center justify-between">
-          <div className="flex items-center space-x-8">
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              transition={{ type: "spring", stiffness: 400 }}
-              className="ml-16" 
-            >
-              <Link to="/" className="block">
-                <div className="flex flex-col items-center">
-                  <div className="relative mx-auto">
-                    <img 
-                      src="/images/Final logo WIZTECH.png"
-                      alt="WizTech Logo"
-                      className="h-[140px] w-auto object-contain"
-                    />
-                  </div>
-                  <div className="text-xl font-display tracking-[0.2em] text-transparent bg-clip-text bg-gradient-to-r from-primary-300 via-primary-400 to-primary-300 animate-shine [background-size:200%_auto] -mt-1">
-                    DATA RECOVERY
-                  </div>
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: "spring", stiffness: 400 }}
+            className="flex-shrink-0 ml-16"
+          >
+            <Link to="/" className="block">
+              <div className="flex flex-col items-center">
+                <div className="relative mx-auto">
+                  <img 
+                    src="/images/Final logo WIZTECH.png"
+                    alt="WizTech Logo"
+                    className="h-[140px] w-auto object-contain"
+                  />
                 </div>
-              </Link>
-            </motion.div>
-          </div>
+                <div className="text-xl font-display tracking-[0.2em] text-transparent bg-clip-text bg-gradient-to-r from-primary-300 via-primary-400 to-primary-300 animate-shine [background-size:200%_auto] -mt-1">
+                  DATA RECOVERY
+                </div>
+              </div>
+            </Link>
+          </motion.div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8 -ml-80">
+          <div className="hidden md:flex items-center space-x-12 mr-12">
             <Link to="/" className="text-gray-900 hover:text-primary-600 transition-colors">Home</Link>
             <Link to="/services/hard-drive" className="text-gray-900 hover:text-primary-600 transition-colors">Hard Drive</Link>
             <Link to="/services/ssd" className="text-gray-900 hover:text-primary-600 transition-colors">SSD</Link>
