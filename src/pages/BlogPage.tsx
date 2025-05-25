@@ -76,7 +76,7 @@ export function BlogPage() {
     },
     {
       id: 'phone-data-recovery',
-      title: 'Smartphone Data Recovery: What's Possible in 2025',
+      title: 'Smartphone Data Recovery: What\'s Possible in 2025',
       excerpt: 'With increasingly integrated designs, recovering data from modern smartphones presents unique challenges. We explore the current state of mobile recovery.',
       category: 'Mobile Devices',
       author: 'Sarah Johnson',
