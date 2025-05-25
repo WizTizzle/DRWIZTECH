@@ -40,7 +40,9 @@ export function Header() {
                       alt="WizTech Logo"
                       className="h-[104px] w-auto object-contain"
                       style={{
-                        transform: 'rotate(0deg) translate(0px, 0px)'
+                        transform: 'rotate(0deg) translate(0px, 0px)',
+                        maxHeight: '104px',
+                        height: '104px'
                       }}
                     />
                   </div>
