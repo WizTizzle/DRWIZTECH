@@ -33,7 +33,11 @@ export function Footer() {
       ref={footerRef}
       className="relative bg-black text-white py-24 overflow-hidden"
     >
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom,rgba(142,216,248,0.1),transparent_70%)]" />
+      {/* Enhanced gradient background */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_center,rgba(142,216,248,0.2),transparent_80%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(75,156,211,0.1),transparent_70%)]" />
+      </div>
       
       <div className="container mx-auto px-4">
         <motion.div
