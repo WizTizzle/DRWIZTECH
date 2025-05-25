@@ -152,11 +152,11 @@ export const drWiztech052525: BackupConfiguration = {
         navigation: {
           items: [
             { label: 'Home', path: '/' },
-            { label: 'Hard Drive', path: '/services/hard-drive' },
-            { label: 'SSD', path: '/services/ssd' },
+            { label: 'Services', path: '/services' },
             { label: 'RAID', path: '/services/raid' },
-            { label: 'Flash', path: '/services/flash' },
-            { label: 'Server', path: '/services/server' }
+            { label: 'About', path: '/about' },
+            { label: 'Blog', path: '/blog' },
+            { label: 'Support', path: '/support' }
           ],
           cta: {
             label: 'Contact Us',
@@ -167,6 +167,76 @@ export const drWiztech052525: BackupConfiguration = {
           breakpoint: 'md',
           mobileMenu: true,
           hamburgerIcon: true
+        }
+      },
+      footer: {
+        layout: {
+          gridCols: 'grid-cols-1 md:grid-cols-12',
+          padding: 'py-24',
+          background: 'bg-black',
+          spacing: 'gap-12',
+          social: {
+            spacing: 'space-x-4',
+            iconSize: 'w-5 h-5'
+          }
+        },
+        sections: {
+          companyInfo: {
+            columns: 'md:col-span-4',
+            logo: {
+              size: 'size-32',
+              spacing: 'mb-6'
+            },
+            description: 'text-gray-400 leading-relaxed mb-8'
+          },
+          contactInfo: {
+            title: 'text-lg font-semibold mb-4',
+            items: 'space-y-3 text-gray-400'
+          },
+          quickLinks: {
+            title: 'text-lg font-semibold mb-4',
+            links: [
+              { text: 'About Us', to: '/about' },
+              { text: 'Services', to: '/services' },
+              { text: 'Blog', to: '/blog' },
+              { text: 'Support', to: '/support' }
+            ],
+            hover: 'hover:text-primary-300 transition-colors'
+          }
+        },
+        animation: {
+          staggerChildren: 0.2,
+          duration: 0.8
+        }
+      },
+      servicePages: {
+        layout: {
+          headerSpacing: 'pt-64',
+          containerWidth: 'max-w-4xl',
+          sectionsSpacing: 'mb-16'
+        },
+        imageHandling: {
+          useFallbacks: true,
+          errorLogging: true,
+          primaryAltText: true,
+          aspectRatios: {
+            cover: 'object-cover',
+            contain: 'object-contain'
+          }
+        },
+        contentStructure: {
+          intro: {
+            title: 'text-4xl font-bold',
+            icon: 'size-40 text-blue-600'
+          },
+          sections: {
+            title: 'text-2xl font-semibold mb-4',
+            sectionSpacing: 'mb-8'
+          },
+          cta: {
+            position: 'justify-center',
+            spacing: 'mt-8'
+          }
         }
       }
     },
@@ -242,6 +312,32 @@ export const drWiztech052525: BackupConfiguration = {
           lists: 'leading-normal'
         }
       }
+    },
+    routing: {
+      paths: {
+        home: '/',
+        services: '/services',
+        hardDrive: '/services/hard-drive',
+        ssd: '/services/ssd',
+        raid: '/services/raid',
+        flash: '/services/flash',
+        server: '/services/server',
+        assessment: '/assessment',
+        about: '/about',
+        blog: '/blog',
+        support: '/support'
+      },
+      redirects: {
+        enabled: true,
+        spa: true,
+        rules: [
+          { from: '/*', to: '/index.html', status: 200 }
+        ]
+      },
+      historyApi: {
+        enabled: true,
+        scrollRestoration: true
+      }
     }
   },
   performance: {
@@ -256,7 +352,11 @@ export const drWiztech052525: BackupConfiguration = {
         lazyLoading: true,
         responsiveSizes: true,
         formats: ['webp', 'avif', 'jpg'],
-        compression: true
+        compression: true,
+        fallbacks: {
+          enabled: true,
+          strategy: 'cascading'
+        }
       },
       code: {
         splitting: true,
@@ -288,6 +388,14 @@ export const drWiztech052525: BackupConfiguration = {
       captions: true,
       transcripts: true,
       descriptions: true
+    },
+    semantics: {
+      headingStructure: true,
+      listItems: true,
+      formLabels: true,
+      imageAlts: true,
+      linkTexts: true,
+      buttonLabels: true
     }
   },
   seo: {
@@ -427,6 +535,21 @@ export const drWiztech052525: BackupConfiguration = {
       alerts: true,
       logging: true,
       metrics: ['availability', 'latency', 'errors', 'traffic']
+    },
+    spaConfig: {
+      redirects: [
+        { from: '/*', to: '/index.html', status: 200 }
+      ],
+      headers: [
+        {
+          path: '/*',
+          values: {
+            'X-Content-Type-Options': 'nosniff',
+            'X-Frame-Options': 'DENY',
+            'X-XSS-Protection': '1; mode=block'
+          }
+        }
+      ]
     }
   },
   monitoring: {
@@ -456,6 +579,18 @@ export const drWiztech052525: BackupConfiguration = {
         type: 'timeseries',
         compression: true,
         partitioning: 'daily'
+      }
+    },
+    errorLogging: {
+      console: {
+        enabled: true,
+        level: 'error',
+        includeStackTrace: true
+      },
+      service: {
+        enabled: false,
+        provider: 'sentry',
+        sampleRate: 0.1
       }
     }
   },
