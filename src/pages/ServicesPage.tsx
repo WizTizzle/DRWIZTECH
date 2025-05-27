@@ -177,7 +177,7 @@ export function ServicesPage() {
                       src={service.image}
                       alt={service.title}
                       className="w-full h-full object-cover"
-                      style={{ objectPosition: service.id === 'ssd' ? 'center 85%' : 'center' }}
+                      style={{ objectPosition: service.id === 'ssd' ? 'center 83%' : 'center' }}
                       onError={(e) => {
                         console.error(`Error loading image for ${service.title}`);
                         if (service.fallbackImage) {
