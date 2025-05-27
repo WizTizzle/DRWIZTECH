@@ -246,6 +246,10 @@ export const drWiztech052525: BackupConfiguration = {
           aspectRatios: {
             cover: 'object-cover',
             contain: 'object-contain'
+          },
+          ssdImage: {
+            objectPosition: 'center_78%', // Updated for SSD image positioning
+            transition: 'transition-transform group-hover:scale-105'
           }
         },
         contentStructure: {
@@ -276,7 +280,7 @@ export const drWiztech052525: BackupConfiguration = {
             title: "SSD & NVMe Recovery",
             icon: "Database",
             images: [
-              "/images/SSD.jpg",
+              { src: "/images/SSD.jpg", position: "center_78%" },  // Updated position
               "/images/NVME.jpg"
             ],
             sections: ["SupportedTypes", "CommonIssues", "RecoveryProcess", "WhyChooseUs", "ImportantNotice", "AssessmentCTA"]
