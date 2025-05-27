@@ -18,7 +18,7 @@ export function SSDRecovery() {
               <img 
                 src="/images/SSD.jpg"
                 alt="SATA SSD"
-                className="w-full h-64 rounded-lg object-cover object-[center_58%] transition-transform group-hover:scale-105"
+                className="w-full h-64 rounded-lg object-cover object-[center_53%] transition-transform group-hover:scale-105"
                 onError={(e) => {
                   console.error('Error loading SATA SSD image');
                   // No fallback needed as this is already a local image
