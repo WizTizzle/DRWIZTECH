@@ -7,31 +7,16 @@ import { SERVICE_PATHS } from '../data/serviceLinks';
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [scrollDirection, setScrollDirection] = useState('up');
-  const [lastScrollY, setLastScrollY] = useState(0);
   const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      
-      // Determine if the user has scrolled past the threshold
-      setIsScrolled(currentScrollY > 50);
-      
-      // Determine scroll direction
-      if (currentScrollY > lastScrollY) {
-        setScrollDirection('down');
-      } else {
-        setScrollDirection('up');
-      }
-      
-      // Update last scroll position
-      setLastScrollY(currentScrollY);
+      setIsScrolled(window.scrollY > 50);
     };
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY]);
+  }, []);
 
   // Close the menu when navigating to a new page
   useEffect(() => {
@@ -45,18 +30,13 @@ export function Header() {
     return location.pathname.startsWith(path);
   };
 
-  // Calculate transform value based on scroll direction
-  const headerTransform = scrollDirection === 'down' && isScrolled 
-    ? { y: -100 } 
-    : { y: 0 };
-
   return (
     <motion.header
       className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
         isScrolled ? 'bg-white/80 backdrop-blur-md border-b-2 border-primary-600/40' : 'bg-transparent border-b-2 border-primary-600/20'
       }`}
       initial={{ y: -100 }}
-      animate={headerTransform}
+      animate={{ y: 0 }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
     >
       <div className="container mx-auto px-4 py-12">
