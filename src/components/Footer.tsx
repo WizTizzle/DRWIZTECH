@@ -125,16 +125,16 @@ export function ContactInfo({ className = "", isVisible = true }: ContactInfoPro
       <h4 className="text-lg font-semibold mb-4" data-element="contact-title">Contact</h4>
       <ul className="space-y-3 text-gray-400" data-element="contact-list">
         <li data-element="contact-email">
-          <span className="inline-block w-full">support@wiztechrecovery.com</span>
+          <span className="inline-block w-full">support@drwiztech.com</span>
         </li>
         <li data-element="contact-phone">
-          <span className="inline-block w-full">+1 (555) 123-4567</span>
+          <span className="inline-block w-full">(248) 403-8665</span>
         </li>
         <li data-element="contact-address">
-          <span className="inline-block w-full">123 Recovery Lane</span>
+          <span className="inline-block w-full">21 North Main St</span>
         </li>
         <li data-element="contact-city">
-          <span className="inline-block w-full">Tech City, TC 12345</span>
+          <span className="inline-block w-full">Clarkston, MI 48346</span>
         </li>
       </ul>
     </motion.div>
