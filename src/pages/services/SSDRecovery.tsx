@@ -105,7 +105,6 @@ export function SSDRecovery() {
               <li>Experience with all major brands</li>
               <li>Clean room facilities</li>
               <li>Advanced firmware repair capabilities</li>
-              <li>Competitive success rates</li>
               <li>Secure data handling</li>
             </ul>
           </div>
