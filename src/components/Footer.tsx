@@ -1,5 +1,4 @@
 import React, { useRef } from 'react';
-import { Lightbulb } from 'lucide-react';
 import { motion, useInView } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
@@ -31,7 +30,12 @@ export function CompanyInfo({ className = "", isVisible = true }: CompanyInfoPro
     >
       <div className="flex items-center space-x-3 mb-6" data-element="logo-container">
         <span data-element="logo-icon-wrapper">
-          <Lightbulb className="text-primary-300" size={32} data-element="logo-icon" />
+          <img 
+            src="/images/Lightbulb (white Background).png" 
+            alt="WizTech Logo Icon" 
+            className="w-8 h-8 text-primary-300" 
+            data-element="logo-icon" 
+          />
         </span>
         <h3 className="text-2xl font-display font-bold" data-element="company-name">WizTech</h3>
       </div>
