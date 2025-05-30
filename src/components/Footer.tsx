@@ -168,6 +168,9 @@ export function BusinessHours({ className = "", isVisible = true }: BusinessHour
         <li data-element="hours-sunday">
           <span className="inline-block w-full">Sunday: Closed</span>
         </li>
+        <li data-element="hours-appointment" className="font-medium text-primary-300">
+          <span className="inline-block w-full">(By Appointment Only)</span>
+        </li>
         <li data-element="hours-emergency">
           <span className="inline-block w-full">24/7 Emergency Service Available</span>
         </li>
