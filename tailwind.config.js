@@ -12,7 +12,8 @@ export default {
         '5xl': '2.5rem'
       },
       height: {
-        'screen-dvh': '100dvh'
+        'screen-dvh': '100dvh',
+        'hero-section': 'calc(100dvh - 12rem)'
       },
       backgroundImage: {
         'gradient-spotlight': "radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(142, 216, 248, 0.15) 0%, transparent 50%)",

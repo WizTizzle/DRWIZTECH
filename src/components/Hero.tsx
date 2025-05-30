@@ -48,7 +48,7 @@ export function Hero() {
   return (
     <section 
       ref={heroRef}
-      className="relative h-screen-dvh flex items-center justify-center pt-0 overflow-hidden bg-transparent"
+      className="relative h-hero-section flex items-center justify-center pt-0 overflow-hidden bg-transparent"
     >
       {/* Background Video */}
       <video 
@@ -59,7 +59,7 @@ export function Hero() {
         playsInline
         poster="/images/Western_Digital_WD800_Hard_Disk_A.jpg"
       >
-        <source src="/images/Hard Drive Video Rotation.mov" type="video/quicktime" />
+        <source src="/images/Hard Drive Video Rotation.mp4" type="video/mp4" />
         {/* Fallback for browsers that don't support video */}
         Your browser does not support the video tag.
       </video>
@@ -70,7 +70,7 @@ export function Hero() {
       <div className="container relative mx-auto px-4 z-10">
         <motion.div 
           ref={textRef}
-          className="flex flex-col items-center text-center mt-16"
+          className="flex flex-col items-center text-center"
         >
           <div className="max-w-4xl space-y-12">
             <h1 className="text-7xl md:text-[8.5rem] font-display font-bold text-white leading-none tracking-tight">
