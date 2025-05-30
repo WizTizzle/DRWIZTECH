@@ -59,7 +59,7 @@ export function Header() {
       transition={{ 
         type: "tween", 
         ease: "easeInOut", 
-        duration: 0.3
+        duration: 0.5
       }}
     >
       <div className="container mx-auto px-4 py-12">
@@ -77,7 +77,7 @@ export function Header() {
                     alt="WizTech Logo"
                     className="h-[140px] w-auto object-contain"
                     onError={(e) => {
-                      console.error('Failed to load logo image, using text fallback');
+                      console.error('Failed to load logo image');
                       // We would normally set a fallback here, but we'll let the app handle it
                     }}
                   />
