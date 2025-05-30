@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
@@ -7,14 +7,32 @@ import { SERVICE_PATHS } from '../data/serviceLinks';
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [headerY, setHeaderY] = useState(0);
+  const headerRef = useRef<HTMLElement>(null);
+  const lastScrollY = useRef(0);
   const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      const currentScrollY = window.scrollY;
+      const headerHeight = headerRef.current?.offsetHeight || 160;
+      
+      // Determine if page is scrolled for styling
+      setIsScrolled(currentScrollY > 50);
+      
+      // Determine scroll direction
+      if (currentScrollY > lastScrollY.current && currentScrollY > headerHeight) {
+        // Scrolling down - hide header
+        setHeaderY(-headerHeight);
+      } else {
+        // Scrolling up - show header
+        setHeaderY(0);
+      }
+      
+      lastScrollY.current = currentScrollY;
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -32,12 +50,17 @@ export function Header() {
 
   return (
     <motion.header
+      ref={headerRef}
       className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
         isScrolled ? 'bg-white/80 backdrop-blur-md border-b-2 border-primary-600/40' : 'bg-transparent border-b-2 border-primary-600/20'
       }`}
       initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      animate={{ y: headerY }}
+      transition={{ 
+        type: "tween", 
+        ease: "easeInOut", 
+        duration: 0.3
+      }}
     >
       <div className="container mx-auto px-4 py-12">
         <nav className="flex items-center justify-between">
