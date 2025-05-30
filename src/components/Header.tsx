@@ -1,34 +1,22 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { SERVICE_PATHS } from '../data/serviceLinks';
 
 export function Header() {
+  const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [hidden, setHidden] = useState(false);
-  const [lastScrollY, setLastScrollY] = useState(0);
   const location = useLocation();
-  const headerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      const headerHeight = headerRef.current?.offsetHeight || 150;
-      
-      // Determine if we should hide the header
-      if (currentScrollY > lastScrollY && currentScrollY > headerHeight) {
-        setHidden(true);
-      } else {
-        setHidden(false);
-      }
-      
-      setLastScrollY(currentScrollY);
+      setIsScrolled(window.scrollY > 50);
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY]);
+  }, []);
 
   // Close the menu when navigating to a new page
   useEffect(() => {
@@ -44,9 +32,8 @@ export function Header() {
 
   return (
     <motion.header
-      ref={headerRef}
-      className={`fixed top-0 left-0 right-0 z-50 transition-transform duration-300 bg-white/80 backdrop-blur-md border-b-2 border-primary-600/40 ${
-        hidden ? '-translate-y-full' : 'translate-y-0'
+      className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
+        isScrolled ? 'bg-white/80 backdrop-blur-md border-b-2 border-primary-600/40' : 'bg-transparent border-b-2 border-primary-600/20'
       }`}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
@@ -67,7 +54,7 @@ export function Header() {
                     alt="WizTech Logo"
                     className="h-[140px] w-auto object-contain"
                     onError={(e) => {
-                      console.error('Failed to load logo image');
+                      console.error('Failed to load logo image, using text fallback');
                       // We would normally set a fallback here, but we'll let the app handle it
                     }}
                   />
