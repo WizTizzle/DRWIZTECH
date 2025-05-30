@@ -59,7 +59,7 @@ export function Hero() {
         playsInline
         poster="/images/Western_Digital_WD800_Hard_Disk_A.jpg"
       >
-        <source src="/images/Hard Drive Video Rotation.mov" type="video/mp4" />
+        <source src="/images/Hard Drive Video Rotation.mov" type="video/quicktime" />
         {/* Fallback for browsers that don't support video */}
         Your browser does not support the video tag.
       </video>
