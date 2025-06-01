@@ -33,7 +33,12 @@ export function AssessmentForm() {
   }, [currentStep]);
 
   const handleAnswer = async (questionId: string, value: string) => {
+    // Always update the answers state immediately to update the UI
     const newAnswers = { ...assessmentData.answers, [questionId]: value };
+    setAssessmentData({
+      ...assessmentData,
+      answers: newAnswers
+    });
     
     if (isLastQuestion) {
       setIsSubmitting(true);
@@ -56,8 +61,8 @@ export function AssessmentForm() {
             body: JSON.stringify({
               answers: newAnswers,
               assessment,
-              deviceImages
-              // Removed customerInfo that was causing the error
+              deviceImages,
+              ticketId: repairDeskTicket.id
             }),
           }
         );
@@ -66,7 +71,9 @@ export function AssessmentForm() {
           console.error('Failed to send assessment notification');
         }
         
+        // Update assessment data with results, but keep the answers we already set
         setAssessmentData({
+          ...assessmentData,
           answers: newAnswers,
           deviceImages,
           assessment,
@@ -79,11 +86,6 @@ export function AssessmentForm() {
       }
       return;
     }
-    
-    setAssessmentData({
-      ...assessmentData,
-      answers: newAnswers
-    });
   };
 
   const handleNext = () => {
