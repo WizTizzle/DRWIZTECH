@@ -1,16 +1,27 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ChevronDown, ChevronRight } from 'lucide-react';
 import { SERVICE_PATHS } from '../data/serviceLinks';
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [headerY, setHeaderY] = useState(0);
+  const [isServicesDropdownOpen, setIsServicesDropdownOpen] = useState(false);
+  const [mobileServicesExpanded, setMobileServicesExpanded] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
   const lastScrollY = useRef(0);
   const location = useLocation();
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const serviceLinks = [
+    { title: 'Hard Drive Recovery', path: SERVICE_PATHS.hardDrive },
+    { title: 'SSD & NVMe Recovery', path: SERVICE_PATHS.ssd },
+    { title: 'RAID & NAS Recovery', path: SERVICE_PATHS.raid },
+    { title: 'Flash & Memory Card Recovery', path: SERVICE_PATHS.flash },
+    { title: 'Server Recovery', path: SERVICE_PATHS.server }
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,13 +50,32 @@ export function Header() {
   // Close the menu when navigating to a new page
   useEffect(() => {
     setIsMenuOpen(false);
+    setMobileServicesExpanded(false);
   }, [location.pathname]);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsServicesDropdownOpen(false);
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   const isActiveRoute = (path: string) => {
     if (path === '/') {
       return location.pathname === path;
     }
     return location.pathname.startsWith(path);
+  };
+
+  const isActiveServiceRoute = () => {
+    return Object.values(SERVICE_PATHS).some(path => location.pathname.startsWith(path));
   };
 
   return (
@@ -101,14 +131,56 @@ export function Header() {
             >
               Home
             </Link>
-            <Link 
-              to="/services" 
-              className={`text-gray-900 hover:text-primary-600 transition-colors ${
-                isActiveRoute('/services') ? 'font-medium text-primary-600' : ''
-              }`}
-            >
-              Data Recovery
-            </Link>
+            
+            {/* Data Recovery Dropdown */}
+            <div className="relative group" ref={dropdownRef}>
+              <button
+                className={`flex items-center text-gray-900 hover:text-primary-600 transition-colors focus:outline-none ${
+                  isActiveServiceRoute() ? 'font-medium text-primary-600' : ''
+                }`}
+                onClick={() => setIsServicesDropdownOpen(!isServicesDropdownOpen)}
+                onMouseEnter={() => setIsServicesDropdownOpen(true)}
+                aria-expanded={isServicesDropdownOpen}
+                aria-haspopup="true"
+              >
+                Data Recovery
+                <ChevronDown size={16} className="ml-1" />
+              </button>
+              
+              <AnimatePresence>
+                {isServicesDropdownOpen && (
+                  <motion.div 
+                    className="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-lg overflow-hidden z-50"
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.2 }}
+                    onMouseLeave={() => setIsServicesDropdownOpen(false)}
+                  >
+                    <div className="py-2">
+                      <Link 
+                        to="/services" 
+                        className="block px-4 py-2 text-gray-800 hover:bg-primary-50 hover:text-primary-600"
+                      >
+                        All Services
+                      </Link>
+                      {serviceLinks.map((service) => (
+                        <Link 
+                          key={service.path}
+                          to={service.path} 
+                          className={`block px-4 py-2 hover:bg-primary-50 hover:text-primary-600 ${
+                            isActiveRoute(service.path) ? 'bg-primary-50 text-primary-600' : 'text-gray-800'
+                          }`}
+                        >
+                          {service.title}
+                        </Link>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
             <Link 
               to="/about" 
               className={`text-gray-900 hover:text-primary-600 transition-colors ${
@@ -173,14 +245,50 @@ export function Header() {
                 >
                   Home
                 </Link>
-                <Link 
-                  to="/services" 
-                  className={`block text-gray-900 hover:text-primary-600 transition-colors ${
-                    isActiveRoute('/services') ? 'font-medium text-primary-600' : ''
-                  }`}
-                >
-                  Data Recovery
-                </Link>
+                
+                {/* Mobile Data Recovery Dropdown */}
+                <div className="space-y-2">
+                  <button
+                    onClick={() => setMobileServicesExpanded(!mobileServicesExpanded)}
+                    className={`flex items-center justify-between w-full text-left text-gray-900 hover:text-primary-600 transition-colors ${
+                      isActiveServiceRoute() ? 'font-medium text-primary-600' : ''
+                    }`}
+                    aria-expanded={mobileServicesExpanded}
+                    aria-controls="mobile-services-menu"
+                  >
+                    <span>Data Recovery</span>
+                    {mobileServicesExpanded ? (
+                      <ChevronDown size={16} className="ml-1" />
+                    ) : (
+                      <ChevronRight size={16} className="ml-1" />
+                    )}
+                  </button>
+                  
+                  {mobileServicesExpanded && (
+                    <div id="mobile-services-menu" className="pl-4 space-y-2 border-l-2 border-primary-100">
+                      <Link 
+                        to="/services" 
+                        className={`block text-gray-900 hover:text-primary-600 transition-colors ${
+                          location.pathname === '/services' ? 'font-medium text-primary-600' : ''
+                        }`}
+                      >
+                        All Services
+                      </Link>
+                      {serviceLinks.map((service) => (
+                        <Link 
+                          key={service.path}
+                          to={service.path} 
+                          className={`block text-gray-900 hover:text-primary-600 transition-colors ${
+                            isActiveRoute(service.path) ? 'font-medium text-primary-600' : ''
+                          }`}
+                        >
+                          {service.title}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                
                 <Link 
                   to="/about" 
                   className={`block text-gray-900 hover:text-primary-600 transition-colors ${
