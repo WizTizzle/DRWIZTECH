@@ -165,13 +165,13 @@ export const drWiztech052525: BackupConfiguration = {
         navigation: {
           items: [
             { label: 'Home', path: '/' },
-            { label: 'Data Recovery', path: '#', dropdown: true },
+            { label: 'Data Recovery Services', path: '#', dropdown: true },
             { label: 'About', path: '/about' },
             { label: 'Blog', path: '/blog' },
             { label: 'Support', path: '/support' }
           ],
           dropdowns: {
-            'Data Recovery': [
+            'Data Recovery Services': [
               { label: 'All Services', path: '/services' },
               { label: 'Hard Drive Recovery', path: '/services/hard-drive' },
               { label: 'SSD & NVMe Recovery', path: '/services/ssd' },
