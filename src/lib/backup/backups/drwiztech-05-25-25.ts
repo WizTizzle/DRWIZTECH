@@ -12,13 +12,12 @@ export const drWiztech052525: BackupConfiguration = {
       hero: {
         layout: {
           spacing: {
-            topPadding: 'pt-32',
             contentSpacing: 'space-y-12',
             buttonGap: 'gap-6'
           },
           positioning: {
-            container: 'relative h-screen-dvh flex items-center justify-center',
-            content: 'flex flex-col items-center text-center mt-16'
+            container: 'relative h-hero-section flex items-start pt-4 overflow-hidden bg-transparent',
+            content: 'flex flex-col items-center text-center'
           }
         },
         typography: {
@@ -26,13 +25,20 @@ export const drWiztech052525: BackupConfiguration = {
             size: 'text-7xl md:text-[8.5rem]',
             weight: 'font-bold',
             tracking: 'tracking-tight',
-            family: 'font-display'
+            family: 'font-display',
+            color: 'text-white'
           },
           subheadline: {
             size: 'text-xl md:text-3xl',
             weight: 'font-light',
-            color: 'text-gray-600'
+            color: 'text-gray-200'
           }
+        },
+        background: {
+          type: 'video',
+          path: '/images/Hard Drive Video Rotation.mp4',
+          overlay: 'bg-black/40',
+          fallbackImage: '/images/Western_Digital_WD800_Hard_Disk_A.jpg'
         },
         animations: {
           text: {
@@ -43,11 +49,6 @@ export const drWiztech052525: BackupConfiguration = {
               duration: 1,
               ease: "power4.out"
             }
-          },
-          background: {
-            type: 'gradient-spotlight',
-            tracking: true,
-            opacity: 0.15
           }
         },
         buttons: {
@@ -58,10 +59,12 @@ export const drWiztech052525: BackupConfiguration = {
             text: 'text-lg font-medium'
           },
           secondary: {
-            style: 'border border-primary-300/30 text-primary-300',
+            style: 'text-primary-300 border border-primary-300/30',
             hover: 'bg-primary-300/10',
             size: 'px-8 py-4',
-            text: 'text-lg font-medium'
+            text: 'text-lg font-medium',
+            type: 'anchor',
+            href: '#services'
           }
         }
       },
@@ -162,11 +165,21 @@ export const drWiztech052525: BackupConfiguration = {
         navigation: {
           items: [
             { label: 'Home', path: '/' },
-            { label: 'Services', path: '/services' },
+            { label: 'Data Recovery', path: '#', dropdown: true },
             { label: 'About', path: '/about' },
             { label: 'Blog', path: '/blog' },
             { label: 'Support', path: '/support' }
           ],
+          dropdowns: {
+            'Data Recovery': [
+              { label: 'All Services', path: '/services' },
+              { label: 'Hard Drive Recovery', path: '/services/hard-drive' },
+              { label: 'SSD & NVMe Recovery', path: '/services/ssd' },
+              { label: 'RAID & NAS Recovery', path: '/services/raid' },
+              { label: 'Flash & Memory Card Recovery', path: '/services/flash' },
+              { label: 'Server Recovery', path: '/services/server' }
+            ]
+          },
           cta: {
             label: 'Contact Us',
             style: 'px-6 py-2 bg-primary-600 text-white rounded-xl font-medium hover:bg-primary-700 transition-colors'
@@ -180,9 +193,18 @@ export const drWiztech052525: BackupConfiguration = {
         activeRoute: {
           detection: {
             exact: ['/', '/about', '/blog', '/support'],
-            prefix: ['/services']
+            prefix: ['/services/hard-drive', '/services/ssd', '/services/raid', '/services/flash', '/services/server', '/services']
           },
           style: 'font-medium text-primary-600'
+        },
+        scroll: {
+          hideOnScroll: true,
+          showOnScrollUp: true,
+          transition: {
+            type: 'tween',
+            ease: 'easeInOut',
+            duration: 0.5
+          }
         }
       },
       footer: {
@@ -200,14 +222,31 @@ export const drWiztech052525: BackupConfiguration = {
           companyInfo: {
             columns: 'md:col-span-4',
             logo: {
-              size: 'size-32',
+              type: 'image',
+              path: '/images/Lightbulb (white Background).png',
+              size: 'w-8 h-8',
               spacing: 'mb-6'
             },
             description: 'text-gray-400 leading-relaxed mb-8'
           },
           contactInfo: {
             title: 'text-lg font-semibold mb-4',
-            items: 'space-y-3 text-gray-400'
+            items: [
+              { type: 'email', content: 'support@drwiztech.com' },
+              { type: 'phone', content: '(248) 403-8665' },
+              { type: 'address', content: '21 North Main St' },
+              { type: 'city', content: 'Clarkston, MI 48346' }
+            ]
+          },
+          businessHours: {
+            title: 'text-lg font-semibold mb-4',
+            items: [
+              { type: 'appointment', content: '(By Appointment Only)', highlight: true },
+              { type: 'weekday', content: 'Monday - Friday: 9AM - 6PM' },
+              { type: 'saturday', content: 'Saturday: 10AM - 4PM' },
+              { type: 'sunday', content: 'Sunday: Closed' },
+              { type: 'emergency', content: '24/7 Emergency Service Available' }
+            ]
           },
           quickLinks: {
             title: 'text-lg font-semibold mb-4',
