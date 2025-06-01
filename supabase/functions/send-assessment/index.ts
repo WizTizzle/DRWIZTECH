@@ -18,7 +18,7 @@ interface EmailData {
     severity: string;
     message: string;
   };
-  customerInfo: CustomerInfo;
+  customerInfo?: CustomerInfo; // Make customerInfo optional
   deviceImages?: string[];
   ticketId?: string;
 }
@@ -47,6 +47,11 @@ function formatAssessmentDetails(answers: Record<string, string>): string {
   return formattedContent;
 }
 
+// Function to check if a URL is absolute (starts with http:// or https://)
+function isAbsoluteUrl(url: string): boolean {
+  return /^https?:\/\//.test(url);
+}
+
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders });
@@ -64,29 +69,40 @@ Deno.serve(async (req) => {
 
     const { answers, assessment, deviceImages, ticketId, customerInfo } = await req.json() as EmailData;
 
-    console.log('Processing assessment with images:', deviceImages);
+    console.log('Processing assessment with images:', deviceImages?.length || 0);
 
-    // Verify image URLs are accessible
+    // Verify image URLs are accessible, but only if they are absolute URLs
     if (deviceImages?.length) {
       console.log('Verifying image URLs...');
       for (const url of deviceImages) {
-        try {
-          const response = await fetch(url, { method: 'HEAD' });
-          console.log(`Image URL ${url} status:`, response.status);
-        } catch (error) {
-          console.error(`Failed to verify image URL ${url}:`, error);
+        // Only try to verify absolute URLs
+        if (isAbsoluteUrl(url)) {
+          try {
+            const response = await fetch(url, { method: 'HEAD' });
+            console.log(`Image URL ${url} status:`, response.status);
+          } catch (error) {
+            console.error(`Failed to verify image URL ${url}:`, error);
+            // Continue even if verification fails
+          }
+        } else {
+          console.log(`Skipping verification for non-absolute URL: ${url}`);
         }
       }
     }
 
-    const emailContent = `
-      New Data Recovery Assessment - Ticket #${ticketId || 'Pending'}
-      
+    // Generate customer information section only if customerInfo is provided
+    const customerInfoSection = customerInfo ? `
       Customer Information:
       ------------------
       Name: ${customerInfo.firstName} ${customerInfo.lastName}
       Email: ${customerInfo.email}
       Phone: ${customerInfo.phone || 'Not provided'}
+    ` : 'No customer information provided';
+
+    const emailContent = `
+      New Data Recovery Assessment - Ticket #${ticketId || 'Pending'}
+      
+      ${customerInfoSection}
       
       Assessment Summary:
       ----------------
