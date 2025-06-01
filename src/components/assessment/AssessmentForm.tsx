@@ -56,14 +56,8 @@ export function AssessmentForm() {
             body: JSON.stringify({
               answers: newAnswers,
               assessment,
-              deviceImages,
-              customerInfo: {
-                firstName: formData.firstName,
-                lastName: formData.lastName,
-                email: formData.email,
-                phone: formData.phone
-              },
-              ticketId: repairDeskTicket.id
+              deviceImages
+              // Removed customerInfo that was causing the error
             }),
           }
         );
