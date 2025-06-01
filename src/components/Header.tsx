@@ -107,7 +107,7 @@ export function Header() {
                 isActiveRoute('/services') ? 'font-medium text-primary-600' : ''
               }`}
             >
-              Services
+              Data Recovery
             </Link>
             <Link 
               to="/about" 
@@ -179,7 +179,7 @@ export function Header() {
                     isActiveRoute('/services') ? 'font-medium text-primary-600' : ''
                   }`}
                 >
-                  Services
+                  Data Recovery
                 </Link>
                 <Link 
                   to="/about" 
