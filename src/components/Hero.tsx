@@ -48,7 +48,7 @@ export function Hero() {
   return (
     <section 
       ref={heroRef}
-      className="relative h-hero-section flex items-center justify-center pt-0 overflow-hidden bg-transparent"
+      className="relative h-hero-section flex items-start pt-4 overflow-hidden bg-transparent"
     >
       {/* Background Video */}
       <video 
@@ -84,7 +84,7 @@ export function Hero() {
               Expert data recovery solutions for all storage devices. International service available with industry-leading success rates.
             </p>
 
-            <div className="flex flex-col sm:flex-row justify-center gap-6 mt-[calc(3rem-0.5cm)]">
+            <div className="flex flex-col sm:flex-row justify-center gap-6 mt-8">
               <AssessmentButton className="relative px-8 py-4 text-lg font-medium text-black bg-primary-300 rounded-xl overflow-hidden group">
                 <span className="relative z-10">Start Recovery Assessment</span>
                 <div className="absolute inset-0 bg-gradient-shine opacity-0 group-hover:opacity-100 transition-opacity duration-500 [background-size:200%_auto] animate-shine" />
