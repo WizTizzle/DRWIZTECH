@@ -14,6 +14,7 @@ export function AssessmentForm() {
   const { assessmentData, setAssessmentData } = useAssessment();
   const [deviceImages, setDeviceImages] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const visibleQuestions = useMemo(() => 
     filterQuestionsByDependency(assessmentQuestions, assessmentData.answers),
@@ -24,7 +25,6 @@ export function AssessmentForm() {
   const isLastQuestion = currentStep === visibleQuestions.length - 1;
   const isFirstQuestion = currentStep === 0;
 
-  // Auto-scroll effect when step changes
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -33,6 +33,8 @@ export function AssessmentForm() {
   }, [currentStep]);
 
   const handleAnswer = async (questionId: string, value: string) => {
+    console.log('Handling answer:', { questionId, value });
+    
     // Always update the answers state immediately to update the UI
     const newAnswers = { ...assessmentData.answers, [questionId]: value };
     setAssessmentData({
@@ -42,14 +44,21 @@ export function AssessmentForm() {
     
     if (isLastQuestion) {
       setIsSubmitting(true);
+      setError(null);
+      
       try {
+        console.log('Processing final question submission');
         const assessment = assessRecoveryComplexity(newAnswers);
+        console.log('Assessment generated:', assessment);
+
+        console.log('Creating RepairDesk ticket');
         const repairDeskTicket = await createRepairDeskTicket({
           answers: newAnswers,
           assessment
         });
-        
-        // Send assessment notification email
+        console.log('RepairDesk ticket created:', repairDeskTicket);
+
+        console.log('Sending assessment notification');
         const emailResponse = await fetch(
           `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-assessment`,
           {
@@ -68,10 +77,14 @@ export function AssessmentForm() {
         );
 
         if (!emailResponse.ok) {
-          console.error('Failed to send assessment notification');
+          const errorData = await emailResponse.json();
+          console.error('Email notification failed:', errorData);
+          throw new Error(`Failed to send assessment notification: ${errorData.error || 'Unknown error'}`);
         }
+
+        console.log('Email notification sent successfully');
         
-        // Update assessment data with results, but keep the answers we already set
+        // Update assessment data with results
         setAssessmentData({
           ...assessmentData,
           answers: newAnswers,
@@ -79,12 +92,13 @@ export function AssessmentForm() {
           assessment,
           ticketId: repairDeskTicket.id
         });
-      } catch (error) {
-        console.error('Error creating ticket:', error);
-      } finally {
+      } catch (err) {
+        console.error('Error in final submission:', err);
+        setError(err instanceof Error ? err.message : 'An unexpected error occurred');
+        // Keep the form active if there's an error
         setIsSubmitting(false);
+        return;
       }
-      return;
     }
   };
 
@@ -104,6 +118,7 @@ export function AssessmentForm() {
     setCurrentStep(0);
     setDeviceImages([]);
     setAssessmentData({ answers: {} });
+    setError(null);
   };
 
   const handleImageUploaded = (url: string) => {
@@ -128,6 +143,12 @@ export function AssessmentForm() {
         currentStep={currentStep}
         totalSteps={visibleQuestions.length}
       />
+
+      {error && (
+        <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
+          {error}
+        </div>
+      )}
 
       {currentQuestion && (
         <>
@@ -177,7 +198,7 @@ export function AssessmentForm() {
                   : 'text-primary-600 hover:bg-primary-50'
               }`}
             >
-              {isSubmitting ? 'Creating Ticket...' : 'Next'}
+              {isSubmitting ? 'Processing...' : 'Next'}
               <ChevronRight className="w-5 h-5 ml-2" />
             </button>
           </div>
