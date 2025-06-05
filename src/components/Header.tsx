@@ -131,6 +131,15 @@ export function Header() {
             >
               Home
             </Link>
+
+            <Link 
+              to="/assessment" 
+              className={`text-gray-900 hover:text-primary-600 transition-colors ${
+                isActiveRoute('/assessment') ? 'font-medium text-primary-600' : ''
+              }`}
+            >
+              Data Recovery Assessment
+            </Link>
             
             {/* Data Recovery Dropdown */}
             <div className="relative group" ref={dropdownRef}>
@@ -244,6 +253,15 @@ export function Header() {
                   }`}
                 >
                   Home
+                </Link>
+
+                <Link 
+                  to="/assessment" 
+                  className={`block text-gray-900 hover:text-primary-600 transition-colors ${
+                    isActiveRoute('/assessment') ? 'font-medium text-primary-600' : ''
+                  }`}
+                >
+                  Data Recovery Assessment
                 </Link>
                 
                 {/* Mobile Data Recovery Dropdown */}
