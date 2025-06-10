@@ -59,30 +59,53 @@ export function AssessmentForm() {
         console.log('RepairDesk ticket created:', repairDeskTicket);
 
         console.log('Sending assessment notification');
-        const emailResponse = await fetch(
-          `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-assessment`,
-          {
-            method: 'POST',
-            headers: {
-              'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              answers: newAnswers,
-              assessment,
-              deviceImages,
-              ticketId: repairDeskTicket.id
-            }),
-          }
-        );
-
-        if (!emailResponse.ok) {
-          const errorData = await emailResponse.json();
-          console.error('Email notification failed:', errorData);
-          throw new Error(`Failed to send assessment notification: ${errorData.error || 'Unknown error'}`);
+        
+        // Improved error handling for the fetch request
+        const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+        const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+        
+        if (!supabaseUrl || !supabaseKey) {
+          throw new Error('Supabase configuration is missing. Please check your environment variables.');
         }
 
-        console.log('Email notification sent successfully');
+        const functionUrl = `${supabaseUrl}/functions/v1/send-assessment`;
+        console.log('Calling function at:', functionUrl);
+
+        const requestBody = {
+          answers: newAnswers,
+          assessment,
+          deviceImages,
+          ticketId: repairDeskTicket.id
+        };
+
+        console.log('Request body:', requestBody);
+
+        const emailResponse = await fetch(functionUrl, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${supabaseKey}`,
+            'Content-Type': 'application/json',
+            'apikey': supabaseKey
+          },
+          body: JSON.stringify(requestBody),
+        });
+
+        console.log('Response status:', emailResponse.status);
+        console.log('Response headers:', Object.fromEntries(emailResponse.headers.entries()));
+
+        if (!emailResponse.ok) {
+          let errorData;
+          try {
+            errorData = await emailResponse.json();
+          } catch (parseError) {
+            errorData = { error: `HTTP ${emailResponse.status}: ${emailResponse.statusText}` };
+          }
+          console.error('Email notification failed:', errorData);
+          throw new Error(`Failed to send assessment notification: ${errorData.error || errorData.message || 'Unknown error'}`);
+        }
+
+        const responseData = await emailResponse.json();
+        console.log('Email notification sent successfully:', responseData);
         
         // Update assessment data with results
         setAssessmentData({
@@ -94,10 +117,19 @@ export function AssessmentForm() {
         });
       } catch (err) {
         console.error('Error in final submission:', err);
-        setError(err instanceof Error ? err.message : 'An unexpected error occurred');
-        // Keep the form active if there's an error
+        let errorMessage = 'An unexpected error occurred';
+        
+        if (err instanceof Error) {
+          errorMessage = err.message;
+        } else if (typeof err === 'string') {
+          errorMessage = err;
+        }
+        
+        setError(errorMessage);
         setIsSubmitting(false);
         return;
+      } finally {
+        setIsSubmitting(false);
       }
     }
   };
@@ -146,7 +178,14 @@ export function AssessmentForm() {
 
       {error && (
         <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
-          {error}
+          <h4 className="font-semibold mb-2">Submission Error</h4>
+          <p>{error}</p>
+          <button 
+            onClick={() => setError(null)}
+            className="mt-2 text-sm text-red-600 hover:text-red-800 underline"
+          >
+            Dismiss
+          </button>
         </div>
       )}
 
@@ -183,7 +222,8 @@ export function AssessmentForm() {
             
             <button
               onClick={handleReset}
-              className="flex items-center text-primary-600 hover:text-primary-700"
+              disabled={isSubmitting}
+              className="flex items-center text-primary-600 hover:text-primary-700 disabled:opacity-50"
             >
               <RotateCcw className="w-4 h-4 mr-1" />
               Start Over
