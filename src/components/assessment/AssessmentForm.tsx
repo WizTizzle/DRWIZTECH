@@ -32,6 +32,66 @@ export function AssessmentForm() {
     });
   }, [currentStep]);
 
+  const sendEmailNotification = async (assessmentData: any) => {
+    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+    const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+    
+    if (!supabaseUrl || !supabaseKey) {
+      console.warn('Supabase configuration missing, skipping email notification');
+      return { success: false, reason: 'Configuration missing' };
+    }
+
+    const functionUrl = `${supabaseUrl}/functions/v1/send-assessment`;
+    console.log('Attempting to call function at:', functionUrl);
+
+    try {
+      // Set a timeout for the fetch request
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
+
+      const response = await fetch(functionUrl, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${supabaseKey}`,
+          'Content-Type': 'application/json',
+          'apikey': supabaseKey
+        },
+        body: JSON.stringify(assessmentData),
+        signal: controller.signal
+      });
+
+      clearTimeout(timeoutId);
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Edge function returned error:', response.status, errorText);
+        return { 
+          success: false, 
+          reason: `Server error: ${response.status}`,
+          details: errorText 
+        };
+      }
+
+      const responseData = await response.json();
+      console.log('Email notification sent successfully:', responseData);
+      return { success: true, data: responseData };
+
+    } catch (error) {
+      console.error('Email notification failed:', error);
+      
+      if (error instanceof Error) {
+        if (error.name === 'AbortError') {
+          return { success: false, reason: 'Request timeout' };
+        } else if (error.message.includes('Failed to fetch')) {
+          return { success: false, reason: 'Network connection issue' };
+        }
+        return { success: false, reason: error.message };
+      }
+      
+      return { success: false, reason: 'Unknown error' };
+    }
+  };
+
   const handleAnswer = async (questionId: string, value: string) => {
     console.log('Handling answer:', { questionId, value });
     
@@ -58,56 +118,7 @@ export function AssessmentForm() {
         });
         console.log('RepairDesk ticket created:', repairDeskTicket);
 
-        // Instead of calling the Edge Function, we'll simulate the email sending
-        // and store the data locally for now
-        console.log('Simulating email notification...');
-        
-        try {
-          // Try to send email via Edge Function, but don't fail if it doesn't work
-          const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-          const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-          
-          if (supabaseUrl && supabaseKey) {
-            const functionUrl = `${supabaseUrl}/functions/v1/send-assessment`;
-            console.log('Attempting to call function at:', functionUrl);
-
-            const requestBody = {
-              answers: newAnswers,
-              assessment,
-              deviceImages,
-              ticketId: repairDeskTicket.id
-            };
-
-            // Set a timeout for the fetch request
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
-
-            const emailResponse = await fetch(functionUrl, {
-              method: 'POST',
-              headers: {
-                'Authorization': `Bearer ${supabaseKey}`,
-                'Content-Type': 'application/json',
-                'apikey': supabaseKey
-              },
-              body: JSON.stringify(requestBody),
-              signal: controller.signal
-            });
-
-            clearTimeout(timeoutId);
-
-            if (emailResponse.ok) {
-              const responseData = await emailResponse.json();
-              console.log('Email notification sent successfully:', responseData);
-            } else {
-              console.warn('Email notification failed, but continuing with assessment');
-            }
-          }
-        } catch (emailError) {
-          // Don't fail the entire process if email fails
-          console.warn('Email notification failed, but assessment will continue:', emailError);
-        }
-
-        // Store assessment data locally as backup
+        // Store assessment data locally as backup first
         const assessmentRecord = {
           id: repairDeskTicket.id,
           timestamp: new Date().toISOString(),
@@ -122,6 +133,20 @@ export function AssessmentForm() {
         existingAssessments.push(assessmentRecord);
         localStorage.setItem('wiztech_assessments', JSON.stringify(existingAssessments));
 
+        // Try to send email notification
+        console.log('Attempting to send email notification...');
+        const emailResult = await sendEmailNotification({
+          answers: newAnswers,
+          assessment,
+          deviceImages,
+          ticketId: repairDeskTicket.id
+        });
+
+        if (!emailResult.success) {
+          console.warn(`Email notification failed: ${emailResult.reason}`);
+          // Don't fail the entire process, just log the issue
+        }
+
         console.log('Assessment completed successfully');
         
         // Update assessment data with results
@@ -130,17 +155,17 @@ export function AssessmentForm() {
           answers: newAnswers,
           deviceImages,
           assessment,
-          ticketId: repairDeskTicket.id
+          ticketId: repairDeskTicket.id,
+          emailSent: emailResult.success
         });
+
       } catch (err) {
         console.error('Error in final submission:', err);
         let errorMessage = 'An unexpected error occurred while processing your assessment.';
         
         if (err instanceof Error) {
-          if (err.name === 'AbortError') {
-            errorMessage = 'The request timed out. Please try again.';
-          } else if (err.message.includes('Failed to fetch')) {
-            errorMessage = 'Network connection issue. Your assessment has been saved locally and we will process it manually.';
+          if (err.message.includes('RepairDesk')) {
+            errorMessage = 'Unable to create support ticket. Please try again or contact us directly.';
           } else {
             errorMessage = err.message;
           }
