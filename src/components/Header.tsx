@@ -124,7 +124,7 @@ export function Header() {
             <Link 
               to="/" 
               className={`text-gray-900 hover:text-primary-600 transition-colors ${
-                isActiveRoute('/') && !isActiveRoute('/services') && !isActiveRoute('/blog') && !isActiveRoute('/about') && !isActiveRoute('/support') 
+                isActiveRoute('/') && !isActiveRoute('/services') && !isActiveRoute('/about') && !isActiveRoute('/support') 
                   ? 'font-medium text-primary-600' 
                   : ''
               }`}
@@ -199,14 +199,6 @@ export function Header() {
               About
             </Link>
             <Link 
-              to="/blog" 
-              className={`text-gray-900 hover:text-primary-600 transition-colors ${
-                isActiveRoute('/blog') ? 'font-medium text-primary-600' : ''
-              }`}
-            >
-              Blog
-            </Link>
-            <Link 
               to="/support" 
               className={`text-gray-900 hover:text-primary-600 transition-colors ${
                 isActiveRoute('/support') ? 'font-medium text-primary-600' : ''
@@ -247,7 +239,7 @@ export function Header() {
                 <Link 
                   to="/" 
                   className={`block text-gray-900 hover:text-primary-600 transition-colors ${
-                    isActiveRoute('/') && !isActiveRoute('/services') && !isActiveRoute('/blog') && !isActiveRoute('/about') && !isActiveRoute('/support')  
+                    isActiveRoute('/') && !isActiveRoute('/services') && !isActiveRoute('/about') && !isActiveRoute('/support')  
                       ? 'font-medium text-primary-600' 
                       : ''
                   }`}
@@ -314,14 +306,6 @@ export function Header() {
                   }`}
                 >
                   About
-                </Link>
-                <Link 
-                  to="/blog" 
-                  className={`block text-gray-900 hover:text-primary-600 transition-colors ${
-                    isActiveRoute('/blog') ? 'font-medium text-primary-600' : ''
-                  }`}
-                >
-                  Blog
                 </Link>
                 <Link 
                   to="/support" 
