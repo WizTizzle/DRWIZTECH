@@ -196,7 +196,6 @@ export function QuickLinks({
   links = [
     { text: "About Us", to: "/about" },
     { text: "Services", to: "/services" },
-    { text: "Blog", to: "/blog" },
     { text: "Support", to: "/support" }
   ]
 }: QuickLinksProps) {
