@@ -3,7 +3,7 @@ import React from 'react';
 export function RAIDTypes() {
   return (
     <div className="bg-gray-50 p-6 rounded-lg mb-8">
-      <h3 className="text-xl font-semibold mb-4">RAID Configurations We Support</h3>
+      <h3 className="text-xl font-semibold mb-4">RAID Configurations We Support Include</h3>
       
       <div className="space-y-4">
         <div className="bg-white p-4 rounded-lg shadow-sm">
