@@ -7,10 +7,12 @@ import { ConfirmationScreen } from './ConfirmationScreen';
 
 interface MailInFormProps {
   assessmentAnswers: Record<string, string>;
+  onSubmissionSuccess?: () => void;
 }
 
-export function MailInForm({ assessmentAnswers }: MailInFormProps) {
+export function MailInForm({ assessmentAnswers, onSubmissionSuccess }: MailInFormProps) {
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -33,11 +35,38 @@ export function MailInForm({ assessmentAnswers }: MailInFormProps) {
     }));
   };
 
+  const validateForm = () => {
+    const requiredFields = ['firstName', 'lastName', 'email', 'phone', 'address1', 'city', 'state', 'zipCode', 'country'];
+    return requiredFields.every(field => formData[field as keyof typeof formData].trim() !== '');
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would integrate with your backend
-    console.log('Form submitted:', formData);
-    setIsSubmitted(true);
+    
+    if (!validateForm()) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+
+    setIsSubmitting(true);
+    
+    try {
+      // Simulate form submission - in production, this would integrate with your backend
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      console.log('Mail-in form submitted:', formData);
+      setIsSubmitted(true);
+      
+      // Call the success callback to notify parent component
+      if (onSubmissionSuccess) {
+        onSubmissionSuccess();
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      alert('There was an error submitting your request. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (isSubmitted) {
@@ -181,9 +210,17 @@ export function MailInForm({ assessmentAnswers }: MailInFormProps) {
 
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
+          disabled={isSubmitting}
+          className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Submit Request
+          {isSubmitting ? (
+            <div className="flex items-center justify-center">
+              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+              Submitting Request...
+            </div>
+          ) : (
+            'Submit Recovery Request'
+          )}
         </button>
       </form>
     </div>

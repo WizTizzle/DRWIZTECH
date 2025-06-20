@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { CheckCircle, Image } from 'lucide-react';
 import { MailInForm } from './MailInForm';
 import { getResultClass } from '../../utils/styles';
@@ -15,6 +15,12 @@ interface AssessmentResultProps {
 }
 
 export function AssessmentResult({ assessment, answers, deviceImages, onReset, ticketId }: AssessmentResultProps) {
+  const [isMailInFormSubmitted, setIsMailInFormSubmitted] = useState(false);
+
+  const handleMailInFormSuccess = () => {
+    setIsMailInFormSubmitted(true);
+  };
+
   const renderPreviousAttempts = () => {
     if (answers.previous_recovery === 'no') return null;
 
@@ -96,18 +102,40 @@ export function AssessmentResult({ assessment, answers, deviceImages, onReset, t
       <div className="bg-white p-6 rounded-lg shadow-md">
         <h4 className="text-lg font-semibold mb-4">Complete Your Recovery Request</h4>
         <p className="mb-6 text-gray-600">
-          Please provide your contact and shipping information below so we can proceed with your recovery case.
+          Please provide your contact and shipping information below to finalize your recovery case.
         </p>
         
-        <MailInForm assessmentAnswers={answers} />
+        <MailInForm 
+          assessmentAnswers={answers} 
+          onSubmissionSuccess={handleMailInFormSuccess}
+        />
       </div>
 
-      <button
-        onClick={onReset}
-        className="text-blue-600 hover:text-blue-700 underline"
-      >
-        Start New Assessment
-      </button>
+      {isMailInFormSubmitted && (
+        <div className="bg-green-50 p-6 rounded-lg shadow-md">
+          <div className="flex items-center mb-4">
+            <CheckCircle className="w-6 h-6 text-green-500 mr-2" />
+            <h4 className="text-lg font-semibold text-green-800">Recovery Request Complete</h4>
+          </div>
+          <p className="text-green-700 mb-4">
+            Your recovery request has been successfully submitted. You will receive confirmation and shipping instructions via email shortly.
+          </p>
+          <button
+            onClick={onReset}
+            className="bg-primary-600 text-white px-6 py-3 rounded-lg hover:bg-primary-700 transition-colors"
+          >
+            Start New Assessment
+          </button>
+        </div>
+      )}
+
+      {!isMailInFormSubmitted && (
+        <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+          <p className="text-yellow-800 text-sm">
+            <strong>Note:</strong> Please complete the recovery request form above to finalize your assessment and receive shipping instructions.
+          </p>
+        </div>
+      )}
     </div>
   );
 }
