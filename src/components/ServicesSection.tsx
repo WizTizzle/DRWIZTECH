@@ -64,27 +64,27 @@ export function ServicesSection() {
       <motion.div 
         ref={ref}
         style={{ y, opacity }}
-        className="container relative mx-auto px-4 sm:px-6 lg:px-8"
+        className="container relative mx-auto px-4"
       >
         <div className="max-w-7xl mx-auto">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-center mb-12 md:mb-20"
+            className="text-center mb-20"
           >
-            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-bold text-gray-900 mb-6">
+            <h2 className="text-6xl md:text-7xl font-display font-bold text-gray-900 mb-6">
               Recovery
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-300 to-primary-600">
                 {" "}Solutions
               </span>
             </h2>
-            <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto px-4">
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
               Expert data recovery services for all storage devices, from personal drives to enterprise systems.
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {services.map((service, index) => (
               <motion.div
                 key={service.title}

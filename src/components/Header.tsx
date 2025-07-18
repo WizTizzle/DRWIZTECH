@@ -97,7 +97,7 @@ export function Header() {
           <motion.div
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 400 }}
-            className="flex-shrink-0 ml-4 sm:ml-8 md:ml-16"
+            className="flex-shrink-0 ml-16"
           >
             <Link to="/" className="block">
               <div className="flex flex-col items-center">
@@ -105,14 +105,14 @@ export function Header() {
                   <img 
                     src="/images/Final logo WIZTECH.png"
                     alt="WizTech Logo"
-                    className="h-20 sm:h-24 md:h-32 lg:h-[140px] w-auto object-contain"
+                    className="h-[140px] w-auto object-contain"
                     onError={(e) => {
                       console.error('Failed to load logo image');
                       // We would normally set a fallback here, but we'll let the app handle it
                     }}
                   />
                 </div>
-                <div className="text-sm sm:text-base md:text-lg lg:text-xl font-display tracking-[0.2em] text-transparent bg-clip-text bg-gradient-to-r from-primary-300 via-primary-400 to-primary-300 animate-shine [background-size:200%_auto] -mt-1">
+                <div className="text-xl font-display tracking-[0.2em] text-transparent bg-clip-text bg-gradient-to-r from-primary-300 via-primary-400 to-primary-300 animate-shine [background-size:200%_auto] -mt-1">
                   DATA RECOVERY
                 </div>
               </div>
@@ -120,10 +120,10 @@ export function Header() {
           </motion.div>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-8 xl:space-x-12 mr-4 sm:mr-8 md:mr-12">
+          <div className="hidden md:flex items-center space-x-12 mr-12">
             <Link 
               to="/" 
-              className={`text-sm xl:text-base text-gray-900 hover:text-primary-600 transition-colors ${
+              className={`text-gray-900 hover:text-primary-600 transition-colors ${
                 isActiveRoute('/') && !isActiveRoute('/services') && !isActiveRoute('/about') && !isActiveRoute('/support') 
                   ? 'font-medium text-primary-600' 
                   : ''
@@ -134,7 +134,7 @@ export function Header() {
 
             <Link 
               to="/assessment" 
-              className={`text-sm xl:text-base text-gray-900 hover:text-primary-600 transition-colors ${
+              className={`text-gray-900 hover:text-primary-600 transition-colors ${
                 isActiveRoute('/assessment') ? 'font-medium text-primary-600' : ''
               }`}
             >
@@ -144,7 +144,7 @@ export function Header() {
             {/* Data Recovery Dropdown */}
             <div className="relative group" ref={dropdownRef}>
               <button
-                className={`flex items-center text-sm xl:text-base text-gray-900 hover:text-primary-600 transition-colors focus:outline-none ${
+                className={`flex items-center text-gray-900 hover:text-primary-600 transition-colors focus:outline-none ${
                   isActiveServiceRoute() ? 'font-medium text-primary-600' : ''
                 }`}
                 onClick={() => setIsServicesDropdownOpen(!isServicesDropdownOpen)}
@@ -159,7 +159,7 @@ export function Header() {
               <AnimatePresence>
                 {isServicesDropdownOpen && (
                   <motion.div 
-                    className="absolute top-full left-0 mt-2 w-56 xl:w-64 bg-white rounded-lg shadow-lg overflow-hidden z-50"
+                    className="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-lg overflow-hidden z-50"
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
@@ -169,7 +169,7 @@ export function Header() {
                     <div className="py-2">
                       <Link 
                         to="/services" 
-                        className="block px-4 py-2 text-sm text-gray-800 hover:bg-primary-50 hover:text-primary-600"
+                        className="block px-4 py-2 text-gray-800 hover:bg-primary-50 hover:text-primary-600"
                       >
                         All Services
                       </Link>
@@ -177,7 +177,7 @@ export function Header() {
                         <Link 
                           key={service.path}
                           to={service.path} 
-                          className={`block px-4 py-2 text-sm hover:bg-primary-50 hover:text-primary-600 ${
+                          className={`block px-4 py-2 hover:bg-primary-50 hover:text-primary-600 ${
                             isActiveRoute(service.path) ? 'bg-primary-50 text-primary-600' : 'text-gray-800'
                           }`}
                         >
@@ -192,7 +192,7 @@ export function Header() {
 
             <Link 
               to="/about" 
-              className={`text-sm xl:text-base text-gray-900 hover:text-primary-600 transition-colors ${
+              className={`text-gray-900 hover:text-primary-600 transition-colors ${
                 isActiveRoute('/about') ? 'font-medium text-primary-600' : ''
               }`}
             >
@@ -200,7 +200,7 @@ export function Header() {
             </Link>
             <Link 
               to="/support" 
-              className={`text-sm xl:text-base text-gray-900 hover:text-primary-600 transition-colors ${
+              className={`text-gray-900 hover:text-primary-600 transition-colors ${
                 isActiveRoute('/support') ? 'font-medium text-primary-600' : ''
               }`}
             >
@@ -210,7 +210,7 @@ export function Header() {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="px-4 xl:px-6 py-2 text-sm xl:text-base bg-primary-600 text-white rounded-xl font-medium hover:bg-primary-700 transition-colors"
+              className="px-6 py-2 bg-primary-600 text-white rounded-xl font-medium hover:bg-primary-700 transition-colors"
             >
               Contact Us
             </motion.button>
@@ -219,7 +219,7 @@ export function Header() {
           {/* Mobile Menu Button */}
           <motion.button
             whileTap={{ scale: 0.95 }}
-            className="lg:hidden text-gray-900 mr-4"
+            className="md:hidden text-gray-900"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -233,9 +233,9 @@ export function Header() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="lg:hidden"
+              className="md:hidden"
             >
-              <div className="py-4 space-y-4 px-4">
+              <div className="py-4 space-y-4">
                 <Link 
                   to="/" 
                   className={`block text-gray-900 hover:text-primary-600 transition-colors ${

@@ -13,8 +13,7 @@ export default {
       },
       height: {
         'screen-dvh': '100dvh',
-        'hero-section': 'calc(100dvh - 15.25rem)', // Adjusted to be slightly shorter
-        'hero-mobile': 'calc(80dvh - 6rem)' // Mobile hero height
+        'hero-section': 'calc(100dvh - 15.25rem)' // Adjusted to be slightly shorter
       },
       backgroundImage: {
         'gradient-spotlight': "radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(142, 216, 248, 0.15) 0%, transparent 50%)",
