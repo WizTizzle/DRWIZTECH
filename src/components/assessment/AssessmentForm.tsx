@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { AssessmentQuestion } from './AssessmentQuestion';
 import { AssessmentResult } from './AssessmentResult';
+import { ContactInfoForm } from './ContactInfoForm';
 import { useAssessment } from '../../contexts/AssessmentContext';
 import { ChevronLeft, ChevronRight, RotateCcw } from 'lucide-react';
 import { assessmentQuestions } from '../../data/assessmentData';
@@ -8,8 +9,11 @@ import { filterQuestionsByDependency, assessRecoveryComplexity } from '../../uti
 import { DeviceImageUpload } from './DeviceImageUpload';
 import { AssessmentProgress } from './AssessmentProgress';
 import { createRepairDeskTicket } from '../../lib/repairdesk/api';
+import type { MailInFormData } from '../../types/mailIn';
 
 export function AssessmentForm() {
+  const [currentStage, setCurrentStage] = useState<'contact' | 'assessment'>('contact');
+  const [contactFormData, setContactFormData] = useState<MailInFormData | null>(null);
   const [currentStep, setCurrentStep] = useState(0);
   const { assessmentData, setAssessmentData } = useAssessment();
   const [deviceImages, setDeviceImages] = useState<string[]>([]);
@@ -92,6 +96,12 @@ export function AssessmentForm() {
     }
   };
 
+  const handleContactFormSuccess = (formData: MailInFormData) => {
+    console.log('Contact form completed:', formData);
+    setContactFormData(formData);
+    setCurrentStage('assessment');
+  };
+
   const handleAnswer = async (questionId: string, value: string) => {
     console.log('Handling answer:', { questionId, value });
     
@@ -111,9 +121,16 @@ export function AssessmentForm() {
         const assessment = assessRecoveryComplexity(newAnswers);
         console.log('Assessment generated:', assessment);
 
+        // Combine contact form data with assessment answers
+        const combinedData = {
+          ...newAnswers,
+          ...contactFormData,
+          deviceImages
+        };
+
         console.log('Creating RepairDesk ticket');
         const repairDeskTicket = await createRepairDeskTicket({
-          answers: newAnswers,
+          answers: combinedData,
           assessment
         });
         console.log('RepairDesk ticket created:', repairDeskTicket);
@@ -122,9 +139,10 @@ export function AssessmentForm() {
         const assessmentRecord = {
           id: repairDeskTicket.id,
           timestamp: new Date().toISOString(),
-          answers: newAnswers,
+          answers: combinedData,
           assessment,
           deviceImages,
+          contactInfo: contactFormData,
           status: 'completed'
         };
 
@@ -136,10 +154,16 @@ export function AssessmentForm() {
         // Try to send email notification
         console.log('Attempting to send email notification...');
         const emailResult = await sendEmailNotification({
-          answers: newAnswers,
+          answers: combinedData,
           assessment,
           deviceImages,
-          ticketId: repairDeskTicket.id
+          ticketId: repairDeskTicket.id,
+          customerInfo: contactFormData ? {
+            firstName: contactFormData.firstName,
+            lastName: contactFormData.lastName,
+            email: contactFormData.email,
+            phone: contactFormData.phone
+          } : undefined
         });
 
         if (!emailResult.success) {
@@ -152,10 +176,11 @@ export function AssessmentForm() {
         // Update assessment data with results
         setAssessmentData({
           ...assessmentData,
-          answers: newAnswers,
+          answers: combinedData,
           deviceImages,
           assessment,
           ticketId: repairDeskTicket.id,
+          contactInfo: contactFormData,
           emailSent: emailResult.success
         });
 
@@ -193,6 +218,8 @@ export function AssessmentForm() {
   };
 
   const handleReset = () => {
+    setCurrentStage('contact');
+    setContactFormData(null);
     setCurrentStep(0);
     setDeviceImages([]);
     setAssessmentData({ answers: {} });
@@ -204,6 +231,11 @@ export function AssessmentForm() {
     setDeviceImages(prev => [...prev, url]);
   };
 
+  // Show contact form first
+  if (currentStage === 'contact') {
+    return <ContactInfoForm onSubmissionSuccess={handleContactFormSuccess} />;
+  }
+
   if (assessmentData.assessment) {
     return (
       <AssessmentResult 
@@ -212,12 +244,23 @@ export function AssessmentForm() {
         deviceImages={deviceImages}
         onReset={handleReset}
         ticketId={assessmentData.ticketId}
+        contactInfo={contactFormData}
       />
     );
   }
 
   return (
     <div className="bg-white p-8 rounded-lg shadow-md">
+      <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg">
+        <div className="flex items-center">
+          <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+          <span className="text-green-800 font-medium">Contact Information Complete</span>
+        </div>
+        <p className="text-green-700 text-sm mt-1">
+          {contactFormData?.firstName} {contactFormData?.lastName} - {contactFormData?.email}
+        </p>
+      </div>
+
       <AssessmentProgress 
         currentStep={currentStep}
         totalSteps={visibleQuestions.length}

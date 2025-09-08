@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { CheckCircle, Image } from 'lucide-react';
-import { MailInForm } from './MailInForm';
 import { getResultClass } from '../../utils/styles';
+import type { MailInFormData } from '../../types/mailIn';
 
 interface AssessmentResultProps {
   assessment: {
@@ -12,14 +12,12 @@ interface AssessmentResultProps {
   deviceImages?: string[];
   onReset: () => void;
   ticketId?: string;
+  contactInfo?: MailInFormData | null;
 }
 
-export function AssessmentResult({ assessment, answers, deviceImages, onReset, ticketId }: AssessmentResultProps) {
-  const [isMailInFormSubmitted, setIsMailInFormSubmitted] = useState(false);
-
-  const handleMailInFormSuccess = () => {
-    setIsMailInFormSubmitted(true);
-  };
+export function AssessmentResult({ assessment, answers, deviceImages, onReset, ticketId, contactInfo }: AssessmentResultProps) {
+  // Since contact info is now collected upfront, we can show the completion state immediately
+  const [showCompletion, setShowCompletion] = useState(true);
 
   const renderPreviousAttempts = () => {
     if (answers.previous_recovery === 'no') return null;
@@ -77,6 +75,28 @@ export function AssessmentResult({ assessment, answers, deviceImages, onReset, t
         </div>
       </div>
 
+      {/* Contact Information Summary */}
+      {contactInfo && (
+        <div className="bg-white p-6 rounded-lg shadow-md">
+          <h4 className="text-lg font-semibold mb-4">Contact & Shipping Information</h4>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+            <div>
+              <h5 className="font-medium text-gray-900 mb-2">Contact Details</h5>
+              <p className="text-gray-700">{contactInfo.firstName} {contactInfo.lastName}</p>
+              <p className="text-gray-700">{contactInfo.email}</p>
+              <p className="text-gray-700">{contactInfo.phone}</p>
+            </div>
+            <div>
+              <h5 className="font-medium text-gray-900 mb-2">Shipping Address</h5>
+              <p className="text-gray-700">{contactInfo.address1}</p>
+              {contactInfo.address2 && <p className="text-gray-700">{contactInfo.address2}</p>}
+              <p className="text-gray-700">{contactInfo.city}, {contactInfo.state} {contactInfo.zipCode}</p>
+              <p className="text-gray-700">{contactInfo.country}</p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {renderPreviousAttempts()}
 
       {deviceImages && deviceImages.length > 0 && (
@@ -99,26 +119,18 @@ export function AssessmentResult({ assessment, answers, deviceImages, onReset, t
         </div>
       )}
 
-      <div className="bg-white p-6 rounded-lg shadow-md">
-        <h4 className="text-lg font-semibold mb-4">Complete Your Recovery Request</h4>
-        <p className="mb-6 text-gray-600">
-          Please provide your contact and shipping information below to finalize your recovery case.
-        </p>
-        
-        <MailInForm 
-          assessmentAnswers={answers} 
-          onSubmissionSuccess={handleMailInFormSuccess}
-        />
-      </div>
-
-      {isMailInFormSubmitted && (
+      {showCompletion && (
         <div className="bg-green-50 p-6 rounded-lg shadow-md">
           <div className="flex items-center mb-4">
             <CheckCircle className="w-6 h-6 text-green-500 mr-2" />
-            <h4 className="text-lg font-semibold text-green-800">Recovery Request Complete</h4>
+            <h4 className="text-lg font-semibold text-green-800">Assessment Submitted Successfully</h4>
           </div>
           <p className="text-green-700 mb-4">
-            Your recovery request has been successfully submitted. You will receive confirmation and shipping instructions via email shortly.
+            Your assessment has been submitted and our team has been notified. 
+            You will receive detailed next steps via email within 24 hours.
+          </p>
+          <p className="text-green-700 text-sm mb-4">
+            Case ID: {ticketId || 'Pending'}
           </p>
           <button
             onClick={onReset}
@@ -126,14 +138,6 @@ export function AssessmentResult({ assessment, answers, deviceImages, onReset, t
           >
             Start New Assessment
           </button>
-        </div>
-      )}
-
-      {!isMailInFormSubmitted && (
-        <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
-          <p className="text-yellow-800 text-sm">
-            <strong>Note:</strong> Please complete the recovery request form above to finalize your assessment and receive shipping instructions.
-          </p>
         </div>
       )}
     </div>

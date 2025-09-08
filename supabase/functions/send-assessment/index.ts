@@ -23,6 +23,19 @@ interface EmailData {
 
 function formatAssessmentDetails(answers: Record<string, string>): string {
   const sections = {
+    'Customer Information': [
+      ['Name', `${answers.firstName || 'Not provided'} ${answers.lastName || 'Not provided'}`],
+      ['Email', answers.email || 'Not provided'],
+      ['Phone', answers.phone || 'Not provided']
+    ],
+    'Shipping Address': [
+      ['Address Line 1', answers.address1 || 'Not provided'],
+      ['Address Line 2', answers.address2 || 'Not provided'],
+      ['City', answers.city || 'Not provided'],
+      ['State/Province', answers.state || 'Not provided'],
+      ['ZIP/Postal Code', answers.zipCode || 'Not provided'],
+      ['Country', answers.country || 'Not provided']
+    ],
     'Device Information': [
       ['Device Type', answers.storage_type || 'Not specified'],
       ['Device State', answers.device_state || 'Not specified'],

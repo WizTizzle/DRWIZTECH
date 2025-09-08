@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import type { MailInFormData } from '../types/mailIn';
 
 interface AssessmentData {
   answers: Record<string, string>;
@@ -8,6 +9,8 @@ interface AssessmentData {
     message: string;
   };
   ticketId?: string;
+  contactInfo?: MailInFormData | null;
+  emailSent?: boolean;
 }
 
 interface AssessmentContextType {
