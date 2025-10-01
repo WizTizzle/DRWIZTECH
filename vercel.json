@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "api/submit-assessment.js": {
+      "maxDuration": 30
+    }
+  }
+}

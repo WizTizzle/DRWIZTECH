@@ -1,4 +1,4 @@
-// Local implementation of ticket creation
+// Local simulation of ticket creation for frontend use
 interface RepairDeskTicketData {
   answers: Record<string, string>;
   assessment: {
@@ -10,7 +10,7 @@ interface RepairDeskTicketData {
 const LOCAL_STORAGE_KEY = 'wiztech_tickets';
 
 export async function createRepairDeskTicket(data: RepairDeskTicketData) {
-  // Generate a unique ticket ID
+  // Generate a unique ticket ID for local simulation
   const ticketId = `TICKET-${Date.now()}`;
   
   // Get existing tickets or initialize empty array
@@ -30,6 +30,7 @@ export async function createRepairDeskTicket(data: RepairDeskTicketData) {
     JSON.stringify([...existingTickets, ticket])
   );
 
+  console.log('Local ticket created:', ticketId);
   return { id: ticketId };
 }
 

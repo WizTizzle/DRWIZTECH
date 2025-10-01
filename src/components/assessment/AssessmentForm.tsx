@@ -9,7 +9,6 @@ import { filterQuestionsByDependency, assessRecoveryComplexity } from '../../uti
 import { DeviceImageUpload } from './DeviceImageUpload';
 import { AssessmentProgress } from './AssessmentProgress';
 import { createRepairDeskTicket } from '../../lib/repairdesk/api';
-import type { MailInFormData } from '../../types/mailIn';
 
 export function AssessmentForm() {
   const [currentStage, setCurrentStage] = useState<'contact' | 'assessment'>('contact');
@@ -36,63 +35,29 @@ export function AssessmentForm() {
     });
   }, [currentStep]);
 
-  const sendEmailNotification = async (assessmentData: any) => {
-    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-    const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-    
-    if (!supabaseUrl || !supabaseKey) {
-      console.warn('Supabase configuration missing, skipping email notification');
-      return { success: false, reason: 'Configuration missing' };
-    }
-
-    const functionUrl = `${supabaseUrl}/functions/v1/send-assessment`;
-    console.log('Attempting to call function at:', functionUrl);
+  const submitAssessmentToBackend = async (assessmentData: any) => {
+    console.log('Submitting assessment to backend:', assessmentData);
 
     try {
-      // Set a timeout for the fetch request
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
-
-      const response = await fetch(functionUrl, {
+      const response = await fetch('/api/submit-assessment', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${supabaseKey}`,
-          'Content-Type': 'application/json',
-          'apikey': supabaseKey
+          'Content-Type': 'application/json'
         },
-        body: JSON.stringify(assessmentData),
-        signal: controller.signal
+        body: JSON.stringify(assessmentData)
       });
-
-      clearTimeout(timeoutId);
 
       if (!response.ok) {
         const errorText = await response.text();
-        console.error('Edge function returned error:', response.status, errorText);
-        return { 
-          success: false, 
-          reason: `Server error: ${response.status}`,
-          details: errorText 
-        };
+        throw new Error(`Server error: ${response.status} - ${errorText}`);
       }
 
       const responseData = await response.json();
-      console.log('Email notification sent successfully:', responseData);
+      console.log('Assessment submitted successfully:', responseData);
       return { success: true, data: responseData };
-
     } catch (error) {
-      console.error('Email notification failed:', error);
-      
-      if (error instanceof Error) {
-        if (error.name === 'AbortError') {
-          return { success: false, reason: 'Request timeout' };
-        } else if (error.message.includes('Failed to fetch')) {
-          return { success: false, reason: 'Network connection issue' };
-        }
-        return { success: false, reason: error.message };
-      }
-      
-      return { success: false, reason: 'Unknown error' };
+      console.error('Assessment submission failed:', error);
+      return { success: false, reason: error instanceof Error ? error.message : 'Unknown error' };
     }
   };
 
@@ -152,8 +117,8 @@ export function AssessmentForm() {
         localStorage.setItem('wiztech_assessments', JSON.stringify(existingAssessments));
 
         // Try to send email notification
-        console.log('Attempting to send email notification...');
-        const emailResult = await sendEmailNotification({
+        console.log('Submitting assessment to backend...');
+        const backendResult = await submitAssessmentToBackend({
           answers: combinedData,
           assessment,
           deviceImages,
@@ -166,8 +131,8 @@ export function AssessmentForm() {
           } : undefined
         });
 
-        if (!emailResult.success) {
-          console.warn(`Email notification failed: ${emailResult.reason}`);
+        if (!backendResult.success) {
+          console.warn(`Backend submission failed: ${backendResult.reason}`);
           // Don't fail the entire process, just log the issue
         }
 
@@ -181,7 +146,7 @@ export function AssessmentForm() {
           assessment,
           ticketId: repairDeskTicket.id,
           contactInfo: contactFormData,
-          emailSent: emailResult.success
+          emailSent: backendResult.success
         });
 
       } catch (err) {
