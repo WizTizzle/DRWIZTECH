@@ -23,11 +23,7 @@ RESEND_API_KEY = re_YourKeyHere
 ASSESSMENT_EMAIL = info@wiztech.zip
 ```
 
-### 3️⃣ Deploy Edge Function
-1. Supabase → Edge Functions → "Deploy new function"
-2. Name: `submit-assessment`
-3. Copy code from: `supabase/functions/submit-assessment/index.ts`
-4. Paste and deploy
+supabase/functions/submit-assessment/index.ts
 
 ---
 
