@@ -36,10 +36,13 @@ export function AssessmentForm() {
   }, [currentStep]);
 
   const submitAssessmentToBackend = async (assessmentData: any) => {
-    console.log('Submitting assessment to backend:', assessmentData);
+    console.log('Submitting assessment to Supabase edge function:', assessmentData);
+
+    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+    const edgeFunctionUrl = `${supabaseUrl}/functions/v1/submit-assessment`;
 
     try {
-      const response = await fetch('/api/submit-assessment', {
+      const response = await fetch(edgeFunctionUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
