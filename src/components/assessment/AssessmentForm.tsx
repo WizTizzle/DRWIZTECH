@@ -39,13 +39,15 @@ export function AssessmentForm() {
     console.log('Submitting assessment to Supabase edge function:', assessmentData);
 
     const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+    const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
     const edgeFunctionUrl = `${supabaseUrl}/functions/v1/submit-assessment`;
 
     try {
       const response = await fetch(edgeFunctionUrl, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${supabaseAnonKey}`
         },
         body: JSON.stringify(assessmentData)
       });
