@@ -167,11 +167,14 @@ function formatAssessmentForEmail(data: AssessmentData): string {
 }
 
 async function createRepairDeskTicket(data: AssessmentData): Promise<{ success: boolean; ticketId?: string; error?: string }> {
+  console.log("🎫 [REPAIRDESK] Starting ticket creation...");
+
   const apiKey = Deno.env.get("REPAIRDESK_API_KEY");
   if (!apiKey) {
-    console.error("REPAIRDESK_API_KEY not configured");
+    console.error("❌ [REPAIRDESK] REPAIRDESK_API_KEY not configured");
     return { success: false, error: "RepairDesk not configured" };
   }
+  console.log("✅ [REPAIRDESK] API key found");
 
   const { answers, assessment } = data;
 
@@ -191,7 +194,10 @@ async function createRepairDeskTicket(data: AssessmentData): Promise<{ success: 
     status: 'open'
   };
 
+  console.log("📦 [REPAIRDESK] Payload:", JSON.stringify(ticketPayload, null, 2));
+
   try {
+    console.log("🌐 [REPAIRDESK] Making API call to: https://api.repairdesk.co/api/web/v1/tickets");
     const response = await fetch("https://api.repairdesk.co/api/web/v1/tickets", {
       method: "POST",
       headers: {
@@ -201,27 +207,35 @@ async function createRepairDeskTicket(data: AssessmentData): Promise<{ success: 
       body: JSON.stringify(ticketPayload)
     });
 
+    console.log(`📡 [REPAIRDESK] Response status: ${response.status} ${response.statusText}`);
+
     if (!response.ok) {
       const errorText = await response.text();
-      console.error("RepairDesk API error:", response.status, errorText);
+      console.error(`❌ [REPAIRDESK] API error (${response.status}):`, errorText);
       return { success: false, error: `API returned ${response.status}` };
     }
 
     const result = await response.json();
-    console.log("RepairDesk ticket created:", result);
+    console.log("✅ [REPAIRDESK] Ticket created successfully:", JSON.stringify(result, null, 2));
     return { success: true, ticketId: result.data?.id || result.id || data.ticketId };
   } catch (error) {
-    console.error("RepairDesk request failed:", error);
+    console.error("❌ [REPAIRDESK] Request failed:", error);
     return { success: false, error: error instanceof Error ? error.message : "Unknown error" };
   }
 }
 
 async function sendEmailNotification(data: AssessmentData, repairDeskTicketId?: string): Promise<{ success: boolean; error?: string }> {
+  console.log("📧 [EMAIL] Starting email notification...");
+
   const resendApiKey = Deno.env.get("RESEND_API_KEY");
   const recipientEmail = Deno.env.get("ASSESSMENT_EMAIL");
 
+  console.log(`📧 [EMAIL] Checking environment variables...`);
+  console.log(`📧 [EMAIL] RESEND_API_KEY present: ${!!resendApiKey}`);
+  console.log(`📧 [EMAIL] ASSESSMENT_EMAIL: ${recipientEmail || 'NOT SET'}`);
+
   if (!resendApiKey || !recipientEmail) {
-    console.error("Email not configured - missing RESEND_API_KEY or ASSESSMENT_EMAIL");
+    console.error("❌ [EMAIL] Configuration missing - RESEND_API_KEY or ASSESSMENT_EMAIL not set");
     return { success: false, error: "Email service not configured" };
   }
 
@@ -237,7 +251,14 @@ async function sendEmailNotification(data: AssessmentData, repairDeskTicketId?: 
     html: formatAssessmentForEmail(emailData)
   };
 
+  console.log("📦 [EMAIL] Email payload:");
+  console.log(`  From: ${emailPayload.from}`);
+  console.log(`  To: ${emailPayload.to}`);
+  console.log(`  Subject: ${emailPayload.subject}`);
+  console.log(`  HTML length: ${emailPayload.html.length} chars`);
+
   try {
+    console.log("🌐 [EMAIL] Making API call to Resend...");
     const response = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
@@ -247,27 +268,35 @@ async function sendEmailNotification(data: AssessmentData, repairDeskTicketId?: 
       body: JSON.stringify(emailPayload)
     });
 
+    console.log(`📡 [EMAIL] Response status: ${response.status} ${response.statusText}`);
+
     if (!response.ok) {
       const errorText = await response.text();
-      console.error("Resend API error:", response.status, errorText);
+      console.error(`❌ [EMAIL] Resend API error (${response.status}):`, errorText);
       return { success: false, error: `Email API returned ${response.status}` };
     }
 
     const result = await response.json();
-    console.log("Email sent successfully:", result);
+    console.log("✅ [EMAIL] Email sent successfully:", JSON.stringify(result, null, 2));
     return { success: true };
   } catch (error) {
-    console.error("Email send failed:", error);
+    console.error("❌ [EMAIL] Request failed:", error);
     return { success: false, error: error instanceof Error ? error.message : "Unknown error" };
   }
 }
 
 Deno.serve(async (req: Request) => {
+  console.log("\n🚀 ============ NEW REQUEST ============");
+  console.log(`📍 Method: ${req.method}`);
+  console.log(`📍 URL: ${req.url}`);
+
   if (req.method === "OPTIONS") {
+    console.log("✅ CORS preflight request - returning 200");
     return new Response(null, { status: 200, headers: corsHeaders });
   }
 
   if (req.method !== "POST") {
+    console.log(`❌ Invalid method: ${req.method}`);
     return new Response(
       JSON.stringify({ error: "Method not allowed" }),
       { status: 405, headers: { ...corsHeaders, "Content-Type": "application/json" } }
@@ -275,27 +304,37 @@ Deno.serve(async (req: Request) => {
   }
 
   try {
+    console.log("📥 Parsing request body...");
     const data: AssessmentData = await req.json();
-    console.log("Processing assessment submission");
+    console.log("✅ Request data received:");
+    console.log(`  Customer: ${data.customerInfo?.firstName} ${data.customerInfo?.lastName} (${data.customerInfo?.email})`);
+    console.log(`  Assessment: ${data.assessment.severity} - ${data.assessment.message.substring(0, 50)}...`);
+    console.log(`  Device images: ${data.deviceImages?.length || 0}`);
 
+    console.log("\n🔄 Starting parallel operations...");
     const repairDeskResult = await createRepairDeskTicket(data);
-    console.log("RepairDesk result:", repairDeskResult);
+    console.log("\n📊 RepairDesk result:", repairDeskResult);
 
     const emailResult = await sendEmailNotification(data, repairDeskResult.ticketId);
-    console.log("Email result:", emailResult);
+    console.log("\n📊 Email result:", emailResult);
+
+    const response = {
+      success: true,
+      message: "Assessment processed successfully",
+      ticketId: repairDeskResult.ticketId,
+      repairDeskSuccess: repairDeskResult.success,
+      emailSent: emailResult.success,
+      warnings: [
+        !repairDeskResult.success ? `RepairDesk: ${repairDeskResult.error}` : null,
+        !emailResult.success ? `Email: ${emailResult.error}` : null
+      ].filter(Boolean)
+    };
+
+    console.log("\n✅ ============ REQUEST COMPLETE ============");
+    console.log("Final response:", JSON.stringify(response, null, 2));
 
     return new Response(
-      JSON.stringify({
-        success: true,
-        message: "Assessment processed successfully",
-        ticketId: repairDeskResult.ticketId,
-        repairDeskSuccess: repairDeskResult.success,
-        emailSent: emailResult.success,
-        warnings: [
-          !repairDeskResult.success ? `RepairDesk: ${repairDeskResult.error}` : null,
-          !emailResult.success ? `Email: ${emailResult.error}` : null
-        ].filter(Boolean)
-      }),
+      JSON.stringify(response),
       {
         status: 200,
         headers: { ...corsHeaders, "Content-Type": "application/json" }
@@ -303,7 +342,10 @@ Deno.serve(async (req: Request) => {
     );
 
   } catch (error) {
-    console.error("Error processing assessment:", error);
+    console.error("\n❌ ============ REQUEST FAILED ============");
+    console.error("Error:", error);
+    console.error("Stack:", error instanceof Error ? error.stack : "No stack trace");
+
     return new Response(
       JSON.stringify({
         error: error instanceof Error ? error.message : "Unknown error",

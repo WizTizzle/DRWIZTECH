@@ -36,13 +36,23 @@ export function AssessmentForm() {
   }, [currentStep]);
 
   const submitAssessmentToBackend = async (assessmentData: any) => {
-    console.log('Submitting assessment to Supabase edge function:', assessmentData);
+    console.log('\n🚀 ============ FRONTEND SUBMISSION START ============');
+    console.log('📦 Assessment data:', {
+      customerName: assessmentData.customerInfo?.firstName + ' ' + assessmentData.customerInfo?.lastName,
+      customerEmail: assessmentData.customerInfo?.email,
+      severity: assessmentData.assessment?.severity,
+      deviceImages: assessmentData.deviceImages?.length || 0,
+      ticketId: assessmentData.ticketId
+    });
 
     const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
     const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
     const edgeFunctionUrl = `${supabaseUrl}/functions/v1/submit-assessment`;
 
+    console.log(`🌐 Target URL: ${edgeFunctionUrl}`);
+
     try {
+      console.log('📡 Making POST request to edge function...');
       const response = await fetch(edgeFunctionUrl, {
         method: 'POST',
         headers: {
@@ -52,16 +62,29 @@ export function AssessmentForm() {
         body: JSON.stringify(assessmentData)
       });
 
+      console.log(`📥 Response received: ${response.status} ${response.statusText}`);
+
       if (!response.ok) {
         const errorText = await response.text();
+        console.error(`❌ Server error (${response.status}):`, errorText);
         throw new Error(`Server error: ${response.status} - ${errorText}`);
       }
 
       const responseData = await response.json();
-      console.log('Assessment submitted successfully:', responseData);
+      console.log('✅ Server response:', responseData);
+      console.log('  ✉️ Email sent:', responseData.emailSent);
+      console.log('  🎫 RepairDesk ticket:', responseData.repairDeskSuccess ? responseData.ticketId : 'Failed');
+
+      if (responseData.warnings && responseData.warnings.length > 0) {
+        console.warn('⚠️ Warnings:', responseData.warnings);
+      }
+
+      console.log('✅ ============ FRONTEND SUBMISSION COMPLETE ============\n');
       return { success: true, data: responseData };
     } catch (error) {
-      console.error('Assessment submission failed:', error);
+      console.error('❌ ============ FRONTEND SUBMISSION FAILED ============');
+      console.error('Error details:', error);
+      console.error('Stack trace:', error instanceof Error ? error.stack : 'No stack');
       return { success: false, reason: error instanceof Error ? error.message : 'Unknown error' };
     }
   };
